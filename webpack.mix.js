@@ -1,12 +1,9 @@
 const mix = require('laravel-mix');
 
 // auth
-mix.sass("resources/sass/auth/index.sass", "public/css/auth.css").options({
-    postCss: [
-        require("autoprefixer"),
-        // require(...)
-    ],
-});
+mix .js("resources/js/auth/index.js", "public/js/auth.js")
+    .sass("resources/sass/auth/index.sass", "public/css/auth.css")
+    .version();
 
 // site
 // mix.js("resources/js/site/index.js", "public/js/site.js");
@@ -28,8 +25,4 @@ mix.sass("resources/sass/auth/index.sass", "public/css/auth.css").options({
 
 if (!mix.inProduction()) {
     mix.browserSync("dance.test");
-}
-
-if (mix.inProduction()) {
-    mix.version();
 }
