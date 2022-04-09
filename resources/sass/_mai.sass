@@ -1,0 +1,64 @@
+.mai
+    position: relative
+    width: 100%
+    max-width: 98%
+    height: 100%
+    display: grid
+    grid-template-rows: auto 1fr auto auto
+
+    &-logo
+        padding-top: 15px
+        padding-bottom: 15px
+        display: flex
+        justify-content: center
+        align-items: center
+
+        &__link
+            width: 75px
+            height: 75px
+
+        &__icon
+            width: 100%
+            height: 100%
+            object-fit: contain
+
+    &-title
+        margin: 0 auto
+        display: flex
+        align-items: center
+        width: 100%
+        max-width: 460px
+        text-align: center
+        font-size: 18px
+
+    &-contributors
+        margin: 0 auto 50px
+        width: 100%
+        max-width: 85%
+
+        &__member
+            display: flex
+            flex-direction: column
+            align-items: flex-end
+
+        &__position
+            font-weight: bold
+
+        &__fio
+            position: relative
+
+            &::after
+                content: ''
+                position: absolute
+                bottom: 0
+                left: 0
+                width: 100%
+                height: .5px
+                background-color: #ced4da
+
+    &-issue
+        padding-top: 15px
+        padding-bottom: 15px
+        display: flex
+        justify-content: center
+        align-items: center
