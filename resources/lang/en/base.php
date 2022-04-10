@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'home' => 'Home'
+    'home'  => 'Home',
+    'admin' => 'Admin panel',
+    'exit'  => 'Sign out'
 ];
