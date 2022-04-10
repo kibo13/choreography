@@ -1,4 +1,4 @@
-const authModal = document.getElementById('auth')
+const authModal = document.getElementById('auth-modal')
 const authBtn   = document.getElementById('auth-sign')
 
 authBtn.onclick = (event) => authModal.style.top = '0'
