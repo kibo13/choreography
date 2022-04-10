@@ -3,4 +3,17 @@
     align-items: stretch
     height: 100vh
 
-    border: 1px dashed red
+    &-wrapper
+        display: flex
+        justify-content: center
+        width: 100%
+        overflow: hidden
+
+    &-content
+        padding: 5px
+        display: grid
+        grid-template-rows: auto 1fr
+        grid-gap: 10px
+        width: 100%
+        max-width: 98%
+        overflow: auto

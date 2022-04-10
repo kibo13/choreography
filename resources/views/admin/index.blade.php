@@ -9,8 +9,10 @@
     <div class="admin">
         @include('admin.partials.sidebar')
         <div class="admin-wrapper">
-            @include('admin.partials.navbar')
-            @yield('content-admin')
+            <div class="admin-content">
+                @include('admin.partials.navbar')
+                @yield('content-admin')
+            </div>
         </div>
     </div>
 @endsection
