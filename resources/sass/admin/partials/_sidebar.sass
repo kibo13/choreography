@@ -1,0 +1,173 @@
+.sidebar
+    min-width: 250px
+    max-width: 250px
+    border-right: $border-gray
+    transition: all 0.5s
+
+    &-active
+        min-width: 70px
+        max-width: 70px
+        text-align: center
+
+        .sidebar-link__title
+            position: absolute
+            opacity: 0
+            transform: translateX(250px)
+
+        .sidebar-list__link
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            font-size: $text-x-sm
+
+        .sidebar-list li:hover,
+        .sidebar-submenu li:hover
+            .sidebar-tip
+                opacity: 1
+
+        .sidebar-submenu__toggler
+            position: absolute
+            left: 50%
+            transform: translateX(-50%)
+            bottom: 5px
+            width: 15px
+            height: 15px
+            display: flex
+            justify-content: center
+            align-items: center
+
+        .sidebar-tip
+            padding: 5px
+            position: absolute
+            left: 50px
+            background: $light
+            color: $dark
+            font-size: $text-x-sm
+            border-radius: .25rem
+            box-shadow: 0 0 2px
+            opacity: 0
+            transition: opacity .2s
+            z-index: 10
+
+    &-header
+        padding: 5px
+        height: 80px
+        border-bottom: 1px solid $gray
+
+    &-link
+        position: relative
+        height: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        grid-gap: 10px
+        overflow: hidden
+
+        &__logo
+            padding: 3px
+            width: 35px
+            height: 35px
+            border-radius: 50%
+            box-shadow: 0 0 4px
+            overflow: hidden
+
+        &__icon
+            width: 100%
+            height: 100%
+            object-fit: contain
+
+        &__title
+            font-size: 20px
+            transition: transform .5s
+            transition-delay: .35s
+
+    &-submenu
+        position: relative
+        width: 100%
+
+        &__list
+            padding: 0
+            background: rgba($dark, .1)
+
+        &__toggler
+            position: absolute
+            bottom: 15px
+            right: 15px
+
+        &__arrow
+            width: 15px
+            height: 15px
+            color: $dark
+            transform: rotate(180deg)
+            &--rotate
+                transform: rotate(0)
+
+        &__link
+            padding: 5px 20px
+            width: 100%
+            display: flex
+            align-items: center
+            color: $dark
+            &:hover,
+            &:focus,
+            &:active
+                background: $dark
+                color: $light
+            svg
+                margin: 0 5px
+                width: 18px
+                height: 16px
+
+    &-list
+        padding: 0
+        margin: 0
+        overflow: hidden
+
+        &__link
+            padding: 10px
+            display: flex
+            align-items: center
+            width: 100%
+            font-size: $text-md
+            transition: all .5s ease-in-out
+            svg
+                margin: 0 5px
+                width: 18px
+                height: 16px
+
+    li
+        display: flex
+        min-height: 50px
+        border-bottom: 1px solid $gray
+
+        &:hover,
+        &:focus,
+        &:active
+            background: $dark
+
+            .sidebar-list__link,
+            .sidebar-submenu__arrow
+                color: $light
+
+    .active
+        background: $dark
+
+        .sidebar-link
+            color: $light
+
+@media (max-width: $width-md)
+    .sidebar
+        min-width: 70px
+        max-width: 70px
+        margin-left: -70px !important
+        text-align: center
+        &-active
+            margin-left: 0 !important
+        &-link
+            &__logo
+                display: block
+            &__title
+                display: none
+        &-tip
+            display: none

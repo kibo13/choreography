@@ -1,0 +1,77 @@
+.navbar
+    margin: 5px 0
+    padding: 10px 5px
+    border: none
+    border-radius: 0
+    box-shadow: $bs-32
+
+    &-btn,
+    &-toggler
+        padding: 0 5px
+        width: 40px
+        height: 40px
+        background: rgba($gray, .5)
+        border: none
+        box-shadow: none
+        outline: none !important
+        cursor: pointer
+
+    span
+        margin: 0 auto
+        display: block
+        width: 80%
+        height: 2px
+        background: $dark
+        transition: all .5s ease-in-out
+        transition-delay: .1s
+
+    span:nth-child(1)
+        transform: rotate(45deg) translate(2px, 2px)
+
+    span:nth-child(2)
+        opacity: 0
+
+    span:nth-child(3)
+        transform: rotate(-45deg) translate(1px, -1px)
+
+    .active span
+        margin: 5px auto
+        transform: none
+        opacity: 1
+
+    .active
+        font-weight: bold
+
+    .dropdown-menu
+        margin: 0
+        padding: 0
+        top: 90%
+        right: 0
+        left: auto
+        min-width: 100px
+
+    .dropdown-toggle::after
+        margin-left: .2em
+        vertical-align: .15em
+
+
+@media (max-width: $width-md)
+    .navbar
+        span:nth-child(1),
+        span:nth-child(2),
+        span:nth-child(3)
+            transform: none
+            opacity: 1
+            margin: 5px auto
+
+        .active span
+            margin: 0 auto
+
+        .active span:nth-child(1)
+            transform: rotate(45deg) translate(2px, 2px)
+
+        .active span:nth-child(2)
+            opacity: 0
+
+        .active span:nth-child(3)
+            transform: rotate(-45deg) translate(1px, -1px)
