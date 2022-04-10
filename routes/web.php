@@ -19,6 +19,7 @@ Route::group([
     'as' => 'admin.'
 ], function () {
     Route::get('/', [HomeController::class, 'admin'])->name('home');
+    Route::get('/users', [HomeController::class, 'users'])->name('users');
 });
 
 

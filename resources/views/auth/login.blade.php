@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('Login') . ' | ' . config('app.name') }} </title>
-    <link rel="stylesheet" href="{{ mix('css/auth.css') }}">
-    <script src="{{ mix('js/auth.js') }}" defer></script>
-</head>
-<body>
-    <main class="main">
-        <div class="mai">
+@extends('layouts.master')
+@section('content-head')
+        <title>{{ __('Login') . ' | ' . config('app.name') }} </title>
+        <link rel="stylesheet" href="{{ mix('css/auth.css') }}">
+        <script src="{{ mix('js/auth.js') }}" defer></script>
+@endsection
+@section('content-body')
+    <div class="mai">
+        <div class="mai-wrapper">
             <div class="mai-logo">
                 <a class="mai-logo__link" href="https://mai.ru/" target="_blank" >
                     <img class="mai-logo__icon"
@@ -35,9 +32,7 @@
                 {{  __('Login') }}
             </button>
         </div>
-
-
-        <div id="auth" class="auth">
+        <div id="auth-modal" class="auth">
             <div class="auth-wrapper">
                 <h2 class="auth-title">{{ __('Login') }}</h2>
                 <form class="auth-form" action="{{ route('login')  }}" method="POST">
@@ -71,14 +66,10 @@
                 </form>
             </div>
         </div>
-
         @error('name')
         <div class="auth-alert">
             {{ $message }}
         </div>
         @enderror
-    </main>
-</body>
-</html>
-
-
+    </div>
+@endsection

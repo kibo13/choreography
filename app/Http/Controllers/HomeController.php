@@ -8,6 +8,11 @@ class HomeController extends Controller
 {
     public function admin()
     {
-        return view('admin.index');
+        return view('admin.pages.home.index');
+    }
+
+    public function users()
+    {
+        return view('admin.pages.users.index');
     }
 }
