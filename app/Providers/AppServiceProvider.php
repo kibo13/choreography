@@ -24,14 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // sidebar tracking
-        Blade::directive('sbactive', function ($route) {
-            return "<?php echo Route::currentRouteNamed($route) ? 'class=\"active\"' : '' ?>";
-        });
+        Blade::directive('route_active', function ($expression) {
 
-        // navbar tracking
-        Blade::directive('nbactive', function ($route) {
-            return "<?php echo Route::currentRouteNamed($route) ? 'class=\"active\"' : '' ?>";
+            $params = explode(',', $expression);
+
+            $route = $params[0];
+            $class = $params[1];
+
+            return "<?php echo Route::currentRouteNamed($route) ? $class : '' ?>";
         });
     }
 }
