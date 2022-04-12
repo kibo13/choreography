@@ -3,5 +3,6 @@
 return [
     'home'  => 'Home',
     'admin' => 'Admin panel',
-    'exit'  => 'Sign out'
+    'exit'  => 'Sign out',
+    'logo'  => 'Logotype',
 ];
