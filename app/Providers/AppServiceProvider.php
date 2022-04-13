@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,14 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('route_active', function ($expression) {
-
-            $params = explode(',', $expression);
-
-            $route = $params[0];
-            $class = $params[1];
-
-            return "<?php echo Route::currentRouteNamed($route) ? $class : '' ?>";
-        });
+        //
     }
 }
