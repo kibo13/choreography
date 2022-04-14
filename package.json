@@ -21,12 +21,14 @@
         "resolve-url-loader": "^5.0.0",
         "postcss": "^8.4.7",
         "sass": "^1.49.9",
-        "sass-loader": "^11.0.1"
+        "sass-loader": "^11.0.1",
+        "vue-loader": "^17.0.0"
     },
     "dependencies": {
         "datatables.net": "^1.10.24",
         "datatables.net-dt": "^1.10.24",
-        "font-awesome": "^4.7.0"
+        "font-awesome": "^4.7.0",
+        "vue": "^3.2.31"
     },
     "browserslist": [
         "last 2 versions",
