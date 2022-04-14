@@ -50,7 +50,7 @@
             &:focus
                 background-color: $white
                 border-color: $sky
-                box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%)
+                box-shadow: 0 0 0 0.2rem rgba($sky, .3)
 
             &--invalid
                 border-color: $red
@@ -71,6 +71,8 @@
     &-alert
         position: absolute
         top: 20px
+        left: 50%
+        transform: translateX(-50%)
         padding: .75rem 1.25rem
         width: 96%
         max-width: 520px
@@ -80,4 +82,3 @@
         border: $border-red
         border-radius: .25rem
         box-shadow: $bs-32
-
