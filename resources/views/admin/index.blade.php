@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('content-head')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ __('base.home') . ' | ' . config('app.name') }} </title>
+    <title>{{ __('section.home') . ' | ' . config('app.name') }} </title>
     <link rel="stylesheet" href="{{ mix('css/admin.css') }}">
     <script src="{{ mix('js/admin.js') }}" defer></script>
 @endsection
