@@ -6,14 +6,14 @@
     <form class="auth-form" method="POST" @submit.prevent="login">
         <input type="hidden" name="_token" :value="csrf">
         <div class="auth-form__control" >
-            <label class="auth-form__label" for="name">
+            <label class="auth-form__label" for="username">
                 Логин
             </label>
             <input class="auth-form__input"
                    :class="isError ? 'auth-form__input--invalid' : ''"
-                   id="name"
+                   id="username"
                    type="text"
-                   v-model="name"
+                   v-model="username"
                    autocomplete="off"
                    required>
         </div>
@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            name: null,
+            username: null,
             email: null,
             password: null,
             isError: false,
@@ -70,7 +70,7 @@ export default {
         login() {
             let data = {
                 csrf: this.csrf,
-                name: this.name,
+                username: this.username,
                 password: this.password
             }
 
@@ -78,7 +78,7 @@ export default {
                 .then(() => window.location.href = this.home)
                 .catch(error => {
                     this.isError = true
-                    this.errors.push(error.response.data.errors.name[0])
+                    this.errors.push(error.response.data.errors.username[0])
                 })
         }
     }
