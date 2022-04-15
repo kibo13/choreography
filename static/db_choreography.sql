@@ -40,15 +40,18 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Дамп данных таблицы db_choreography.migrations: ~4 rows (приблизительно)
+-- Дамп данных таблицы db_choreography.migrations: ~7 rows (приблизительно)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(5, '2014_10_12_000000_create_users_table', 1),
-	(6, '2014_10_12_100000_create_password_resets_table', 1),
-	(7, '2019_08_19_000000_create_failed_jobs_table', 1),
-	(8, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+	(34, '2014_10_12_000000_create_users_table', 1),
+	(35, '2014_10_12_100000_create_password_resets_table', 1),
+	(36, '2019_08_19_000000_create_failed_jobs_table', 1),
+	(37, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+	(38, '2022_04_15_073406_create_roles_table', 1),
+	(41, '2022_04_15_075907_create_permissions_table', 2),
+	(42, '2022_04_15_080004_create_permission_user_table', 2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- Дамп структуры для таблица db_choreography.password_resets
@@ -62,6 +65,36 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Дамп данных таблицы db_choreography.password_resets: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+
+-- Дамп структуры для таблица db_choreography.permissions
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `info` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `desc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Дамп данных таблицы db_choreography.permissions: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+
+-- Дамп структуры для таблица db_choreography.permission_user
+CREATE TABLE IF NOT EXISTS `permission_user` (
+  `permission_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  KEY `permission_user_user_id_foreign` (`user_id`),
+  KEY `permission_user_permission_id_foreign` (`permission_id`),
+  CONSTRAINT `permission_user_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `permission_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Дамп данных таблицы db_choreography.permission_user: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `permission_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission_user` ENABLE KEYS */;
 
 -- Дамп структуры для таблица db_choreography.personal_access_tokens
 CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
@@ -83,24 +116,52 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
 /*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
 /*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 
+-- Дамп структуры для таблица db_choreography.roles
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Дамп данных таблицы db_choreography.roles: ~4 rows (приблизительно)
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
+	(1, 'Админ', 'admin', '2022-04-15 13:46:01', '2022-04-15 13:46:01'),
+	(2, 'Руководитель', 'head', '2022-04-15 13:47:52', '2022-04-15 13:47:52'),
+	(3, 'Заведующий', 'manager', '2022-04-15 13:50:16', '2022-04-15 13:50:16'),
+	(4, 'Пользователь', 'client', '2022-04-15 13:51:27', '2022-04-15 13:51:28');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+
 -- Дамп структуры для таблица db_choreography.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role_id` bigint(20) unsigned NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `activity` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `users_username_unique` (`username`),
+  UNIQUE KEY `users_phone_unique` (`phone`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Дамп данных таблицы db_choreography.users: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'admin', 'admin@nsk.kg', NULL, '$2y$10$YvJseII.olTCmMYL65Za/.B0vhv9uTEvtjeaJBhOD56hotXboxGDq', NULL, '2022-02-24 03:20:28', '2022-03-01 08:55:30');
+INSERT INTO `users` (`id`, `username`, `password`, `role_id`, `remember_token`, `first_name`, `last_name`, `middle_name`, `activity`, `address`, `phone`, `email`, `email_verified_at`, `created_at`, `updated_at`) VALUES
+	(1, 'kibo', '$2y$10$YvJseII.olTCmMYL65Za/.B0vhv9uTEvtjeaJBhOD56hotXboxGDq', 1, NULL, 'admin', 'admin', NULL, NULL, NULL, NULL, 'admin@kibo.com', NULL, '2022-02-24 03:20:28', '2022-03-01 08:55:30');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
