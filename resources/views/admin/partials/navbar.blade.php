@@ -1,32 +1,29 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <div class="container-fluid px-1">
-        <button id="sidebarToggler" class="navbar-btn">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="m-0 p-0 container-fluid">
+        <button class="sidebar-toggle navbar-toggle--sidebar"
+                id="sidebar-toggle">
             @include('components.icons.toggle')
         </button>
 
-        <button class="navbar-toggler"
-                id="navbarToggler"
+        <button class="navbar-toggler navbar-toggle--navbar"
+                id="navbar-toggle"
                 data-toggle="collapse"
-                data-target="#navbarSupportedContent">
-            <span></span>
-            <span></span>
-            <span></span>
+                data-target="#navbar-content">
+            @include('components.icons.toggle')
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbar-content">
             <ul class="navbar-nav d-flex justify-content-end w-100">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Пользователи
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">
+                        {{ __('section.users') }}
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle pr-3"
-                       href="#"
-                       data-toggle="dropdown">
-                        Информация
+                    <a class="nav-link pr-3" href="#" data-toggle="dropdown">
+                        {{ __('section.info') }}
                     </a>
-                    <div class="dropdown-menu">
+                    <div class="navbar-dropdown-menu dropdown-menu">
                         <a class="dropdown-item" href="#">
                             Категории
                         </a>
@@ -36,19 +33,17 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle pr-3"
-                       href="#"
-                       data-toggle="dropdown">
-                        {{ Auth::user()->name }}
+                    <a class="nav-link pr-3" href="#" data-toggle="dropdown">
+                        {{ Auth::user()->username }}
                     </a>
-                    <div class="dropdown-menu">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button id="logout-link" class="dropdown-item">
-                                {{ __('base.exit') }}
-                            </button>
-                        </form>
-                    </div>
+                    <form class="navbar-dropdown-menu dropdown-menu"
+                          action="{{ route('logout') }}"
+                          method="POST">
+                        @csrf
+                        <button class="dropdown-item">
+                            {{ __('base.exit') }}
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
