@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content-head')
-    <title>{{ __('section.home') . ' | ' . config('app.name') }} </title>
+    <title>@yield('title-admin') | {{ config('app.name') }} </title>
     <link rel="stylesheet" href="{{ mix('css/admin.css') }}">
     <script src="{{ mix('js/admin.js') }}" defer></script>
 @endsection

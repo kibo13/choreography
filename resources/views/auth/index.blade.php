@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content-head')
-    <title>{{ __('Login') . ' | ' . config('app.name') }} </title>
+    <title>@yield('title-auth') | {{ config('app.name') }} </title>
     <link rel="stylesheet" href="{{ mix('css/auth.css') }}">
     <script src="{{ mix('js/auth.js') }}" defer></script>
 @endsection
