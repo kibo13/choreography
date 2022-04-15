@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
+// admin
+use App\Http\Controllers\Admin\UserController;
+
 // auth
 Auth::routes([
     'login' => true,
@@ -15,11 +18,8 @@ Auth::routes([
 // admin
 Route::group([
     'middleware' => 'auth',
-//    'prefix' => 'admin',
     'as' => 'admin.'
 ], function () {
     Route::get('/', [HomeController::class, 'admin'])->name('home');
-    Route::get('/users', [HomeController::class, 'users'])->name('users');
+    Route::resource('users', UserController::class);
 });
-
-
