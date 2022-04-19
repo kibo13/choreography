@@ -1,0 +1,41 @@
+.bk-form
+    position: relative
+    padding: 10px
+    display: flex
+    justify-content: center
+    border: $border-gray
+
+    &::before
+        content: attr(data-info)
+        padding: 0 5px
+        position: absolute
+        top: -10px
+        left: 5px
+        font-size: $text-sm
+        font-weight: bold
+        background: $light
+
+    &__wrapper
+        display: grid
+        grid-gap: 5px
+        width: 100%
+
+    &__field
+        display: grid
+        grid-gap: 5px
+        overflow: hidden
+
+    &__label
+        margin: 0
+        width: 100%
+        font-size: $text-sm
+        font-weight: bold
+        border-bottom: $border-gray
+
+    &__input,
+    &__select
+        padding: 0 10px
+        height: 35px
+        font-size: $text-md
+        border: $border-gray
+        appearance: none
