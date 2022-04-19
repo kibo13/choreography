@@ -1,0 +1,17 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+ <title/>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#ffffff" id="svg_1" d="m27.61,7l-2,0a1,1 0 0 1 0.95,1.32l-5.33,16a1,1 0 0 1 -0.95,0.68l2,0a1,1 0 0 0 0.95,-0.68l5.33,-16a1,1 0 0 0 -0.95,-1.32z"/>
+  <path fill="#ffffff" id="svg_2" d="m13,15a1,1 0 0 1 -0.5,-0.13l-7,-4a1,1 0 0 1 1,-1.74l6.59,3.77l10.57,-3.84a1,1 0 0 1 0.68,1.88l-11,4a1,1 0 0 1 -0.34,0.06z"/>
+  <path fill="#ffffff" id="svg_3" d="m11,23l-6,0a1,1 0 0 1 0,-2l6,0a1,1 0 0 1 0,2z"/>
+  <path fill="#ffffff" id="svg_4" d="m10,19l-7,0a1,1 0 0 1 0,-2l7,0a1,1 0 0 1 0,2z"/>
+  <path fill="#ffffff" id="svg_5" d="m7,15l-3,0a1,1 0 0 1 0,-2l3,0a1,1 0 0 1 0,2z"/>
+  <path fill="#ffffff" id="svg_6" d="m22.28,26l-17.28,0a1,1 0 0 1 0,-2l17.28,0l5.33,-16l-24.61,0a1,1 0 0 1 0,-2l24.61,0a2,2 0 0 1 1.9,2.63l-5.33,16a2,2 0 0 1 -1.9,1.37z"/>
+ </g>
+</svg>
