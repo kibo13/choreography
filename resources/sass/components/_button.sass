@@ -4,6 +4,46 @@
         flex-wrap: wrap
         grid-gap: 5px
 
+    &-actions
+        display: flex
+        grid-gap: 5px
+
+        &__link
+            position: relative
+            width: 25px
+            height: 25px
+            background-repeat: no-repeat
+            background-position: center center
+            background-size: 80%
+
+            &--edit
+                background-image: url('/assets/icons/pen.svg')
+            &--delete
+                background-image: url('/assets/icons/trash.svg')
+            &--info
+                background-image: url('/assets/icons/info.svg')
+            &--agree
+                background-image: url('/assets/icons/agree.svg')
+            &::after
+                content: attr(data-tip)
+                position: absolute
+                top: -20px
+                left: -40px
+                padding: 0 5px
+                text-align: center
+                font-size: $text-sm
+                color: $dark
+                background: #ffffff
+                box-shadow: 0 0 2px
+                border-radius: 4px
+                visibility: hidden
+            &:hover
+                &::after
+                    visibility: visible
+            &:focus,
+            &:active
+                box-shadow: none !important
+
 @media (max-width: $width-md)
     .bk-btn
         &-group
