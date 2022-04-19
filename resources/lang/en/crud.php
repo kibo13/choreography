@@ -3,6 +3,7 @@
 return [
     'new_record'            => 'New record',
     'edit_record'           => 'Edit record',
+    'edit_profile'          => 'Edit profile',
     'create'                => 'Create',
     'edit'                  => 'Edit',
     'update'                => 'Update',
@@ -15,5 +16,11 @@ return [
     'back'                  => 'Back',
     'type'                  => 'Type in',
     'repeat'                => 'Repeat',
+    'info'                  => 'Information',
     'come_up'               => 'Come up',
+    'yep'                   => 'Yes',
+    'nope'                  => 'Nope',
+    'del_record'            => 'Deleting a record',
+    'u_sure'                => 'Do you really want to delete the current record?',
+    'no_data'               => 'no data',
 ];

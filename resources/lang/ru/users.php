@@ -13,4 +13,5 @@ return [
     'address'           => 'Адрес',
     'phone'             => 'Телефон',
     'email'             => 'E-mail',
+    'fio'               => 'Ф.И.О.',
 ];
