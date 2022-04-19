@@ -1,0 +1,109 @@
+.dataTables
+    font-size: small
+    border: none
+
+    th
+        padding: 5px 10px !important
+        border-bottom: none !important
+    td
+        padding: 5px 10px !important
+
+    &_wrapper
+        display: flex
+        flex-wrap: wrap
+
+    &_length,
+    &_info,
+    &_filter,
+    &_paginate
+        display: flex
+        flex-basis: 50%
+        font-size: small
+
+    &_length,
+    &_info
+        justify-content: flex-start
+
+    &_filter,
+    &_paginate
+        justify-content: flex-end
+
+    &_info,
+    &_paginate
+        margin: 5px 0
+
+    &_length,
+    &_filter
+        label
+            display: flex
+            font-size: 0
+        select,
+        input
+            padding: 5px 10px
+            width: 200px
+            height: 35px
+            font-size: small
+            color: #495057
+            background-color: #ffffff
+            border: 1px solid #d1d5db
+            outline: none
+
+    &_paginate
+        align-items: center
+        grid-gap: 3px
+        span
+            display: flex
+            grid-gap: 3px
+        .paginate_button
+            display: flex
+            justify-content: center
+            align-items: center
+            width: 25px
+            height: 25px
+            color: #007bff
+            border: 1px solid #d1d5db
+            cursor: pointer
+            &:hover
+                color: #fafafa
+                background: #007bff
+            &.disabled:hover
+                color: #007bff
+                background: transparent
+                cursor: default
+            &.current
+                color: #fafafa
+                background: #007bff
+                &:hover
+                    cursor: default
+
+.sorting
+    background-repeat: no-repeat
+    background-position: center right
+.sorting
+    background-image: url('/assets/icons/datatables.net/sort_both.png')
+.sorting_asc
+    background-image: url('/assets/icons/datatables.net/sort_asc.png')
+.sorting_desc
+    background-image: url('/assets/icons/datatables.net/sort_desc.png')
+.sorting_asc_disabled
+    background-image: url('/assets/icons/datatables.net/sort_asc_disabled.png')
+.sorting_desc_disabled
+    background-image: url('/assets/icons/datatables.net/sort_desc_disabled.png')
+
+@media screen and (max-width: 540px)
+    .dataTables
+        &_wrapper
+            display: flex
+            flex-direction: column
+        &_length,
+        &_filter,
+        &_info,
+        &_paginate
+            flex-basis: 100%
+            justify-content: center
+        &_length,
+        &_filter
+            label,
+            select,
+            input
+                width: 100%
