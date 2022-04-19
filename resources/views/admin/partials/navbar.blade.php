@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link pr-3" href="#" data-toggle="dropdown">
-                        {{ Auth::user()->username }}
+                        {{ @short_fio(Auth::user()->id) }}
                     </a>
                     <form class="navbar-dropdown-menu dropdown-menu"
                           action="{{ route('logout') }}"

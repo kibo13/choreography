@@ -21,5 +21,7 @@ Route::group([
     'as' => 'admin.'
 ], function () {
     Route::get('/', [HomeController::class, 'admin'])->name('home');
+
+    // users
     Route::resource('users', UserController::class);
 });
