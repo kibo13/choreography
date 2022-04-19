@@ -11,4 +11,9 @@ return [
     'show'                  => 'Show',
     'save'                  => 'Save',
     'delete'                => 'Delete',
+    'action'                => 'Action',
+    'back'                  => 'Back',
+    'type'                  => 'Type in',
+    'repeat'                => 'Repeat',
+    'come_up'               => 'Come up',
 ];
