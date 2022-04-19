@@ -1,14 +1,48 @@
 .bk
-    &-section
-        overflow: auto
 
-    &-btn-group
-        display: flex
-        flex-wrap: wrap
-        grid-gap: 5px
+    // min
+    &-min-w-100
+        min-width: 100px
+    &-min-w-150
+        min-width: 150px
+    &-min-w-200
+        min-width: 200px
+    &-min-w-250
+        min-width: 250px
+    &-min-w-300
+        min-width: 300px
 
+    // max
+    &-max-w-100
+        max-width: 100px
+    &-max-w-150
+        max-width: 150px
+    &-max-w-200
+        max-width: 200px
+    &-max-w-250
+        max-width: 250px
+    &-max-w-300
+        max-width: 300px
 
-@media (max-width: $width-md)
-    .bk
-        &-btn-group
-            display: grid
+    // tip field
+    &-tip
+        vertical-align: top
+        font-size: $text-sm
+        font-weight: bold
+        color: rgba($dark, .5)
+
+    // mandatory field
+    &-mandatory
+        vertical-align: top
+        font-size: $text-sm
+        font-weight: bold
+        color: $red
+
+    &-border-red
+        border: $border-red !important
+
+    &-validation
+        padding-left: 5px
+        padding-right: 5px
+        font-size: $text-sm
+        color: $red
