@@ -32,5 +32,5 @@ DB_USERNAME=database_username
 DB_PASSWORD=database_password
 
 # list of users
-static/users.txt
+static/settings.txt
 ```
