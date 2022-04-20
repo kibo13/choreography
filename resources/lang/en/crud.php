@@ -23,4 +23,5 @@ return [
     'del_record'            => 'Deleting a record',
     'u_sure'                => 'Do you really want to delete the current record?',
     'no_data'               => 'no data',
+    'update_data'           => 'Updated data',
 ];
