@@ -9,6 +9,7 @@ return [
     'first_name'        => 'Имя',
     'last_name'         => 'Фамилия',
     'middle_name'       => 'Отчество',
+    'birthday'          => 'Дата рождения',
     'activity'          => 'Вид деятельность',
     'address'           => 'Адрес',
     'phone'             => 'Телефон',

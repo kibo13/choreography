@@ -1,7 +1,7 @@
 @extends('admin.index')
 @section('title-admin', __('section.users'))
 @section('content-admin')
-    <section id="users-form" class="bk-section">
+    <section id="users-form" class="overflow-auto">
         <h3>{{ @form_title($user) }}</h3>
         <form class="bk-form"
               action="{{ @is_update($user, 'admin.users') }}"
