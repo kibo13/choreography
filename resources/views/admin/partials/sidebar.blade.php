@@ -20,10 +20,10 @@
                 <span class="sidebar-list__text">{{ __('section.home') }}</span>
             </a>
         </li>
-        <li class="sidebar-list__item {{ @is_active('admin.user*', 'sidebar-list__item--active') }}">
-            <a class="sidebar-list__link" href="{{ route('admin.users.index') }}" title="{{ __('section.users') }}">
-                {{ @fa('fa-copy sidebar-list__icon') }}
-                <span class="sidebar-list__text">{{ __('section.users') }}</span>
+        <li class="sidebar-list__item {{ @is_active('admin.profile*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link" href="{{ route('admin.profile.index') }}" title="{{ __('section.profile') }}">
+                {{ @fa('fa-user sidebar-list__icon') }}
+                <span class="sidebar-list__text">{{ __('section.profile') }}</span>
             </a>
         </li>
     </ul>

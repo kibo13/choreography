@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 
 // admin
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ProfileController;
 
 // auth
 Auth::routes([
@@ -24,4 +25,8 @@ Route::group([
 
     // users
     Route::resource('users', UserController::class);
+
+    // profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 });
