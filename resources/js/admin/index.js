@@ -10,6 +10,4 @@ require('./custom/datatables-net')
 require('./components/modal-delete')
 
 // partials
-require('./partials/navbar')
-
-// pages
+require('./partials/sidebar')
