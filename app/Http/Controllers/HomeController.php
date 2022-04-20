@@ -10,9 +10,4 @@ class HomeController extends Controller
     {
         return view('admin.pages.home.index');
     }
-
-    public function users()
-    {
-        return view('admin.pages.users.index');
-    }
 }
