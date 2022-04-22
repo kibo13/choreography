@@ -9,5 +9,5 @@ require('./components/datatable')
 require('./components/modal-delete')
 require('./components/alert')
 
-// partials
-require('./partials/sidebar')
+// custom
+require('./custom/validation')
