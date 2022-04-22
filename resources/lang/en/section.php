@@ -7,4 +7,5 @@ return [
     'employees'     => 'Employees',
     'users'         => 'Users',
     'profile'       => 'Profile',
+    'customers'     => 'Customers',
 ];
