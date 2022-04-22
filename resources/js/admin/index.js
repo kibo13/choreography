@@ -11,3 +11,6 @@ require('./components/alert')
 
 // custom
 require('./custom/validation')
+
+// pages
+require('./pages/customers')

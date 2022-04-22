@@ -15,15 +15,33 @@
 
     <ul class="sidebar-list">
         <li class="sidebar-list__item {{ @is_active('admin.home', 'sidebar-list__item--active') }}">
-            <a class="sidebar-list__link" href="{{ route('admin.home') }}" title="{{ __('section.home') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.home') }}"
+               title="{{ __('section.home') }}">
                 {{ @fa('fa-home sidebar-list__icon') }}
-                <span class="sidebar-list__text">{{ __('section.home') }}</span>
+                <span class="sidebar-list__text">
+                    {{ __('section.home') }}
+                </span>
             </a>
         </li>
         <li class="sidebar-list__item {{ @is_active('admin.profile*', 'sidebar-list__item--active') }}">
-            <a class="sidebar-list__link" href="{{ route('admin.profile.index') }}" title="{{ __('section.profile') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.profile.index') }}"
+               title="{{ __('section.profile') }}">
                 {{ @fa('fa-user sidebar-list__icon') }}
-                <span class="sidebar-list__text">{{ __('section.profile') }}</span>
+                <span class="sidebar-list__text">
+                    {{ __('section.profile') }}
+                </span>
+            </a>
+        </li>
+        <li class="sidebar-list__item {{ @is_active('admin.customer*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.customers.index') }}"
+               title="{{ __('section.customers') }}">
+                {{ @fa('fa-users sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('section.customers') }}
+                </span>
             </a>
         </li>
     </ul>

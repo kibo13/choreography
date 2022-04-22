@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 
 // admin
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProfileController;
 
 // auth
@@ -25,6 +26,9 @@ Route::group([
 
     // users
     Route::resource('users', UserController::class);
+
+    // customers
+    Route::resource('customers', CustomerController::class)->parameters(['customers' => 'user']);
 
     // profile
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
