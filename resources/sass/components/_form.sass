@@ -5,16 +5,6 @@
     justify-content: center
     border: $border-gray
 
-    &::before
-        content: attr(data-info)
-        padding: 0 5px
-        position: absolute
-        top: -10px
-        left: 5px
-        font-size: $text-sm
-        font-weight: bold
-        background: $light
-
     &__wrapper
         display: grid
         grid-gap: 5px
@@ -28,7 +18,6 @@
     &__label
         margin: 0
         width: 100%
-        font-size: $text-sm
         font-weight: bold
         border-bottom: $border-gray
 
@@ -36,11 +25,16 @@
     &__select
         padding: 0 10px
         height: 35px
-        font-size: $text-md
         border: $border-gray
         appearance: none
 
+    &__file
+        position: absolute
+        left: 0
+        bottom: 0
+        opacity: 0
+        cursor: pointer
+
     &__text
-        font-size: $text-sm
         font-weight: bold
         color: rgba($dark, .5)
