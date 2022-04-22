@@ -4,14 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        $default_password   = config('constants.password');
+        $user               = User::where('id', Auth::user()->id)->first();
+
+        if (Hash::check($default_password, $user->password))
+        {
+            $request->session()->flash('warning', __('message.password'));
+        }
 
         return view('admin.pages.profile.form', compact('user'));
     }
