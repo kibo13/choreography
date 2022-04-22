@@ -18,22 +18,13 @@ class ProfileController extends Controller
 
     public function update(ProfileRequest $request, User $user)
     {
-        $user->first_name  = $request['first_name'];
-        $user->last_name   = $request['last_name'];
-        $user->middle_name = $request['middle_name'];
-        $user->birthday    = $request['birthday'];
-        $user->address     = $request['address'];
-        $user->phone       = $request['phone'];
-        $user->email       = $request['email'];
-        $user->activity    = $request['activity'];
-
         if (!is_null($request['password'])) {
             $user->password = bcrypt($request['password']);
         }
 
         $user->save();
 
-        $request->session()->flash('success', __('crud.update_data'));
+        $request->session()->flash('success', __('data.updated'));
         return redirect()->route('admin.profile.index');
     }
 }
