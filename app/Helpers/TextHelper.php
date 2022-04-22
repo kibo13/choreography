@@ -5,8 +5,8 @@ use App\Models\User;
 function form_title($param)
 {
     echo $param ?? null
-            ? __('crud.edit_record')
-            : __('crud.new_record');
+            ? __('record.edit')
+            : __('record.new');
 }
 
 function mandatory()
@@ -16,7 +16,14 @@ function mandatory()
 
 function tip($message)
 {
-    echo '<span class="bk-tip">' . $message .'</i>';
+    echo '<span class="bk-tip">' . $message .'</span>';
+}
+
+function no_record($record, $replace = null)
+{
+    echo $record ?? null
+            ? $record
+            : '<span class="text-info">' . $replace .'</span>';
 }
 
 function short_fio($id)
@@ -33,9 +40,9 @@ function full_fio($id)
 {
     $user = User::where('id', $id)->first();
 
-    $first_name     = ucfirst($user->first_name);
-    $last_name      = substr($user->last_name, 0, 2) . '.';
-    $middle_name    = isset($user->middle_name) ? substr($user->middle_name, 0, 2) . '.' : null;
+    $last_name    = ucfirst($user->last_name);
+    $first_name   = substr($user->first_name, 0, 2) . '.';
+    $middle_name  = isset($user->middle_name) ? substr($user->middle_name, 0, 2) . '.' : null;
 
-    echo $first_name . ' ' . $last_name . $middle_name;
+    echo '<span title="' . $user->last_name . ' '. $user->first_name . ' ' . $user->middle_name .'">' . $last_name . ' ' . $first_name . $middle_name . '</span>';
 }
