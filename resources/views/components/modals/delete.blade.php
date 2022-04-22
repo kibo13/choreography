@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">{{ __('crud.del_record') }}</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">{{ __('record.deleting') }}</h5>
                 <button class="close"
                         type="button"
                         data-dismiss="modal"
@@ -24,7 +24,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="bk-delete-input" />
                     <p class="m-0 p-0">
-                        {{ __('crud.u_sure') }}
+                        {{ __('question.delete') }}
                     </p>
                 </div>
 
@@ -32,13 +32,13 @@
                     <button class="btn btn-danger mr-0"
                             style="width: 50px;"
                             type="submit">
-                        {{ __('crud.yep') }}
+                        {{ __('base.yep') }}
                     </button>
                     <button class="btn btn-secondary"
                             style="width: 50px;"
                             type="button"
                             data-dismiss="modal">
-                        {{ __('crud.nope') }}
+                        {{ __('base.nope') }}
                     </button>
                 </div>
             </form>
