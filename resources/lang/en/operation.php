@@ -3,9 +3,12 @@
 return [
     'create'                => 'Create',
     'edit'                  => 'Edit',
+    'editing'               => 'Editing',
     'update'                => 'Update',
     'read'                  => 'Read',
+    'reading'               => 'Reading',
     'look'                  => 'Look',
+    'looking'               => 'Looking',
     'show'                  => 'Show',
     'save'                  => 'Save',
     'delete'                => 'Delete',

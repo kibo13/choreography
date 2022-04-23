@@ -9,4 +9,5 @@ return [
     'yep'                   => 'Yes',
     'nope'                  => 'No',
     'info'                  => 'Information',
+    'sections'              => 'Sections',
 ];
