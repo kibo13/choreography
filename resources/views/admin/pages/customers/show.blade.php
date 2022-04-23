@@ -84,11 +84,17 @@
                         {{ __('person.address_doc') }}
                     </label>
                     <div class="bk-form__text">
-                        <a class="text-lowecase text-primary"
-                           href="{{ $user->address_doc ? asset('assets/' . $user->address_doc ) : route('admin.customers.edit', $user) }}"
-                           target="{{ $user->address_doc ? '_blank' : null }}">
-                            {{ $user->address_doc ? __('operation.look') : __('operation.download') }}
+                        @if($user->address_doc)
+                        <a class="text-lowercase text-primary"
+                           href="{{ asset('assets/' . $user->address_doc ) }}"
+                           target="_blank">
+                            {{ __('operation.look') }}
                         </a>
+                        @else
+                        <span class="text-info">
+                            {{ __('data.no') }}
+                        </span>
+                        @endif
                     </div>
                 </div>
 

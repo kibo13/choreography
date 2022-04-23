@@ -57,7 +57,7 @@
                         {{ __('person.birthday') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->birthday, __('data.no')) }}
+                        {{ @no_record(@getDMY($user->birthday), __('data.no')) }}
                     </div>
                 </div>
 
@@ -91,28 +91,18 @@
                     </div>
                 </div>
 
-                <!-- activity -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label">
-                        {{ __('person.activity') }}
-                    </label>
-                    <div class="bk-form__text">
-                        {{ @no_record($user->activity, __('data.no')) }}
-                    </div>
-                </div>
-
                 <!-- password -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
                         {{ __('person.password') }}
                         {{ @tip('мин.длина пароля 8 символов') }}
                     </label>
-                    <input class="bk-form__input bk-max-w-300 @error('password') bk-border-red @enderror"
+                    <input class="bk-form__input bk-max-w-300 @error('password') border border-danger @enderror"
                            type="password"
                            name="password"
                            placeholder="Новый пароль"
                            autocomplete="off"/>
-                    <input class="bk-form__input bk-max-w-300 @error('password') bk-border-red @enderror"
+                    <input class="bk-form__input bk-max-w-300 @error('password') border border-danger @enderror"
                            type="password"
                            name="password_confirmation"
                            placeholder="Повторите пароль"

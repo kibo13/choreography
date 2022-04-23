@@ -11,21 +11,6 @@
                 @csrf
                 @isset($user) @method('PUT') @endisset
 
-                <!-- first_name -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="first_name">
-                        {{ __('person.first_name') }} {{ @mandatory() }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 is-string"
-                           id="first_name"
-                           type="text"
-                           name="first_name"
-                           value="{{ isset($user) ? $user->first_name : null }}"
-                           placeholder="Например: Карина"
-                           required
-                           autocomplete="off"/>
-                </div>
-
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
@@ -37,6 +22,21 @@
                            name="last_name"
                            value="{{ isset($user) ? $user->last_name : null }}"
                            placeholder="Например: Жолмурзаева"
+                           required
+                           autocomplete="off"/>
+                </div>
+
+                <!-- first_name -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="first_name">
+                        {{ __('person.first_name') }} {{ @mandatory() }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300 is-string"
+                           id="first_name"
+                           type="text"
+                           name="first_name"
+                           value="{{ isset($user) ? $user->first_name : null }}"
+                           placeholder="Например: Карина"
                            required
                            autocomplete="off"/>
                 </div>
