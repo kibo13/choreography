@@ -3,69 +3,102 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Permission;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('role_id', '!=', 1)->get();
+        // prod
+        // $users = User::whereIn('role_id', [2, 3])->get();
+        $sections = @sections();
 
-        return view('admin.pages.users.index', compact('users'));
+        // test
+        $users = User::where('username', '!=', 'kibo')->get();
+
+        return view(
+            'admin.pages.users.index',
+            compact('users', 'sections')
+        );
     }
 
     public function create()
     {
-        $roles = Role::where('slug', '!=', 'admin')->get();
+        // prod
+        // $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
         $permissions = Permission::get();
+        $sections    = @sections();
 
-        return view('admin.pages.users.form', compact('roles'));
+        // test
+        $roles = Role::get();
+
+        return view(
+            'admin.pages.users.form',
+            compact('roles', 'permissions', 'sections')
+        );
     }
 
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
+        $default_password = config('constants.password');
+
         $user = User::create([
-            'first_name' => $request['first_name'],
-            'last_name'  => $request['last_name'],
-            'username'   => $request['username'],
-            'password'   => bcrypt($request['password']),
-            'role_id'    => $request['role_id'],
+            'first_name'    => ucfirst($request['first_name']),
+            'last_name'     => ucfirst($request['last_name']),
+            'middle_name'   => ucfirst($request['middle_name']),
+            'birthday'      => $request['birthday'],
+            'age'           => @full_age($request['birthday']),
+            'phone'         => $request['phone'],
+            'email'         => $request['email'],
+            'address_fact'  => $request['address_fact'],
+            'username'      => @bk_rand($request['last_name'], 5),
+            'password'      => bcrypt($default_password),
+            'role_id'       => $request['role_id']
         ]);
 
         if ($request->input('permissions')) :
             $user->permissions()->attach($request->input('permissions'));
         endif;
 
+        $request->session()->flash('success', __('record.added'));
         return redirect()->route('admin.users.index');
     }
 
     public function show(User $user)
     {
-        return view('admin.pages.users.show', compact('user'));
+        //
     }
 
     public function edit(User $user)
     {
-        $roles = Role::where('slug', '!=', 'admin')->get();
+        // prod
+        // $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
         $permissions = Permission::get();
+        $sections    = @sections();
 
-        return view('admin.pages.users.form', compact('user', 'roles'));
+        // test
+        $roles = Role::get();
+
+        return view(
+            'admin.pages.users.form',
+            compact('user', 'roles', 'permissions', 'sections')
+        );
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
         $user->first_name   = $request['first_name'];
         $user->last_name    = $request['last_name'];
-        $user->username     = $request['username'];
+        $user->middle_name  = $request['middle_name'];
+        $user->birthday     = $request['birthday'];
+        $user->age          = @full_age($request['birthday']);
+        $user->phone        = $request['phone'];
+        $user->email        = $request['email'];
+        $user->address_fact = $request['address_fact'];
         $user->role_id      = $request['role_id'];
-
-        if (!is_null($request['password'])) {
-            $user->password = bcrypt($request['password']);
-        }
 
         $user->permissions()->detach();
         if ($request->input('permissions')) :
@@ -74,14 +107,16 @@ class UserController extends Controller
 
         $user->save();
 
+        $request->session()->flash('success', __('record.updated'));
         return redirect()->route('admin.users.index');
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         $user->permissions()->detach();
         $user->delete();
 
+        $request->session()->flash('success', __('record.deleted'));
         return redirect()->route('admin.users.index');
     }
 }

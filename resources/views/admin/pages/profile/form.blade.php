@@ -4,12 +4,14 @@
     <section id="profile-form" class="overflow-auto">
         <h3>{{ __('section.profile') }}</h3>
 
+        @if(Auth::user()->permissions()->pluck('slug')->contains('app_read'))
         <div class="my-2 bk-callout">
             Для изменения персональных данных создайте запрос в разделе
             <a class="text-primary" href="{{ route('admin.applications.index') }}">
                 "{{ __('section.applications') }}"
             </a>
         </div>
+        @endif
 
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">

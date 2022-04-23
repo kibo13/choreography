@@ -4,11 +4,13 @@
     <section id="customers-index" class="overflow-auto">
         <h3>{{ __('section.customers') }}</h3>
 
-        <div class="my-2 bk-btn-group">
+        @if(Auth::user()->permissions()->pluck('slug')->contains('member_full'))
+        <div class="my-2 btn-group">
             <a class="btn btn-primary" href="{{ route('admin.customers.create') }}">
                 {{ __('record.new') }}
             </a>
         </div>
+        @endif
 
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">
@@ -38,19 +40,20 @@
                     <td>{{ $user->address_fact }}</td>
                     <td>
                         <div class="bk-btn-actions">
-                            <a class="bk-btn-actions__link bk-btn-actions__link--info btn btn-info"
+                            <a class="bk-btn-action bk-btn-action--info btn btn-info"
                                href="{{ route('admin.customers.show', $user) }}"
                                data-tip="{{ __('base.info') }}" ></a>
-                            <a class="bk-btn-actions__link bk-btn-actions__link--edit btn btn-warning"
+                            @if(Auth::user()->permissions()->pluck('slug')->contains('member_full'))
+                            <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.customers.edit', $user) }}"
                                data-tip="{{ __('operation.edit') }}" ></a>
-                            <a class="bk-btn-actions__link bk-btn-actions__link--delete btn btn-danger"
+                            <a class="bk-btn-action bk-btn-action--delete btn btn-danger"
                                href="javascript:void(0)"
                                data-id="{{ $user->id }}"
-                               data-table-name="user"
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('operation.delete') }}" ></a>
+                            @endif
                         </div>
                     </td>
                 </tr>

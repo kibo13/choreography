@@ -35,7 +35,7 @@ class CustomerController extends Controller
             $file_path  = $file->store('addresses');
         }
 
-        User::create([
+        $user = User::create([
             'username'      => @bk_rand($request['last_name'], 5),
             'password'      => bcrypt($default_password),
             'role_id'       => 4,
@@ -54,6 +54,9 @@ class CustomerController extends Controller
             'phone'         => $request['phone'],
             'email'         => $request['email'],
         ]);
+
+        // TODO: keep track sections
+        $user->permissions()->attach([1, 2, 7, 8]);
 
         $request->session()->flash('success', __('record.added'));
         return redirect()->route('admin.customers.index');

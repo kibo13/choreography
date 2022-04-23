@@ -14,4 +14,5 @@ require('./components/button')
 require('./custom/validation')
 
 // pages
+require('./pages/users')
 require('./pages/customers')
