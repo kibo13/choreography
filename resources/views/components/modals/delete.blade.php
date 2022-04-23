@@ -24,7 +24,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="bk-delete-input" />
                     <p class="m-0 p-0">
-                        {{ __('question.delete') }}
+                        {{ __('message.delete') }}
                     </p>
                 </div>
 

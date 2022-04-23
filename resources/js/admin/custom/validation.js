@@ -1,4 +1,4 @@
-const is_validation     = document.querySelector('.is-validation')
+const is_validation = document.querySelector('.is-validation')
 
 if (is_validation) {
 

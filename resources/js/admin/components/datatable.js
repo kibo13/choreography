@@ -1,6 +1,6 @@
 const table = document.getElementById('is-datatable')
 
-if (table != null) {
+if (table) {
     $('.table').dataTable({
         language: {
             searchPlaceholder: 'Поиск',

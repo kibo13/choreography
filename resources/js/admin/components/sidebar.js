@@ -1,4 +1,4 @@
-const sidebar = document.getElementById('sidebar')
+const sidebar       = document.getElementById('sidebar')
 const sidebarToggle = document.getElementById('sidebar-toggle')
 
 sidebarToggle.onclick = () => {
