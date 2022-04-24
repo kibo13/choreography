@@ -61,9 +61,9 @@
                     </label>
                     <select class="bk-form__select bk-max-w-300" name="doc_type" required>
                         <option value="" disabled selected>{{ __('select.doc') }}</option>
-                        @foreach($docs as $id => $doc)
-                        <option value="{{ $id }}"
-                                @isset($user) @if($user->doc_type == $id)
+                        @foreach($docs as $index => $doc)
+                        <option value="{{ $index }}"
+                                @isset($user) @if($user->doc_type == $index)
                                 selected
                                 @endif @endisset>
                             {{ $doc }}

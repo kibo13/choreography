@@ -144,9 +144,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($sections as $id => $section)
+                        @foreach($sections as $index => $section)
                             <tr>
-                                <th>{{ ++$id }}</th>
+                                <th>{{ ++$index }}</th>
                                 <th>{{ $section }}</th>
                                 @if($permissions->where('name', $section)->count() == 2)
                                 @foreach($permissions as $permission)

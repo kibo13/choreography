@@ -33,9 +33,9 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($users as $key => $user)
+            @foreach($users as $index => $user)
                 <tr>
-                    <td>{{ $key+=1 }}</td>
+                    <td>{{ ++$index }}</td>
                     <td>{{ @full_fio($user->id) }}</td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->role->name }}</td>
