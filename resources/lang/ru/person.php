@@ -25,4 +25,5 @@ return [
     'phone'             => 'Телефон',
     'email'             => 'E-mail',
     'member'            => 'Участник',
+    'author'            => 'Автор',
 ];

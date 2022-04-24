@@ -10,4 +10,5 @@ return [
     'customers'             => 'Участники',
     'applications'          => 'Заявки',
     'incoming'              => 'Входящие',
+    'support'               => 'Поддержка',
 ];

@@ -2,6 +2,7 @@
 
 return [
     'admin'                 => 'Admin panel',
+    'cabinet'               => 'Personal account',
     'exit'                  => 'Sign out',
     'logo'                  => 'Logotype',
     'data'                  => 'Data',

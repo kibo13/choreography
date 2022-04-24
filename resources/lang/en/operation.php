@@ -17,4 +17,7 @@ return [
     'type'                  => 'Input',
     'repeat'                => 'Repeat',
     'come_up'               => 'Come up',
+    'done'                  => 'Done',
+    'pending'               => 'Pending',
+    'execute'               => 'Execute',
 ];

@@ -10,4 +10,5 @@ return [
     'customers'             => 'Customers',
     'applications'          => 'Applications',
     'incoming'              => 'Incoming',
+    'support'               => 'Support',
 ];
