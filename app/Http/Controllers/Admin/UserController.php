@@ -54,7 +54,7 @@ class UserController extends Controller
             'phone'         => $request['phone'],
             'email'         => $request['email'],
             'address_fact'  => $request['address_fact'],
-            'username'      => @bk_rand($request['last_name'], 5),
+            'username'      => @bk_rand('login', $request['last_name'], 5),
             'password'      => bcrypt($default_password),
             'role_id'       => $request['role_id']
         ]);

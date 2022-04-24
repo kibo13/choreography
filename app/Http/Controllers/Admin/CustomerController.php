@@ -36,7 +36,7 @@ class CustomerController extends Controller
         }
 
         $user = User::create([
-            'username'      => @bk_rand($request['last_name'], 5),
+            'username'      => @bk_rand('login', $request['last_name'], 5),
             'password'      => bcrypt($default_password),
             'role_id'       => 4,
             'first_name'    => ucfirst($request['first_name']),
