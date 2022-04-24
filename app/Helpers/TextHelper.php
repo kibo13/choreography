@@ -26,6 +26,13 @@ function no_record($record, $replace = null)
             : '<span class="text-info">' . $replace .'</span>';
 }
 
+function status($param)
+{
+    echo $param == 0
+        ? '<strong class="text-info">' . __('operation.pending') .'</strong>'
+        : '<strong class="text-success">' . __('operation.done') .'</strong>';
+}
+
 function short_fio($id)
 {
     $user = User::where('id', $id)->first();
