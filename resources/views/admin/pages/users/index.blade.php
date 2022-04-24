@@ -4,7 +4,7 @@
     <section id="users-index" class="overflow-auto">
         <h3>{{ __('section.users') }}</h3>
 
-        @if(Auth::user()->permissions()->pluck('slug')->contains('user_full'))
+        @if(@is_access('user_full'))
         <div class="my-2 btn-group">
             <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
                 {{ __('record.new') }}
@@ -27,7 +27,7 @@
                 <th class="bk-min-w-150 w-25">{{ __('person.nickname') }}</th>
                 <th class="bk-min-w-150 w-25">{{ __('person.role') }}</th>
                 <th class="bk-min-w-300 w-25 no-sort">{{ __('person.permissions') }}</th>
-                @if(Auth::user()->permissions()->pluck('slug')->contains('user_full'))
+                @if(@is_access('user_full'))
                 <th class="no-sort">{{ __('base.action') }}</th>
                 @endif
             </tr>
@@ -56,7 +56,7 @@
                             <button class="bk-btn-info--down"></button>
                         </ul>
                     </td>
-                    @if(Auth::user()->permissions()->pluck('slug')->contains('user_full'))
+                    @if(@is_access('user_full'))
                     <td>
                         <div class="bk-btn-actions">
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"

@@ -14,7 +14,7 @@
 
         <div class="collapse navbar-collapse" id="navbar-content">
             <ul class="navbar-nav d-flex justify-content-end w-100">
-                @if(Auth::user()->permissions()->pluck('slug')->contains('user_read'))
+                @if(@is_access('user_read'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.users.index') }}">
                         {{ __('section.users') }}
@@ -22,7 +22,7 @@
                 </li>
                 @endif
 
-                @if(Auth::user()->permissions()->pluck('info')->contains('1'))
+                @if(@is_access('1'))
                 <li class="nav-item dropdown">
                     <a class="nav-link pr-3" href="#" data-toggle="dropdown">
                         {{ __('section.info') }}

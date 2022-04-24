@@ -4,7 +4,7 @@
     <section id="customers-index" class="overflow-auto">
         <h3>{{ __('section.customers') }}</h3>
 
-        @if(Auth::user()->permissions()->pluck('slug')->contains('member_full'))
+        @if(@is_access('member_full'))
         <div class="my-2 btn-group">
             <a class="btn btn-primary" href="{{ route('admin.customers.create') }}">
                 {{ __('record.new') }}
@@ -43,7 +43,7 @@
                             <a class="bk-btn-action bk-btn-action--info btn btn-info"
                                href="{{ route('admin.customers.show', $user) }}"
                                data-tip="{{ __('base.info') }}" ></a>
-                            @if(Auth::user()->permissions()->pluck('slug')->contains('member_full'))
+                            @if(@is_access('member_full'))
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.customers.edit', $user) }}"
                                data-tip="{{ __('operation.edit') }}" ></a>

@@ -14,7 +14,7 @@
     </div>
 
     <ul class="sidebar-list">
-        @if(Auth::user()->permissions()->pluck('slug')->contains('home'))
+        @if(@is_access('home'))
         <li class="sidebar-list__item {{ @is_active('admin.home', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.home') }}"
@@ -26,7 +26,7 @@
             </a>
         </li>
         @endif
-        @if(Auth::user()->permissions()->pluck('slug')->contains('profile'))
+        @if(@is_access('profile'))
         <li class="sidebar-list__item {{ @is_active('admin.profile*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.profile.index') }}"
@@ -38,7 +38,7 @@
             </a>
         </li>
         @endif
-        @if(Auth::user()->permissions()->pluck('slug')->contains('app_read'))
+        @if(@is_access('app_read'))
         <li class="sidebar-list__item {{ @is_active('admin.application*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.applications.index') }}"
@@ -62,7 +62,7 @@
             </a>
         </li>
         @endif
-        @if(Auth::user()->permissions()->pluck('slug')->contains('member_read'))
+        @if(@is_access('member_read'))
         <li class="sidebar-list__item {{ @is_active('admin.customer*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.customers.index') }}"
