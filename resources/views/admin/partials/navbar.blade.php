@@ -17,7 +17,7 @@
                 @if(@is_access('user_read'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.users.index') }}">
-                        {{ __('section.users') }}
+                        {{ __('_section.users') }}
                     </a>
                 </li>
                 @endif
@@ -25,7 +25,7 @@
                 @if(@is_access('1'))
                 <li class="nav-item dropdown">
                     <a class="nav-link pr-3" href="#" data-toggle="dropdown">
-                        {{ __('section.info') }}
+                        {{ __('_section.info') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
                         <a class="dropdown-item" href="#">
@@ -47,7 +47,7 @@
                           method="POST">
                         @csrf
                         <button class="dropdown-item">
-                            {{ __('base.exit') }}
+                            {{ __('_action.exit') }}
                         </button>
                     </form>
                 </li>

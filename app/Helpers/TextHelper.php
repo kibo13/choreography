@@ -5,8 +5,8 @@ use App\Models\User;
 function form_title($param)
 {
     echo $param ?? null
-            ? __('record.edit')
-            : __('record.new');
+            ? __('_record.edit')
+            : __('_record.new');
 }
 
 function mandatory()
@@ -29,8 +29,8 @@ function no_record($record, $replace = null)
 function status($param)
 {
     echo $param == 0
-        ? '<strong class="text-info">' . __('operation.pending') .'</strong>'
-        : '<strong class="text-success">' . __('operation.done') .'</strong>';
+        ? '<strong class="text-info">' . __('_state.pending') .'</strong>'
+        : '<strong class="text-success">' . __('_state.completed') .'</strong>';
 }
 
 function short_fio($id)

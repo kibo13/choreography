@@ -58,7 +58,7 @@ class CustomerController extends Controller
         // TODO: keep track sections
         $user->permissions()->attach([1, 2, 7, 8]);
 
-        $request->session()->flash('success', __('record.added'));
+        $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.customers.index');
     }
 
@@ -102,7 +102,7 @@ class CustomerController extends Controller
             'email'         => $request['email'],
         ]);
 
-        $request->session()->flash('success', __('record.updated'));
+        $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.customers.index');
     }
 
@@ -111,7 +111,7 @@ class CustomerController extends Controller
         $user->delete();
         Storage::delete($user->address_doc);
 
-        $request->session()->flash('success', __('record.deleted'));
+        $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.customers.index');
     }
 }

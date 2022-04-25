@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'this'                  => 'Раздел',
+    'admin'                 => 'Админ-панель',
+    'cabinet'               => 'Личный кабинет',
     'home'                  => 'Главная',
     'info'                  => 'Информация',
     'positions'             => 'Должности',
@@ -9,6 +12,5 @@ return [
     'profile'               => 'Профиль',
     'customers'             => 'Участники',
     'applications'          => 'Заявки',
-    'incoming'              => 'Входящие',
     'support'               => 'Поддержка',
 ];

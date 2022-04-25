@@ -1,5 +1,5 @@
 @extends('admin.index')
-@section('title-admin', __('section.customers'))
+@section('title-admin', __('_section.customers'))
 @section('content-admin')
     <section id="customers-form" class="overflow-auto is-validation">
         <h3>{{ @form_title($user) }}</h3>
@@ -14,7 +14,7 @@
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
-                        {{ __('person.last_name') }} {{ @mandatory() }}
+                        {{ __('_person.last_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="last_name"
@@ -29,7 +29,7 @@
                 <!-- first_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="first_name">
-                        {{ __('person.first_name') }} {{ @mandatory() }}
+                        {{ __('_person.first_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="first_name"
@@ -44,7 +44,7 @@
                 <!-- middle_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="middle_name">
-                        {{ __('person.middle_name') }}
+                        {{ __('_person.middle_name') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="middle_name"
@@ -57,10 +57,10 @@
                 <!-- doc_type -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_type">
-                        {{ __('person.doc_type') }} {{ @mandatory() }}
+                        {{ __('_person.doc_type') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300" name="doc_type" required>
-                        <option value="" disabled selected>{{ __('select.doc') }}</option>
+                        <option value="" disabled selected>{{ __('_select.doc') }}</option>
                         @foreach($docs as $index => $doc)
                         <option value="{{ $index }}"
                                 @isset($user) @if($user->doc_type == $index)
@@ -75,7 +75,7 @@
                 <!-- doc_num -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_num">
-                        {{ __('person.doc_num') }} {{ @mandatory() }}
+                        {{ __('_person.doc_num') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-number"
                            id="doc_num"
@@ -90,7 +90,7 @@
                 <!-- doc_date -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_date">
-                        {{ __('person.doc_date') }} {{ @mandatory() }}
+                        {{ __('_person.doc_date') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="doc_date"
@@ -103,7 +103,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="birthday">
-                        {{ __('person.birthday') }} {{ @mandatory() }}
+                        {{ __('_person.birthday') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="birthday"
@@ -116,13 +116,13 @@
                 <!-- address_doc -->
                 <div class="bk-form__field position-relative">
                     <label class="bk-form__label" for="address_doc">
-                        {{ __('person.address_doc') }}
+                        {{ __('_person.address_doc') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="upload-file"
                            type="text"
                            value="{{ isset($user->address_doc) ? $user->address_note : null }}"
-                           placeholder="{{ __('file.no_select') }}"
+                           placeholder="{{ __('_file.no_select') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
                            id="upload-btn"
@@ -134,7 +134,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="address_fact">
-                        {{ __('person.address_fact') }}
+                        {{ __('_person.address_fact') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="address_fact"
@@ -146,7 +146,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="phone">
-                        {{ __('person.phone') }}
+                        {{ __('_person.phone') }}
                         {{ @mandatory() }}
                         {{ @tip('+7 776 123 45 67') }}
                     </label>
@@ -164,7 +164,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="email">
-                        {{ __('person.email') }}
+                        {{ __('_person.email') }}
                         {{ @tip('example@dance.ru') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
@@ -178,7 +178,7 @@
                 <!-- activity -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="activity">
-                        {{ __('person.activity') }}
+                        {{ __('_person.activity') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="activity"
@@ -189,10 +189,10 @@
 
                 <div class="mt-1 mb-0 form-group">
                     <button class="btn btn-outline-success">
-                        {{ __('operation.save') }}
+                        {{ __('_action.save') }}
                     </button>
                     <a class="btn btn-outline-secondary" href="{{ route('admin.customers.index') }}">
-                        {{ __('operation.back') }}
+                        {{ __('_action.back') }}
                     </a>
                 </div>
             </div>

@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
         if (Hash::check($default_password, $user->password))
         {
-            $request->session()->flash('warning', __('message.password'));
+            $request->session()->flash('warning', __('_dialog.password'));
         }
 
         return view('admin.pages.profile.form', compact('user'));
@@ -32,7 +32,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        $request->session()->flash('success', __('data.updated'));
+        $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.profile.index');
     }
 }

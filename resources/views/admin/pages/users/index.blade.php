@@ -1,13 +1,13 @@
 @extends('admin.index')
-@section('title-admin', __('section.users'))
+@section('title-admin', __('_section.users'))
 @section('content-admin')
     <section id="users-index" class="overflow-auto">
-        <h3>{{ __('section.users') }}</h3>
+        <h3>{{ __('_section.users') }}</h3>
 
         @if(@is_access('user_full'))
         <div class="my-2 btn-group">
             <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
-                {{ __('record.new') }}
+                {{ __('_record.new') }}
             </a>
         </div>
         @endif
@@ -23,12 +23,12 @@
             <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th class="bk-min-w-150 w-25">{{ __('person.fio') }}</th>
-                <th class="bk-min-w-150 w-25">{{ __('person.nickname') }}</th>
-                <th class="bk-min-w-150 w-25">{{ __('person.role') }}</th>
-                <th class="bk-min-w-300 w-25 no-sort">{{ __('person.permissions') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_person.fio') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_person.username') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_person.role') }}</th>
+                <th class="bk-min-w-300 w-25 no-sort">{{ __('_person.permissions') }}</th>
                 @if(@is_access('user_full'))
-                <th class="no-sort">{{ __('base.action') }}</th>
+                <th class="no-sort">{{ __('_action.this') }}</th>
                 @endif
             </tr>
             </thead>
@@ -61,13 +61,13 @@
                         <div class="bk-btn-actions">
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.users.edit', $user) }}"
-                               data-tip="{{ __('operation.edit') }}" ></a>
+                               data-tip="{{ __('_action.edit') }}" ></a>
                             <a class="bk-btn-action bk-btn-action--delete btn btn-danger"
                                href="javascript:void(0)"
                                data-id="{{ $user->id }}"
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
-                               data-tip="{{ __('operation.delete') }}" ></a>
+                               data-tip="{{ __('_action.delete') }}" ></a>
                         </div>
                     </td>
                     @endif

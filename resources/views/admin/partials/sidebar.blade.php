@@ -4,10 +4,10 @@
             <a class="sidebar-logo__link" href="{{ route('admin.home') }}">
                 <img class="sidebar-logo__icon"
                      src="{{ asset('assets/icons/logo.png') }}"
-                     alt="{{ __('base.logo') }}"
-                     title="{{ __('base.admin') }}">
+                     alt="{{ __('logotype') }}"
+                     title="{{ __('_section.cabinet') }}">
                 <span class="sidebar-logo__text">
-                    {{ __('base.admin') }}
+                    {{ __('_section.cabinet') }}
                 </span>
             </a>
         </div>
@@ -18,10 +18,10 @@
         <li class="sidebar-list__item {{ @is_active('admin.home', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.home') }}"
-               title="{{ __('section.home') }}">
+               title="{{ __('_section.home') }}">
                 {{ @fa('fa-home sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('section.home') }}
+                    {{ __('_section.home') }}
                 </span>
             </a>
         </li>
@@ -30,10 +30,10 @@
         <li class="sidebar-list__item {{ @is_active('admin.profile*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.profile.index') }}"
-               title="{{ __('section.profile') }}">
-                {{ @fa('fa-user-o sidebar-list__icon') }}
+               title="{{ __('_section.profile') }}">
+                {{ @fa('fa-user-circle-o sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('section.profile') }}
+                    {{ __('_section.profile') }}
                 </span>
             </a>
         </li>
@@ -66,10 +66,10 @@
         <li class="sidebar-list__item {{ @is_active('admin.customer*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.customers.index') }}"
-               title="{{ __('section.customers') }}">
+               title="{{ __('_section.customers') }}">
                 {{ @fa('fa-users sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('section.customers') }}
+                    {{ __('_section.customers') }}
                 </span>
             </a>
         </li>

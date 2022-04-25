@@ -63,7 +63,7 @@ class UserController extends Controller
             $user->permissions()->attach($request->input('permissions'));
         endif;
 
-        $request->session()->flash('success', __('record.added'));
+        $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.users.index');
     }
 
@@ -107,7 +107,7 @@ class UserController extends Controller
 
         $user->save();
 
-        $request->session()->flash('success', __('record.updated'));
+        $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.users.index');
     }
 
@@ -116,7 +116,7 @@ class UserController extends Controller
         $user->permissions()->detach();
         $user->delete();
 
-        $request->session()->flash('success', __('record.deleted'));
+        $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.users.index');
     }
 }

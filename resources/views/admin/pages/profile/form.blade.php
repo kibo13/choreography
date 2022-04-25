@@ -1,14 +1,14 @@
 @extends('admin.index')
-@section('title-admin', __('section.profile'))
+@section('title-admin', __('_section.profile'))
 @section('content-admin')
     <section id="profile-form" class="overflow-auto">
-        <h3>{{ __('section.profile') }}</h3>
+        <h3>{{ __('_section.profile') }}</h3>
 
         @if(@is_access('help_read'))
         <div class="my-2 bk-callout">
-            Для изменения персональных данных создайте запрос в разделе
-            <a class="text-primary" href="{{ route('admin.applications.index') }}">
-                "{{ __('section.applications') }}"
+            {{ __('_dialog.support') }}
+            <a class="text-primary" href="{{ route('admin.support.index') }}">
+                "{{ __('_section.support') }}"
             </a>
         </div>
         @endif
@@ -27,8 +27,7 @@
 
         <form class="bk-form"
               action="{{ route('admin.profile.update', $user) }}"
-              method="POST"
-              enctype="multipart/form-data">
+              method="POST">
             <div class="bk-form__wrapper">
                 @csrf
                 @method('PUT')
@@ -36,7 +35,7 @@
                 <!-- username -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.nickname') }}
+                        {{ __('_person.username') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->username }}
@@ -46,7 +45,7 @@
                 <!-- fio -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.fio') }}
+                        {{ __('_person.fio') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->last_name . ' ' . $user->first_name . ' ' . $user->middle_name }}
@@ -56,47 +55,47 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.birthday') }}
+                        {{ __('_person.birthday') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record(@getDMY($user->birthday), __('data.no')) }}
+                        {{ @no_record(@getDMY($user->birthday), __('_record.no')) }}
                     </div>
                 </div>
 
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.phone') }}
+                        {{ __('_person.phone') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->phone, __('data.no')) }}
+                        {{ @no_record($user->phone, __('_record.no')) }}
                     </div>
                 </div>
 
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.email') }}
+                        {{ __('_person.email') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->email, __('data.no')) }}
+                        {{ @no_record($user->email, __('_record.no')) }}
                     </div>
                 </div>
 
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('person.address_fact') }}
+                        {{ __('_person.address_fact') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->address_fact, __('data.no')) }}
+                        {{ @no_record($user->address_fact, __('_record.no')) }}
                     </div>
                 </div>
 
                 <!-- password -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
-                        {{ __('person.password') }}
+                        {{ __('_person.password') }}
                         {{ @tip('мин.длина пароля 8 символов') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 @error('password') border border-danger @enderror"
@@ -118,7 +117,7 @@
 
                 <div class="mt-1 mb-0 form-group">
                     <button class="btn btn-outline-success">
-                        {{ __('operation.save') }}
+                        {{ __('_action.save') }}
                     </button>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 @extends('admin.index')
-@section('title-admin', __('section.users'))
+@section('title-admin', __('_section.users'))
 @section('content-admin')
     <section id="users-form" class="overflow-auto is-validation">
         <h3>{{ @form_title($user) }}</h3>
@@ -13,7 +13,7 @@
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
-                        {{ __('person.last_name') }} {{ @mandatory() }}
+                        {{ __('_person.last_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="last_name"
@@ -28,7 +28,7 @@
                 <!-- first_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="first_name">
-                        {{ __('person.first_name') }} {{ @mandatory() }}
+                        {{ __('_person.first_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="first_name"
@@ -43,7 +43,7 @@
                 <!-- middle_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="middle_name">
-                        {{ __('person.middle_name') }}
+                        {{ __('_person.middle_name') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="middle_name"
@@ -56,7 +56,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="birthday">
-                        {{ __('person.birthday') }} {{ @mandatory() }}
+                        {{ __('_person.birthday') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="birthday"
@@ -69,7 +69,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="phone">
-                        {{ __('person.phone') }}
+                        {{ __('_person.phone') }}
                         {{ @mandatory() }}
                         {{ @tip('+7 776 123 45 67') }}
                     </label>
@@ -87,7 +87,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="email">
-                        {{ __('person.email') }}
+                        {{ __('_person.email') }}
                         {{ @tip('example@dance.ru') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
@@ -101,7 +101,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="address_fact">
-                        {{ __('person.address_fact') }}
+                        {{ __('_person.address_fact') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="address_fact"
@@ -113,10 +113,10 @@
                 <!-- role -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="role">
-                        {{ __('person.role') }} {{ @mandatory() }}
+                        {{ __('_person.role') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300" id="role" name="role_id" required>
-                        <option value="" disabled selected>{{ __('select.role') }}</option>
+                        <option value="" disabled selected>{{ __('_select.role') }}</option>
                         @foreach($roles as $role)
                         <option value="{{ $role->id }}"
                                 data-slug="{{ $role->slug }}"
@@ -132,15 +132,15 @@
                 <!-- permissions -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
-                        {{ __('person.permissions') }} {{ @mandatory() }}
+                        {{ __('_person.permissions') }} {{ @mandatory() }}
                     </label>
                     <table class="dataTables table table-bordered table-hover table-responsive">
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
-                                <th class="w-50 text-left bk-min-w-200">{{ __('base.sections') }}</th>
-                                <th class="w-25 text-center bk-min-w-150">{{ __('operation.looking') }}</th>
-                                <th class="w-25 text-center bk-min-w-150">{{ __('operation.editing') }}</th>
+                                <th class="w-50 text-left bk-min-w-200">{{ __('_section.this') }}</th>
+                                <th class="w-25 text-center bk-min-w-150">{{ __('_action.looking') }}</th>
+                                <th class="w-25 text-center bk-min-w-150">{{ __('_action.editing') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,10 +186,10 @@
 
                 <div class="mt-1 mb-0 form-group">
                     <button class="btn btn-outline-success">
-                        {{ __('operation.save') }}
+                        {{ __('_action.save') }}
                     </button>
                     <a class="btn btn-outline-secondary" href="{{ route('admin.users.index') }}">
-                        {{ __('operation.back') }}
+                        {{ __('_action.back') }}
                     </a>
                 </div>
             </div>
