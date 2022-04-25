@@ -11,12 +11,12 @@ function form_title($param)
 
 function mandatory()
 {
-    echo '<span class="bk-mandatory">*</i>';
+    echo '<span class="bk-field bk-field--mandatory">*</i>';
 }
 
 function tip($message)
 {
-    echo '<span class="bk-tip">' . $message .'</span>';
+    echo '<span class="bk-field bk-field--tip">' . $message .'</span>';
 }
 
 function no_record($record, $replace = null)
