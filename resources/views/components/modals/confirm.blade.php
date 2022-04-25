@@ -1,12 +1,12 @@
-<div class="modal fade" id="bk-delete-modal">
+<div class="modal fade" id="bk-confirm-modal">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <form class="modal-content" id="bk-delete-form" method="POST">
+        <form class="modal-content" id="bk-confirm-form" method="POST">
             @csrf
-            @method('DELETE')
+            @method('PUT')
 
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{ __('_record.deleting') }}
+                    {{ __('_record.editing') }}
                 </h5>
                 <button class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
@@ -14,11 +14,11 @@
             </div>
 
             <div class="modal-body">
-                {{ __('_dialog.delete') }}
+                {{ __('_dialog.execute') }}
             </div>
 
             <div class="modal-footer">
-                <button class="mr-0 btn btn-danger bk-min-w-50" type="submit">
+                <button class="mr-0 btn btn-success bk-min-w-50" type="submit">
                     {{ __('_dialog.yep') }}
                 </button>
                 <button class="btn btn-secondary bk-min-w-50" data-dismiss="modal">

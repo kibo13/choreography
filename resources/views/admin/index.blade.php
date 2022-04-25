@@ -14,6 +14,6 @@
             </div>
         </div>
     </div>
-
     @include('components.modals.delete')
+    @include('components.modals.confirm')
 @endsection
