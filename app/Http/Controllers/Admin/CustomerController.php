@@ -56,7 +56,7 @@ class CustomerController extends Controller
         ]);
 
         // TODO: keep track sections
-        $user->permissions()->attach([1, 2, 7, 8]);
+        $user->permissions()->attach([1, 2, 9, 10]);
 
         $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.customers.index');

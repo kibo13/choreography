@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SupportController;
 
 // auth
 Auth::routes([
@@ -63,7 +64,26 @@ Route::group([
             ->name('customers.show');
     });
 
-    // profile
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+    // applications
+    Route::group(['middleware' => 'permission:app_full'], function () {
+        Route::resource('applications', ApplicationController::class);
+    });
+
+    Route::group(['middleware' => 'permission:app_read'], function () {
+        Route::get('applications', [ApplicationController::class, 'index'])
+            ->name('applications.index');
+    });
+
+    // support
+    Route::group(['middleware' => 'permission:help_full'], function () {
+        Route::resource('support', SupportController::class)
+            ->parameters(['support' => 'application']);
+    });
+
+    Route::group(['middleware' => 'permission:help_read'], function () {
+        Route::get('support', [SupportController::class, 'index'])
+            ->name('support.index');
+        Route::get('support/{application}', [SupportController::class, 'show'])
+            ->name('support.show');
+    });
 });

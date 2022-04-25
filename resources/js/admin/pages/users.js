@@ -1,4 +1,4 @@
-const users_form    = document.getElementById('users-form')
+const users_form = document.getElementById('users-form')
 
 if (users_form) {
 
@@ -18,8 +18,8 @@ if (users_form) {
                 $('.profile').prop('checked', true)
                 $('.member_read').prop('checked', true)
                 $('.member_full').prop('checked', true)
-                $('.inbox_read').prop('checked', true)
-                $('.inbox_full').prop('checked', true)
+                $('.app_read').prop('checked', true)
+                $('.app_full').prop('checked', true)
                 break
 
             case 'manager':
@@ -30,8 +30,8 @@ if (users_form) {
             case 'client':
                 $('.home').prop('checked', true)
                 $('.profile').prop('checked', true)
-                $('.app_read').prop('checked', true)
-                $('.app_full').prop('checked', true)
+                $('.help_read').prop('checked', true)
+                $('.help_full').prop('checked', true)
                 break
         }
     })

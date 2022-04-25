@@ -42,22 +42,22 @@
         <li class="sidebar-list__item {{ @is_active('admin.application*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.applications.index') }}"
-               title="{{ __('section.applications') }}">
-                {{ @fa('fa-file-o sidebar-list__icon') }}
+               title="{{ __('_section.applications') }}">
+                {{ @fa('fa-inbox sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('section.applications') }}
+                    {{ __('_section.applications') }}
                 </span>
             </a>
         </li>
         @endif
-        @if(Auth::user()->permissions()->pluck('slug')->contains('app_read'))
-        <li class="sidebar-list__item {{ @is_active('admin.application*', 'sidebar-list__item--active') }}">
+        @if(@is_access('help_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.support*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
-               href="{{ route('admin.applications.index') }}"
-               title="{{ __('section.incoming') }}">
-                {{ @fa('fa-inbox sidebar-list__icon') }}
+               href="{{ route('admin.support.index') }}"
+               title="{{ __('_section.support') }}">
+                {{ @fa('fa-pencil-square-o sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('section.incoming') }}
+                    {{ __('_section.support') }}
                 </span>
             </a>
         </li>
