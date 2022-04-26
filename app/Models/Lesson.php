@@ -14,9 +14,4 @@ class Lesson extends Model
         'sign',
         'note'
     ];
-
-    public function groups()
-    {
-        return $this->hasMany(Group::class);
-    }
 }

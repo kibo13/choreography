@@ -13,9 +13,4 @@ class Title extends Model
         'name',
         'note'
     ];
-
-    public function groups()
-    {
-        return $this->hasMany(Group::class);
-    }
 }
