@@ -18,3 +18,8 @@ function is_access($permission)
 {
     return Auth::user()->permissions()->pluck('slug')->contains($permission);
 }
+
+function is_info($permission)
+{
+    return Auth::user()->permissions()->pluck('info')->contains($permission);
+}

@@ -22,18 +22,17 @@
                 </li>
                 @endif
 
-                @if(@is_access('1'))
+                @if(@is_info('1'))
                 <li class="nav-item dropdown">
                     <a class="nav-link pr-3" href="#" data-toggle="dropdown">
                         {{ __('_section.info') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
-                        <a class="dropdown-item" href="#">
-                            Категории
+                        @if(Auth::user()->permissions()->pluck('slug')->contains('group_read'))
+                        <a class="dropdown-item" href="{{ route('admin.groups.index') }}">
+                            {{ __('_section.groups') }}
                         </a>
-                        <a class="dropdown-item" href="#">
-                            Клиенты
-                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif
