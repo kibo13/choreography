@@ -146,8 +146,8 @@
                         <tbody>
                         @foreach($sections as $index => $section)
                             <tr>
-                                <th>{{ ++$index }}</th>
-                                <th>{{ $section }}</th>
+                                <td>{{ ++$index }}</td>
+                                <td>{{ $section }}</td>
                                 @if($permissions->where('name', $section)->count() == 2)
                                 @foreach($permissions as $permission)
                                 @if($permission->name == $section)
