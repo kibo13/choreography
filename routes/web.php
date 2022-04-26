@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SupportController;
+use App\Http\Controllers\Admin\TitleController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\LessonController;
 
 // auth
 Auth::routes([
@@ -85,5 +88,35 @@ Route::group([
             ->name('support.index');
         Route::get('support/{application}', [SupportController::class, 'show'])
             ->name('support.show');
+    });
+
+    // group titles
+    Route::group(['middleware' => 'permission:name_full'], function () {
+        Route::resource('titles', TitleController::class);
+    });
+
+    Route::group(['middleware' => 'permission:name_read'], function () {
+        Route::get('titles', [TitleController::class, 'index'])
+            ->name('titles.index');
+    });
+
+    // types of lessons
+    Route::group(['middleware' => 'permission:lesson_full'], function () {
+        Route::resource('lessons', LessonController::class);
+    });
+
+    Route::group(['middleware' => 'permission:lesson_read'], function () {
+        Route::get('lessons', [LessonController::class, 'index'])
+            ->name('lessons.index');
+    });
+
+    // categories
+    Route::group(['middleware' => 'permission:cat_full'], function () {
+        Route::resource('categories', CategoryController::class);
+    });
+
+    Route::group(['middleware' => 'permission:cat_read'], function () {
+        Route::get('categories', [CategoryController::class, 'index'])
+            ->name('categories.index');
     });
 });

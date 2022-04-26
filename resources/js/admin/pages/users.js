@@ -20,6 +20,9 @@ if (users_form) {
                 $('.member_full').prop('checked', true)
                 $('.app_read').prop('checked', true)
                 $('.app_full').prop('checked', true)
+                $('.cat_read').prop('checked', true)
+                $('.name_read').prop('checked', true)
+                $('.lesson_read').prop('checked', true)
                 break
 
             case 'manager':
