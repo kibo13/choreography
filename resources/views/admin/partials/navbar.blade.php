@@ -43,6 +43,11 @@
                             {{ __('_section.lessons') }}
                         </a>
                         @endif
+                        @if(@is_access('sp_read'))
+                        <a class="dropdown-item" href="{{ route('admin.specialties.index') }}">
+                            {{ __('_section.specialties') }}
+                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif

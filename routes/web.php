@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\TitleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LessonController;
+use App\Http\Controllers\Admin\SpecialtyController;
 
 // auth
 Auth::routes([
@@ -118,5 +119,15 @@ Route::group([
     Route::group(['middleware' => 'permission:cat_read'], function () {
         Route::get('categories', [CategoryController::class, 'index'])
             ->name('categories.index');
+    });
+
+    // specialties
+    Route::group(['middleware' => 'permission:sp_full'], function () {
+        Route::resource('specialties', SpecialtyController::class);
+    });
+
+    Route::group(['middleware' => 'permission:sp_read'], function () {
+        Route::get('specialties', [SpecialtyController::class, 'index'])
+            ->name('specialties.index');
     });
 });
