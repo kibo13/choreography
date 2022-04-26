@@ -28,9 +28,19 @@
                         {{ __('_section.info') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
-                        @if(Auth::user()->permissions()->pluck('slug')->contains('group_read'))
-                        <a class="dropdown-item" href="{{ route('admin.groups.index') }}">
-                            {{ __('_section.groups') }}
+                        @if(@is_access('name_read'))
+                        <a class="dropdown-item" href="{{ route('admin.titles.index') }}">
+                            {{ __('_section.titles') }}
+                        </a>
+                        @endif
+                        @if(@is_access('cat_read'))
+                        <a class="dropdown-item" href="{{ route('admin.categories.index') }}">
+                            {{ __('_section.categories') }}
+                        </a>
+                        @endif
+                        @if(@is_access('lesson_read'))
+                        <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
+                            {{ __('_section.lessons') }}
                         </a>
                         @endif
                     </div>

@@ -4,18 +4,13 @@
     <section id="categories-index" class="overflow-auto">
         <h3>{{ __('_section.categories') }}</h3>
 
+        @if(@is_access('cat_full'))
         <div class="my-2 btn-group">
-            @if(@is_access('cat_full'))
             <a class="btn btn-primary" href="{{ route('admin.categories.create') }}">
                 {{ __('_record.new') }}
             </a>
-            @endif
-            @if(@is_access('group_read'))
-            <a class="btn btn-secondary" href="{{ route('admin.groups.index') }}">
-                {{ __('_section.groups') }}
-            </a>
-            @endif
         </div>
+        @endif
 
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">

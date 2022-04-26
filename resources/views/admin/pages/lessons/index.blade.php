@@ -4,18 +4,13 @@
     <section id="lessons-index" class="overflow-auto">
         <h3>{{ __('_section.lessons') }}</h3>
 
+        @if(@is_access('lesson_full'))
         <div class="my-2 btn-group">
-            @if(@is_access('lesson_full'))
             <a class="btn btn-primary" href="{{ route('admin.lessons.create') }}">
                 {{ __('_record.new') }}
             </a>
-            @endif
-            @if(@is_access('group_read'))
-            <a class="btn btn-secondary" href="{{ route('admin.groups.index') }}">
-                {{ __('_section.groups') }}
-            </a>
-            @endif
         </div>
+        @endif
 
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">
@@ -26,15 +21,15 @@
         <table id="is-datatable"
                class="dataTables table table-bordered table-hover table-responsive">
             <thead class="thead-light">
-            <tr>
-                <th>#</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.name') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.sign') }}</th>
-                <th class="w-50 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
-                @if(@is_access('lesson_full'))
-                <th class="no-sort">{{ __('_action.this') }}</th>
-                @endif
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.name') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.sign') }}</th>
+                    <th class="w-50 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
+                    @if(@is_access('lesson_full'))
+                    <th class="no-sort">{{ __('_action.this') }}</th>
+                    @endif
+                </tr>
             </thead>
             <tbody>
             @foreach($lessons as $index => $lesson)
