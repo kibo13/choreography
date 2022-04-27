@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\TitleController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\SpecialtyController;
 
@@ -109,16 +108,6 @@ Route::group([
     Route::group(['middleware' => 'permission:lesson_read'], function () {
         Route::get('lessons', [LessonController::class, 'index'])
             ->name('lessons.index');
-    });
-
-    // categories
-    Route::group(['middleware' => 'permission:cat_full'], function () {
-        Route::resource('categories', CategoryController::class);
-    });
-
-    Route::group(['middleware' => 'permission:cat_read'], function () {
-        Route::get('categories', [CategoryController::class, 'index'])
-            ->name('categories.index');
     });
 
     // specialties

@@ -33,11 +33,6 @@
                             {{ __('_section.titles') }}
                         </a>
                         @endif
-                        @if(@is_access('cat_read'))
-                        <a class="dropdown-item" href="{{ route('admin.categories.index') }}">
-                            {{ __('_section.categories') }}
-                        </a>
-                        @endif
                         @if(@is_access('lesson_read'))
                         <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
                             {{ __('_section.lessons') }}
