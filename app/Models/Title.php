@@ -11,6 +11,13 @@ class Title extends Model
 
     protected $fillable = [
         'name',
-        'note'
+        'specialty_id',
+        'is_paid',
+        'note',
     ];
+
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
+    }
 }

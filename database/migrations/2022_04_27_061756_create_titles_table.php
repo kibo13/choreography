@@ -11,6 +11,8 @@ class CreateTitlesTable extends Migration
         Schema::create('titles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->bigInteger('specialty_id')->unsigned();
+            $table->tinyInteger('is_paid');
             $table->text('note')->nullable();
             $table->timestamps();
         });

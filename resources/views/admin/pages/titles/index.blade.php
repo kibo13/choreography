@@ -24,7 +24,9 @@
                 <tr>
                     <th>#</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.name') }}</th>
-                    <th class="w-75 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.study') }}</th>
+                    <th class="w-25 bk-min-w-200">{{ __('_field.specialty') }}</th>
+                    <th class="w-25 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
                     @if(@is_access('name_full'))
                     <th class="no-sort">{{ __('_action.this') }}</th>
                     @endif
@@ -35,7 +37,14 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>{{ $title->name }}</td>
-                    <td>{{ $title->note }}</td>
+                    <td>{{ $title->is_paid == 1 ? __('_field.paid') : __('_field.free') }}</td>
+                    <td>{{ $title->specialty->name }}</td>
+                    <td>
+                        <div class="bk-btn-info">
+                            {{ $title->note }}
+                            <button class="bk-btn-info--down"></button>
+                        </div>
+                    </td>
                     @if(@is_access('name_full'))
                     <td>
                         <div class="bk-btn-actions">

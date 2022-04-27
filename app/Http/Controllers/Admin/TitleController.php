@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialty;
 use App\Models\Title;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,13 @@ class TitleController extends Controller
 
     public function create()
     {
-        return view('admin.pages.titles.form');
+        $specialties    = Specialty::get();
+        $studies        = config('constants.form_education');
+
+        return view(
+            'admin.pages.titles.form',
+            compact('specialties', 'studies')
+        );
     }
 
     public function store(Request $request)
@@ -35,7 +42,13 @@ class TitleController extends Controller
 
     public function edit(Title $title)
     {
-        return view('admin.pages.titles.form', compact('title'));
+        $specialties    = Specialty::get();
+        $studies        = config('constants.form_education');
+
+        return view(
+            'admin.pages.titles.form',
+            compact('title', 'specialties', 'studies')
+        );
     }
 
     public function update(Request $request, Title $title)

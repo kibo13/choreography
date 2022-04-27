@@ -24,6 +24,48 @@
                            autocomplete="off"/>
                 </div>
 
+                <!-- specialty_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="specialty_id">
+                        {{ __('_field.specialty') }} {{ @mandatory() }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="specialty_id"
+                            name="specialty_id"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.specialty') }}</option>
+                        @foreach($specialties as $specialty)
+                        <option value="{{ $specialty->id }}"
+                                @isset($title) @if($title->specialty_id == $specialty->id)
+                                selected
+                                @endif @endisset>
+                            {{ $specialty->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- is_paid -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="is_paid">
+                        {{ __('_field.study') }} {{ @mandatory() }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="is_paid"
+                            name="is_paid"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.study') }}</option>
+                        @foreach($studies as $index => $study)
+                        <option value="{{ $index }}"
+                                @isset($title) @if($title->is_paid == $index)
+                                selected
+                                @endif @endisset>
+                            {{ $study }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- note -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="note">
