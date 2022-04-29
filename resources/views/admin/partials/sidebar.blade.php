@@ -50,18 +50,6 @@
             </a>
         </li>
         @endif
-        @if(@is_access('help_read'))
-        <li class="sidebar-list__item {{ @is_active('admin.support*', 'sidebar-list__item--active') }}">
-            <a class="sidebar-list__link"
-               href="{{ route('admin.support.index') }}"
-               title="{{ __('_section.support') }}">
-                {{ @fa('fa-pencil-square-o sidebar-list__icon') }}
-                <span class="sidebar-list__text">
-                    {{ __('_section.support') }}
-                </span>
-            </a>
-        </li>
-        @endif
         @if(@is_access('member_read'))
         <li class="sidebar-list__item {{ @is_active('admin.customer*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
@@ -70,6 +58,18 @@
                 {{ @fa('fa-users sidebar-list__icon') }}
                 <span class="sidebar-list__text">
                     {{ __('_section.customers') }}
+                </span>
+            </a>
+        </li>
+        @endif
+        @if(@is_access('help_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.support*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.support.index') }}"
+               title="{{ __('_section.support') }}">
+                {{ @fa('fa-pencil-square-o sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('_section.support') }}
                 </span>
             </a>
         </li>

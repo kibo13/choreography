@@ -17,3 +17,4 @@ require('./custom/validation')
 
 // pages
 require('./pages/users')
+require('./pages/groups')

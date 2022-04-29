@@ -13,6 +13,7 @@ return [
     'customers'             => 'Участники',
     'applications'          => 'Заявки',
     'support'               => 'Поддержка',
+    'groups'                => 'Группы',
     'lessons'               => 'Виды занятий',
     'titles'                => 'Названия групп',
     'categories'            => 'Категории групп',

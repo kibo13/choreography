@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SupportController;
+use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\TitleController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\SpecialtyController;
@@ -88,6 +89,16 @@ Route::group([
             ->name('support.index');
         Route::get('support/{application}', [SupportController::class, 'show'])
             ->name('support.show');
+    });
+
+    // groups
+    Route::group(['middleware' => 'permission:group_full'], function () {
+        Route::resource('groups', GroupController::class);
+    });
+
+    Route::group(['middleware' => 'permission:group_read'], function () {
+        Route::get('groups', [GroupController::class, 'index'])
+            ->name('groups.index');
     });
 
     // group titles
