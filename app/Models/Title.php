@@ -20,4 +20,9 @@ class Title extends Model
     {
         return $this->belongsTo(Specialty::class);
     }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

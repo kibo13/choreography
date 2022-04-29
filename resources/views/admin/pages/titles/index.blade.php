@@ -4,11 +4,18 @@
     <section id="titles-index" class="overflow-auto">
         <h3>{{ __('_section.titles') }}</h3>
 
-        @if(@is_access('name_full'))
+        @if(@is_access('name_full') || @is_access('group_read'))
         <div class="my-2 btn-group">
+            @if(@is_access('name_full'))
             <a class="btn btn-primary" href="{{ route('admin.titles.create') }}">
                 {{ __('_record.new') }}
             </a>
+            @endif
+            @if(@is_access('group_read'))
+            <a class="btn btn-secondary" href="{{ route('admin.groups.index') }}">
+                {{ __('_section.groups') }}
+            </a>
+            @endif
         </div>
         @endif
 

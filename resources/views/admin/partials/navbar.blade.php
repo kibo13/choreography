@@ -28,11 +28,6 @@
                         {{ __('_section.info') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
-                        @if(@is_access('name_read'))
-                        <a class="dropdown-item" href="{{ route('admin.titles.index') }}">
-                            {{ __('_section.titles') }}
-                        </a>
-                        @endif
                         @if(@is_access('lesson_read'))
                         <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
                             {{ __('_section.lessons') }}
