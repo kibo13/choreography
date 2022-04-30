@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\TitleController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\DiscountController;
 
 // auth
 Auth::routes([
@@ -140,5 +141,15 @@ Route::group([
     Route::group(['middleware' => 'permission:room_read'], function () {
         Route::get('rooms', [RoomController::class, 'index'])
             ->name('rooms.index');
+    });
+
+    // discounts
+    Route::group(['middleware' => 'permission:discount_full'], function () {
+        Route::resource('discounts', DiscountController::class);
+    });
+
+    Route::group(['middleware' => 'permission:discount_read'], function () {
+        Route::get('discounts', [DiscountController::class, 'index'])
+            ->name('discounts.index');
     });
 });
