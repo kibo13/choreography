@@ -26,6 +26,8 @@ if (users_form) {
             case 'manager':
                 $('.home').prop('checked', true)
                 $('.profile').prop('checked', true)
+                $('.room_read').prop('checked', true)
+                $('.room_full').prop('checked', true)
                 break
 
             case 'client':

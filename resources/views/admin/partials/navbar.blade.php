@@ -28,19 +28,24 @@
                         {{ __('_section.info') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
-                        @if(@is_access('lesson_read'))
-                        <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
-                            {{ __('_section.lessons') }}
-                        </a>
-                        @endif
                         @if(@is_access('group_read'))
                         <a class="dropdown-item" href="{{ route('admin.groups.index') }}">
                             {{ __('_section.groups') }}
                         </a>
                         @endif
+                        @if(@is_access('lesson_read'))
+                        <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
+                            {{ __('_section.lessons') }}
+                        </a>
+                        @endif
                         @if(@is_access('sp_read'))
                         <a class="dropdown-item" href="{{ route('admin.specialties.index') }}">
                             {{ __('_section.specialties') }}
+                        </a>
+                        @endif
+                        @if(@is_access('room_read'))
+                        <a class="dropdown-item" href="{{ route('admin.rooms.index') }}">
+                            {{ __('_section.rooms') }}
                         </a>
                         @endif
                     </div>

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\TitleController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\SpecialtyController;
+use App\Http\Controllers\Admin\RoomController;
 
 // auth
 Auth::routes([
@@ -129,5 +130,15 @@ Route::group([
     Route::group(['middleware' => 'permission:sp_read'], function () {
         Route::get('specialties', [SpecialtyController::class, 'index'])
             ->name('specialties.index');
+    });
+
+    // rooms
+    Route::group(['middleware' => 'permission:room_full'], function () {
+        Route::resource('rooms', RoomController::class);
+    });
+
+    Route::group(['middleware' => 'permission:room_read'], function () {
+        Route::get('rooms', [RoomController::class, 'index'])
+            ->name('rooms.index');
     });
 });
