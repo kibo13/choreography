@@ -12,6 +12,11 @@ if (is_validation) {
         this.value = this.value.replace(/\D/g, '')
     })
 
+    // is-float
+    $('.is-float').on('input', function () {
+        this.value = this.value.replace(/[^0-9.]/g, '')
+    })
+
     // is-count
     $('.is-count').on('input', function () {
         this.value = this.value.replace(/^0|\D/g, '')
