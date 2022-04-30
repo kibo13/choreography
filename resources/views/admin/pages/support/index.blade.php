@@ -23,10 +23,10 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th class="w-25 bk-min-w-200">{{ __('_app.topic') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_date.create') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_app.id') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_state.this') }}</th>
+                    <th class="w-25 bk-min-w-200">{{ __('_field.topic') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.created_at') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.num') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.status') }}</th>
                     <th class="no-sort">{{ __('_action.this') }}</th>
                 </tr>
             </thead>

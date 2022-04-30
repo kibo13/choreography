@@ -13,7 +13,7 @@
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
-                        {{ __('_person.last_name') }} {{ @mandatory() }}
+                        {{ __('_field.last_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="last_name"
@@ -28,7 +28,7 @@
                 <!-- first_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="first_name">
-                        {{ __('_person.first_name') }} {{ @mandatory() }}
+                        {{ __('_field.first_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="first_name"
@@ -43,7 +43,7 @@
                 <!-- middle_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="middle_name">
-                        {{ __('_person.middle_name') }}
+                        {{ __('_field.middle_name') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="middle_name"
@@ -56,7 +56,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="birthday">
-                        {{ __('_person.birthday') }} {{ @mandatory() }}
+                        {{ __('_field.birthday') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="birthday"
@@ -69,7 +69,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="phone">
-                        {{ __('_person.phone') }}
+                        {{ __('_field.phone') }}
                         {{ @mandatory() }}
                         {{ @tip('+7 776 123 45 67') }}
                     </label>
@@ -87,7 +87,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="email">
-                        {{ __('_person.email') }}
+                        {{ __('_field.email') }}
                         {{ @tip('example@dance.ru') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
@@ -101,7 +101,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="address_fact">
-                        {{ __('_person.address_fact') }}
+                        {{ __('_field.address_fact') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="address_fact"
@@ -113,7 +113,7 @@
                 <!-- role -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="role">
-                        {{ __('_person.role') }} {{ @mandatory() }}
+                        {{ __('_field.role') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300" id="role" name="role_id" required>
                         <option value="" disabled selected>{{ __('_select.role') }}</option>
@@ -132,7 +132,7 @@
                 <!-- permissions -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
-                        {{ __('_person.permissions') }} {{ @mandatory() }}
+                        {{ __('_field.permissions') }} {{ @mandatory() }}
                     </label>
                     <table class="dataTables table table-bordered table-hover table-responsive">
                         <thead class="thead-light">

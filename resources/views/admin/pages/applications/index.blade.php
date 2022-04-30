@@ -19,11 +19,11 @@
                     {{ @tip($total) }}
                 </li>
                 <li>
-                    <strong class="text-info">{{ __('_state.pending') }}</strong>
+                    <strong class="text-info">{{ __('_action.pending') }}</strong>
                     {{ @tip($pending) }}
                 </li>
                 <li>
-                    <strong class="text-success">{{ __('_state.completed') }}</strong>
+                    <strong class="text-success">{{ __('_action.completed') }}</strong>
                     {{ @tip($complete) }}
                 </li>
             </ul>
@@ -34,11 +34,11 @@
             <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th class="w-25 bk-min-w-150">{{ __('_app.id') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_date.create') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_app.topic') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_state.this') }}</th>
-                <th class="bk-min-w-150">{{ __('_app.author') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.num') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.created_at') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.topic') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.status') }}</th>
+                <th class="bk-min-w-150">{{ __('_field.author') }}</th>
                 <th class="no-sort">{{ __('_action.this') }}</th>
             </tr>
             </thead>

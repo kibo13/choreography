@@ -14,7 +14,7 @@
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
-                        {{ __('_person.last_name') }} {{ @mandatory() }}
+                        {{ __('_field.last_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="last_name"
@@ -29,7 +29,7 @@
                 <!-- first_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="first_name">
-                        {{ __('_person.first_name') }} {{ @mandatory() }}
+                        {{ __('_field.first_name') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="first_name"
@@ -44,7 +44,7 @@
                 <!-- middle_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="middle_name">
-                        {{ __('_person.middle_name') }}
+                        {{ __('_field.middle_name') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-string"
                            id="middle_name"
@@ -57,7 +57,7 @@
                 <!-- doc_type -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_type">
-                        {{ __('_person.doc_type') }} {{ @mandatory() }}
+                        {{ __('_field.doc_type') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300" name="doc_type" required>
                         <option value="" disabled selected>{{ __('_select.doc') }}</option>
@@ -75,7 +75,7 @@
                 <!-- doc_num -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_num">
-                        {{ __('_person.doc_num') }} {{ @mandatory() }}
+                        {{ __('_field.doc_num') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 is-number"
                            id="doc_num"
@@ -90,7 +90,7 @@
                 <!-- doc_date -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_date">
-                        {{ __('_person.doc_date') }} {{ @mandatory() }}
+                        {{ __('_field.doc_date') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="doc_date"
@@ -103,7 +103,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="birthday">
-                        {{ __('_person.birthday') }} {{ @mandatory() }}
+                        {{ __('_field.birthday') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="birthday"
@@ -116,13 +116,13 @@
                 <!-- address_doc -->
                 <div class="bk-form__field position-relative">
                     <label class="bk-form__label" for="address_doc">
-                        {{ __('_person.address_doc') }}
+                        {{ __('_field.address_doc') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="upload-file"
                            type="text"
                            value="{{ isset($user->address_doc) ? $user->address_note : null }}"
-                           placeholder="{{ __('_file.no_select') }}"
+                           placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
                            id="upload-btn"
@@ -134,7 +134,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="address_fact">
-                        {{ __('_person.address_fact') }}
+                        {{ __('_field.address_fact') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="address_fact"
@@ -146,7 +146,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="phone">
-                        {{ __('_person.phone') }}
+                        {{ __('_field.phone') }}
                         {{ @mandatory() }}
                         {{ @tip('+7 776 123 45 67') }}
                     </label>
@@ -164,7 +164,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="email">
-                        {{ __('_person.email') }}
+                        {{ __('_field.email') }}
                         {{ @tip('example@dance.ru') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
@@ -178,7 +178,7 @@
                 <!-- activity -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="activity">
-                        {{ __('_person.activity') }}
+                        {{ __('_field.activity') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="activity"

@@ -29,8 +29,8 @@ function no_record($record, $replace = null)
 function status($param)
 {
     echo $param == 0
-        ? '<strong class="text-info">' . __('_state.pending') .'</strong>'
-        : '<strong class="text-success">' . __('_state.completed') .'</strong>';
+        ? '<strong class="text-info">' . __('_action.pending') .'</strong>'
+        : '<strong class="text-success">' . __('_action.completed') .'</strong>';
 }
 
 function short_fio($id)

@@ -23,10 +23,10 @@
             <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th class="bk-min-w-150 w-25">{{ __('_person.fio') }}</th>
-                <th class="bk-min-w-150 w-25">{{ __('_person.username') }}</th>
-                <th class="bk-min-w-150 w-25">{{ __('_person.role') }}</th>
-                <th class="bk-min-w-300 w-25 no-sort">{{ __('_person.permissions') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_field.fio') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_field.username') }}</th>
+                <th class="bk-min-w-150 w-25">{{ __('_field.role') }}</th>
+                <th class="bk-min-w-300 w-25 no-sort">{{ __('_field.permissions') }}</th>
                 @if(@is_access('user_full'))
                 <th class="no-sort">{{ __('_action.this') }}</th>
                 @endif

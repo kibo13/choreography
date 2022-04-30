@@ -14,7 +14,7 @@
                 <!-- topic -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="topic">
-                        {{ __('_app.topic') }} {{ @mandatory() }}
+                        {{ __('_field.topic') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input"
                            id="topic"
@@ -28,7 +28,7 @@
                 <!-- description -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="desc">
-                        {{ __('_app.desc') }} {{ @mandatory() }}
+                        {{ __('_field.desc') }} {{ @mandatory() }}
                     </label>
                     <textarea class="bk-form__textarea"
                               id="desc"
@@ -39,13 +39,13 @@
                 <!-- file -->
                 <div class="bk-form__field position-relative">
                     <label class="bk-form__label" for="file">
-                        {{ __('_file.attach') }}
+                        {{ __('_field.attachment') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300  @error('file') border border-danger @enderror"
                            id="upload-file"
                            type="text"
                            value="{{ isset($application->file) ? $application->note : null }}"
-                           placeholder="{{ __('_file.no_select') }}"
+                           placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
                            id="upload-btn"

@@ -35,7 +35,7 @@
                 <!-- username -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.username') }}
+                        {{ __('_field.username') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->username }}
@@ -45,7 +45,7 @@
                 <!-- fio -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.fio') }}
+                        {{ __('_field.fio') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->last_name . ' ' . $user->first_name . ' ' . $user->middle_name }}
@@ -55,7 +55,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.birthday') }}
+                        {{ __('_field.birthday') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record(@getDMY($user->birthday), __('_record.no')) }}
@@ -65,7 +65,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.phone') }}
+                        {{ __('_field.phone') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->phone, __('_record.no')) }}
@@ -75,7 +75,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.email') }}
+                        {{ __('_field.email') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->email, __('_record.no')) }}
@@ -85,7 +85,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.address_fact') }}
+                        {{ __('_field.address_fact') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->address_fact, __('_record.no')) }}
@@ -95,7 +95,7 @@
                 <!-- password -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
-                        {{ __('_person.password') }}
+                        {{ __('_field.password') }}
                         {{ @tip('мин.длина пароля 8 символов') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300 @error('password') border border-danger @enderror"

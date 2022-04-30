@@ -19,10 +19,10 @@
 
             <div class="modal-footer">
                 <button class="mr-0 btn btn-danger bk-min-w-50" type="submit">
-                    {{ __('_dialog.yep') }}
+                    {{ __('_action.yep') }}
                 </button>
                 <button class="btn btn-secondary bk-min-w-50" data-dismiss="modal">
-                    {{ __('_dialog.nope') }}
+                    {{ __('_action.nope') }}
                 </button>
             </div>
         </form>

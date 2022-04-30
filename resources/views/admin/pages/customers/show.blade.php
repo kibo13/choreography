@@ -9,7 +9,7 @@
                 <!-- nickname -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.username') }}
+                        {{ __('_field.username') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->username }}
@@ -19,7 +19,7 @@
                 <!-- fio -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.fio') }}
+                        {{ __('_field.fio') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->last_name . ' ' . $user->first_name . ' ' . $user->middle_name }}
@@ -29,7 +29,7 @@
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.phone') }}
+                        {{ __('_field.phone') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->phone }}
@@ -39,7 +39,7 @@
                 <!-- email -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.email') }}
+                        {{ __('_field.email') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->email, __('_record.no')) }}
@@ -49,7 +49,7 @@
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.birthday') }}
+                        {{ __('_field.birthday') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @getDMY($user->birthday) }}
@@ -59,7 +59,7 @@
                 <!-- age -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.age') }}
+                        {{ __('_field.age') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $user->age }}
@@ -69,10 +69,10 @@
                 <!-- passport -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.docs') }}
+                        {{ __('_field.docs') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->doc_type == 1 ? __('_person.passport') : __('_person.id_card') }}
+                        {{ $user->doc_type == 1 ? __('_field.passport') : __('_field.id_card') }}
                         {{ $user->doc_num }}
                         {{ ' от ' . @getDMY($user->doc_date) }}
                     </div>
@@ -81,7 +81,7 @@
                 <!-- address_doc -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.address_doc') }}
+                        {{ __('_field.address_doc') }}
                     </label>
                     <div class="bk-form__text">
                         @if($user->address_doc)
@@ -101,7 +101,7 @@
                 <!-- address_fact -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.address_fact') }}
+                        {{ __('_field.address_fact') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->address_fact, __('_record.no')) }}
@@ -111,7 +111,7 @@
                 <!-- activity -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_person.activity') }}
+                        {{ __('_field.activity') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($user->activity, __('_record.no')) }}

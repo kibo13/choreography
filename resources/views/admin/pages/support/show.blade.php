@@ -9,7 +9,7 @@
                 <!-- num -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_app.id') }}
+                        {{ __('_field.num') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $application->num }}
@@ -19,7 +19,7 @@
                 <!-- created_at -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_date.create') }}
+                        {{ __('_field.created_at') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @getDMY($application->created_at) }}
@@ -29,7 +29,7 @@
                 <!-- status -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_state.this') }}
+                        {{ __('_field.status') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @status($application->status) }}
@@ -39,7 +39,7 @@
                 <!-- topic -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_app.topic') }}
+                        {{ __('_field.topic') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $application->topic }}
@@ -49,7 +49,7 @@
                 <!-- description -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_app.desc') }}
+                        {{ __('_field.desc') }}
                     </label>
                     <div class="bk-form__text">
                         {{ $application->desc }}
@@ -59,7 +59,7 @@
                 <!-- attachment -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_file.attach') }}
+                        {{ __('_field.attachment') }}
                     </label>
                     <div class="bk-form__text">
                         @if($application->file)

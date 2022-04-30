@@ -23,10 +23,10 @@
             <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th class="w-25 bk-min-w-150">{{ __('_person.fio') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_person.age') }}</th>
-                <th class="w-25 no-sort bk-min-w-150">{{ __('_person.phone') }}</th>
-                <th class="w-25 no-sort bk-min-w-150">{{ __('_person.address') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.fio') }}</th>
+                <th class="w-25 bk-min-w-150">{{ __('_field.age') }}</th>
+                <th class="w-25 no-sort bk-min-w-150">{{ __('_field.phone') }}</th>
+                <th class="w-25 no-sort bk-min-w-150">{{ __('_field.address') }}</th>
                 <th class="no-sort">{{ __('_action.this') }}</th>
             </tr>
             </thead>
