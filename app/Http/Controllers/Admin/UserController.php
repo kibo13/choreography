@@ -26,7 +26,8 @@ class UserController extends Controller
     public function create()
     {
         $sections       = @sections();
-        $roles          = Role::get();
+        $is_kibo        = Auth::user()->role_id;
+        $roles          = $is_kibo == 1 ? Role::get() : Role::where('id', '>', 1)->get();
         $permissions    = Permission::get();
 
         return view(
@@ -61,7 +62,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $sections       = @sections();
-        $roles          = Role::get();
+        $is_kibo        = Auth::user()->role_id;
+        $roles          = $is_kibo == 1 ? Role::get() : Role::where('id', '>', 1)->get();
         $permissions    = Permission::get();
 
         return view(
