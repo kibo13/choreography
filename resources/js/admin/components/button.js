@@ -1,20 +1,20 @@
 $('.bk-btn-info').on('click', function (event) {
     $(this).toggleClass('bk-btn-info--active')
 
-    // search child element - button
-    let button = $(this).children('button')
+    // search child element - icon
+    let icon = $(this).children('i')
 
-    // set up icon
-    if ($(button).hasClass('bk-btn-info--down'))
+    // set hide icon
+    if ($(icon).hasClass('fa-eye'))
     {
-        $(button).removeClass('bk-btn-info--down')
-        $(button).addClass('bk-btn-info--up')
+        $(icon).removeClass('fa-eye')
+        $(icon).addClass('fa-eye-slash')
     }
 
-    // set down icon
+    // set show icon
     else
     {
-        $(button).removeClass('bk-btn-info--up')
-        $(button).addClass('bk-btn-info--down')
+        $(icon).removeClass('fa-eye-slash')
+        $(icon).addClass('fa-eye')
     }
 })
