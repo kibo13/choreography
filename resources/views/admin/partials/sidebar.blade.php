@@ -12,9 +12,7 @@
             </a>
         </div>
     </div>
-
     <ul class="sidebar-list">
-        @if(@is_access('home'))
         <li class="sidebar-list__item {{ @is_active('admin.home', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.home') }}"
@@ -25,8 +23,6 @@
                 </span>
             </a>
         </li>
-        @endif
-        @if(@is_access('profile'))
         <li class="sidebar-list__item {{ @is_active('admin.profile*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
                href="{{ route('admin.profile.index') }}"
@@ -37,7 +33,6 @@
                 </span>
             </a>
         </li>
-        @endif
         @if(@is_access('app_read'))
         <li class="sidebar-list__item {{ @is_active('admin.application*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
@@ -51,13 +46,13 @@
         </li>
         @endif
         @if(@is_access('member_read'))
-        <li class="sidebar-list__item {{ @is_active('admin.customer*', 'sidebar-list__item--active') }}">
+        <li class="sidebar-list__item {{ @is_active('admin.member*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
-               href="{{ route('admin.customers.index') }}"
-               title="{{ __('_section.customers') }}">
+               href="{{ route('admin.members.index') }}"
+               title="{{ __('_section.members') }}">
                 {{ @fa('fa-users sidebar-list__icon') }}
                 <span class="sidebar-list__text">
-                    {{ __('_section.customers') }}
+                    {{ __('_section.members') }}
                 </span>
             </a>
         </li>

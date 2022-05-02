@@ -1,12 +1,12 @@
 @extends('admin.index')
-@section('title-admin', __('_section.users'))
+@section('title-admin', __('_section.workers'))
 @section('content-admin')
-    <section id="users-index" class="overflow-auto">
-        <h3>{{ __('_section.users') }}</h3>
+    <section id="workers-index" class="overflow-auto">
+        <h3>{{ __('_section.workers') }}</h3>
 
-        @if(@is_access('user_full'))
+        @if(@is_access('worker_full'))
         <div class="my-2 btn-group">
-            <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
+            <a class="btn btn-primary" href="{{ route('admin.workers.create') }}">
                 {{ __('_record.new') }}
             </a>
         </div>
@@ -24,45 +24,49 @@
                 <tr>
                     <th>#</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.username') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.role') }}</th>
-                    <th class="w-50 bk-min-w-300 no-sort">{{ __('_field.permissions') }}</th>
-                    @if(@is_access('user_full'))
+                    <th class="w-25 bk-min-w-150">{{ __('_field.fio') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.position') }}</th>
+                    <th class="w-25 bk-min-w-300 no-sort">{{ __('_field.groups') }}</th>
+                    @if(@is_access('worker_full'))
                     <th class="no-sort">{{ __('_action.this') }}</th>
                     @endif
                 </tr>
             </thead>
             <tbody>
-            @foreach($users as $index => $user)
+            @foreach($workers as $index => $worker)
                 <tr>
                     <td>{{ ++$index }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->role->name }}</td>
+                    <td>{{ $worker->user->username }}</td>
+                    <td>{{ @full_fio('worker', $worker->id) }}</td>
+                    <td>{{ $worker->user->role->name }}</td>
                     <td>
                         <ul class="bk-btn-info">
-                            @foreach($sections as $section)
+                            @foreach($titles as $title)
                             <li>
-                                @if($user->permissions->where('name', $section)->count())
-                                <strong>{{ $section }}</strong>
+                                @if($worker->groups->where('title_id', $title->id)->count())
+                                <strong>{{ $title->name }}</strong>
                                 @endif
-                                @foreach($user->permissions as $permission)
-                                @if($permission->name == $section)
-                                {{ @tip($permission->note) }}
+                                @foreach($worker->groups as $group)
+                                @if($group->title_id == $title->id)
+                                <span class="text-uppercase">
+                                {{ @tip($group->category->sign) }}
+                                </span>
                                 @endif
                                 @endforeach
                             </li>
                             @endforeach
-                            {{ $user->permissions->count() ? @fa('fa fa-eye bk-btn-info--fa') : null }}
+                            {{ $worker->groups->count() ? @fa('fa fa-eye bk-btn-info--fa') : null }}
                         </ul>
                     </td>
-                    @if(@is_access('user_full'))
+                    @if(@is_access('worker_full'))
                     <td>
                         <div class="bk-btn-actions">
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
-                               href="{{ route('admin.users.edit', $user) }}"
+                               href="{{ route('admin.workers.edit', $worker) }}"
                                data-tip="{{ __('_action.edit') }}" ></a>
                             <a class="bk-btn-action bk-btn-action--delete btn btn-danger"
                                href="javascript:void(0)"
-                               data-id="{{ $user->id }}"
+                               data-id="{{ $worker->id }}"
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}" ></a>

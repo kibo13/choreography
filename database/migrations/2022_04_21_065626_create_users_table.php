@@ -14,22 +14,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->bigInteger('role_id')->unsigned();
             $table->rememberToken();
-
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('middle_name')->nullable();
-            $table->tinyInteger('doc_type')->nullable();
-            $table->string('doc_num')->unique()->nullable();
-            $table->date('doc_date')->nullable();
-            $table->date('birthday')->nullable();
-            $table->tinyInteger('age')->nullable();
-            $table->text('address_doc')->nullable();
-            $table->string('address_note')->nullable();
-            $table->string('address_fact')->nullable();
-            $table->string('activity')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

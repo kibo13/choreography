@@ -15,20 +15,6 @@ class User extends Authenticatable
         'username',
         'password',
         'role_id',
-        'first_name',
-        'last_name',
-        'middle_name',
-        'doc_type',
-        'doc_num',
-        'doc_date',
-        'birthday',
-        'age',
-        'address_doc',
-        'address_note',
-        'address_fact',
-        'activity',
-        'phone',
-        'email',
     ];
 
     protected $hidden = [
@@ -36,18 +22,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function member()
+    {
+        return $this->hasOne(Member::class);
+    }
+
+    public function worker()
+    {
+        return $this->hasOne(Worker::class);
+    }
 
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function applications()
-    {
-        return $this->belongsToMany(Application::class);
     }
 
     public function permissions()

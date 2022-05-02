@@ -7,16 +7,16 @@ use App\Http\Controllers\HomeController;
 
 // admin
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\SupportController;
-use App\Http\Controllers\Admin\GroupController;
-use App\Http\Controllers\Admin\TitleController;
-use App\Http\Controllers\Admin\LessonController;
-use App\Http\Controllers\Admin\SpecialtyController;
+use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\WorkerController;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\TitleController;
+use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\ApplicationController;
+use App\Http\Controllers\Admin\SupportController;
 
 // auth
 Auth::routes([
@@ -33,19 +33,9 @@ Route::group([
     'as'         => 'admin.'
 ], function () {
 
-    // home
-    Route::group(['middleware' => 'permission:home'], function () {
-        Route::get('/', [HomeController::class, 'admin'])
-            ->name('home');
-    });
-
-    // profile
-    Route::group(['middleware' => 'permission:profile'], function () {
-        Route::get('profile', [ProfileController::class, 'index'])
-            ->name('profile.index');
-        Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])
-            ->name('profile.update');
-    });
+    Route::get('/', [HomeController::class, 'admin'])->name('home');
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
     // users
     Route::group(['middleware' => 'permission:user_full'], function () {
@@ -57,17 +47,76 @@ Route::group([
             ->name('users.index');
     });
 
-    // customers
+    // members
     Route::group(['middleware' => 'permission:member_full'], function () {
-        Route::resource('customers', CustomerController::class)
-            ->parameters(['customers' => 'user']);
+        Route::resource('members', MemberController::class);
     });
 
     Route::group(['middleware' => 'permission:member_read'], function () {
-        Route::get('customers', [CustomerController::class, 'index'])
-            ->name('customers.index');
-        Route::get('customers/{user}', [CustomerController::class, 'show'])
-            ->name('customers.show');
+        Route::get('members', [MemberController::class, 'index'])
+            ->name('members.index');
+        Route::get('members/{member}', [MemberController::class, 'show'])
+            ->name('members.show');
+    });
+
+    // workers
+    Route::group(['middleware' => 'permission:worker_full'], function () {
+        Route::resource('workers', WorkerController::class);
+    });
+
+    Route::group(['middleware' => 'permission:worker_read'], function () {
+        Route::get('workers', [WorkerController::class, 'index'])
+            ->name('workers.index');
+    });
+
+    // rooms
+    Route::group(['middleware' => 'permission:room_full'], function () {
+        Route::resource('rooms', RoomController::class);
+    });
+
+    Route::group(['middleware' => 'permission:room_read'], function () {
+        Route::get('rooms', [RoomController::class, 'index'])
+            ->name('rooms.index');
+    });
+
+    // specialties
+    Route::group(['middleware' => 'permission:specialty_full'], function () {
+        Route::resource('specialties', SpecialtyController::class);
+    });
+
+    Route::group(['middleware' => 'permission:specialty_read'], function () {
+        Route::get('specialties', [SpecialtyController::class, 'index'])
+            ->name('specialties.index');
+    });
+
+    // discounts
+    Route::group(['middleware' => 'permission:discount_full'], function () {
+        Route::resource('discounts', DiscountController::class);
+    });
+
+    Route::group(['middleware' => 'permission:discount_read'], function () {
+        Route::get('discounts', [DiscountController::class, 'index'])
+            ->name('discounts.index');
+    });
+
+    // group titles
+    Route::group(['middleware' => 'permission:title_full'], function () {
+        Route::resource('titles', TitleController::class);
+    });
+
+    Route::group(['middleware' => 'permission:title_read'], function () {
+        Route::get('titles', [TitleController::class, 'index'])
+            ->name('titles.index');
+    });
+
+    // groups
+    Route::group(['middleware' => 'permission:group_full'], function () {
+        Route::resource('groups', GroupController::class);
+    });
+
+    Route::group(['middleware' => 'permission:group_read'], function () {
+        Route::get('groups', [GroupController::class, 'index'])
+            ->name('groups.index');
     });
 
     // applications
@@ -91,65 +140,5 @@ Route::group([
             ->name('support.index');
         Route::get('support/{application}', [SupportController::class, 'show'])
             ->name('support.show');
-    });
-
-    // groups
-    Route::group(['middleware' => 'permission:group_full'], function () {
-        Route::resource('groups', GroupController::class);
-    });
-
-    Route::group(['middleware' => 'permission:group_read'], function () {
-        Route::get('groups', [GroupController::class, 'index'])
-            ->name('groups.index');
-    });
-
-    // group titles
-    Route::group(['middleware' => 'permission:name_full'], function () {
-        Route::resource('titles', TitleController::class);
-    });
-
-    Route::group(['middleware' => 'permission:name_read'], function () {
-        Route::get('titles', [TitleController::class, 'index'])
-            ->name('titles.index');
-    });
-
-    // types of lessons
-    Route::group(['middleware' => 'permission:lesson_full'], function () {
-        Route::resource('lessons', LessonController::class);
-    });
-
-    Route::group(['middleware' => 'permission:lesson_read'], function () {
-        Route::get('lessons', [LessonController::class, 'index'])
-            ->name('lessons.index');
-    });
-
-    // specialties
-    Route::group(['middleware' => 'permission:sp_full'], function () {
-        Route::resource('specialties', SpecialtyController::class);
-    });
-
-    Route::group(['middleware' => 'permission:sp_read'], function () {
-        Route::get('specialties', [SpecialtyController::class, 'index'])
-            ->name('specialties.index');
-    });
-
-    // rooms
-    Route::group(['middleware' => 'permission:room_full'], function () {
-        Route::resource('rooms', RoomController::class);
-    });
-
-    Route::group(['middleware' => 'permission:room_read'], function () {
-        Route::get('rooms', [RoomController::class, 'index'])
-            ->name('rooms.index');
-    });
-
-    // discounts
-    Route::group(['middleware' => 'permission:discount_full'], function () {
-        Route::resource('discounts', DiscountController::class);
-    });
-
-    Route::group(['middleware' => 'permission:discount_read'], function () {
-        Route::get('discounts', [DiscountController::class, 'index'])
-            ->name('discounts.index');
     });
 });

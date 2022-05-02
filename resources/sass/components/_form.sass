@@ -15,6 +15,27 @@
         grid-gap: 5px
         overflow: hidden
 
+    &__list
+        height: 100%
+        max-height: 200px
+        display: grid
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+        overflow: auto
+
+        &-item
+            display: flex
+            align-items: center
+            grid-gap: 5px
+
+        &-checkbox
+            width: 16px
+            height: 16px
+
+        &-label
+            margin-bottom: 0
+            cursor: pointer
+            user-select: none
+
     &__label
         margin: 0
         width: 100%

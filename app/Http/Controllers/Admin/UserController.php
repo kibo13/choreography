@@ -7,37 +7,31 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
-        // prod
-        // $users = User::whereIn('role_id', [2, 3])->get();
-        $sections = @sections();
-
-        // test
-        $users = User::where('username', '!=', 'kibo')->get();
+        $is_kibo        = Auth::user()->role_id;
+        $users          = $is_kibo == 1 ? User::get() : User::where('role_id', '>', 1)->get();
+        $sections       = @sections();
 
         return view(
             'admin.pages.users.index',
-            compact('users', 'sections')
+            compact('users','sections')
         );
     }
 
     public function create()
     {
-        // prod
-        // $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
-        $permissions = Permission::get();
-        $sections    = @sections();
-
-        // test
-        $roles = Role::get();
+        $sections       = @sections();
+        $roles          = Role::get();
+        $permissions    = Permission::get();
 
         return view(
             'admin.pages.users.form',
-            compact('roles', 'permissions', 'sections')
+            compact('sections', 'roles', 'permissions')
         );
     }
 
@@ -46,15 +40,7 @@ class UserController extends Controller
         $default_password = config('constants.password');
 
         $user = User::create([
-            'first_name'    => ucfirst($request['first_name']),
-            'last_name'     => ucfirst($request['last_name']),
-            'middle_name'   => ucfirst($request['middle_name']),
-            'birthday'      => $request['birthday'],
-            'age'           => @full_age($request['birthday']),
-            'phone'         => $request['phone'],
-            'email'         => $request['email'],
-            'address_fact'  => $request['address_fact'],
-            'username'      => @bk_rand('login', $request['last_name'], 5),
+            'username'      => $request['username'],
             'password'      => bcrypt($default_password),
             'role_id'       => $request['role_id']
         ]);
@@ -74,31 +60,22 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        // prod
-        // $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
-        $permissions = Permission::get();
-        $sections    = @sections();
-
-        // test
-        $roles = Role::get();
+        $sections       = @sections();
+        $roles          = Role::get();
+        $permissions    = Permission::get();
 
         return view(
             'admin.pages.users.form',
-            compact('user', 'roles', 'permissions', 'sections')
+            compact('user', 'sections', 'roles', 'permissions')
         );
     }
 
     public function update(Request $request, User $user)
     {
-        $user->first_name   = $request['first_name'];
-        $user->last_name    = $request['last_name'];
-        $user->middle_name  = $request['middle_name'];
-        $user->birthday     = $request['birthday'];
-        $user->age          = @full_age($request['birthday']);
-        $user->phone        = $request['phone'];
-        $user->email        = $request['email'];
-        $user->address_fact = $request['address_fact'];
-        $user->role_id      = $request['role_id'];
+        $user->update([
+            'username'      => $request['username'],
+            'role_id'       => $request['role_id']
+        ]);
 
         $user->permissions()->detach();
         if ($request->input('permissions')) :

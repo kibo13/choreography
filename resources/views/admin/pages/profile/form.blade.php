@@ -43,12 +43,21 @@
                 </div>
 
                 <!-- fio -->
+                @if($user->role_id > 2)
                 <div class="bk-form__field">
                     <label class="bk-form__label">
                         {{ __('_field.fio') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->last_name . ' ' . $user->first_name . ' ' . $user->middle_name }}
+                        @if($user->role_id == 5)
+                        {{ $user->member->last_name }}
+                        {{ $user->member->first_name }}
+                        {{ $user->member->middle_name }}
+                        @else
+                        {{ $user->worker->last_name }}
+                        {{ $user->worker->first_name }}
+                        {{ $user->worker->middle_name }}
+                        @endif
                     </div>
                 </div>
 
@@ -58,7 +67,11 @@
                         {{ __('_field.birthday') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record(@getDMY($user->birthday), __('_record.no')) }}
+                        @if($user->role_id == 5)
+                        {{ @no_record(@getDMY($user->member->birthday), __('_record.no')) }}
+                        @else
+                        {{ @no_record(@getDMY($user->worker->birthday), __('_record.no')) }}
+                        @endif
                     </div>
                 </div>
 
@@ -68,7 +81,11 @@
                         {{ __('_field.phone') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->phone, __('_record.no')) }}
+                        @if($user->role_id == 5)
+                        {{ @no_record($user->member->phone, __('_record.no')) }}
+                        @else
+                        {{ @no_record($user->worker->phone, __('_record.no')) }}
+                        @endif
                     </div>
                 </div>
 
@@ -78,7 +95,11 @@
                         {{ __('_field.email') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->email, __('_record.no')) }}
+                        @if($user->role_id == 5)
+                        {{ @no_record($user->member->email, __('_record.no')) }}
+                        @else
+                        {{ @no_record($user->worker->email, __('_record.no')) }}
+                        @endif
                     </div>
                 </div>
 
@@ -88,9 +109,14 @@
                         {{ __('_field.address_fact') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->address_fact, __('_record.no')) }}
+                        @if($user->role_id == 5)
+                        {{ @no_record($user->member->address_fact, __('_record.no')) }}
+                        @else
+                        {{ @no_record($user->worker->address_fact, __('_record.no')) }}
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 <!-- password -->
                 <div class="bk-form__field">

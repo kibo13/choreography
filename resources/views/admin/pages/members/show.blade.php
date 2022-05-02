@@ -1,18 +1,17 @@
 @extends('admin.index')
-@section('title-admin', __('_section.customers'))
+@section('title-admin', __('_section.members'))
 @section('content-admin')
-    <section id="customers-show" class="overflow-auto">
-        <h3>{{ __('_action.show') }}</h3>
-
+    <section id="members-show" class="overflow-auto">
+        <h3>{{ __('_section.info') }}</h3>
         <div class="bk-form">
             <div class="bk-form__wrapper">
-                <!-- nickname -->
+                <!-- username -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
                         {{ __('_field.username') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->username }}
+                        {{ $member->user->username }}
                     </div>
                 </div>
 
@@ -22,7 +21,7 @@
                         {{ __('_field.fio') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->last_name . ' ' . $user->first_name . ' ' . $user->middle_name }}
+                        {{ $member->last_name . ' ' . $member->first_name . ' ' . $member->middle_name }}
                     </div>
                 </div>
 
@@ -32,7 +31,7 @@
                         {{ __('_field.phone') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->phone }}
+                        {{ $member->phone }}
                     </div>
                 </div>
 
@@ -42,7 +41,7 @@
                         {{ __('_field.email') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->email, __('_record.no')) }}
+                        {{ @no_record($member->email, __('_record.no')) }}
                     </div>
                 </div>
 
@@ -52,7 +51,7 @@
                         {{ __('_field.birthday') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @getDMY($user->birthday) }}
+                        {{ @getDMY($member->birthday) }}
                     </div>
                 </div>
 
@@ -62,7 +61,7 @@
                         {{ __('_field.age') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->age }}
+                        {{ $member->age }}
                     </div>
                 </div>
 
@@ -72,9 +71,9 @@
                         {{ __('_field.docs') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $user->doc_type == 1 ? __('_field.passport') : __('_field.id_card') }}
-                        {{ $user->doc_num }}
-                        {{ ' от ' . @getDMY($user->doc_date) }}
+                        {{ $member->doc_type == 1 ? __('_field.passport') : __('_field.id_card') }}
+                        {{ $member->doc_num }}
+                        {{ ' от ' . @getDMY($member->doc_date) }}
                     </div>
                 </div>
 
@@ -84,9 +83,9 @@
                         {{ __('_field.address_doc') }}
                     </label>
                     <div class="bk-form__text">
-                        @if($user->address_doc)
+                        @if($member->address_doc)
                         <a class="text-lowercase text-primary"
-                           href="{{ asset('assets/' . $user->address_doc ) }}"
+                           href="{{ asset('assets/' . $member->address_doc ) }}"
                            target="_blank">
                             {{ __('_action.look') }}
                         </a>
@@ -104,7 +103,7 @@
                         {{ __('_field.address_fact') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->address_fact, __('_record.no')) }}
+                        {{ @no_record($member->address_fact, __('_record.no')) }}
                     </div>
                 </div>
 
@@ -114,12 +113,12 @@
                         {{ __('_field.activity') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @no_record($user->activity, __('_record.no')) }}
+                        {{ @no_record($member->activity, __('_record.no')) }}
                     </div>
                 </div>
 
                 <div class="mt-1 mb-0 form-group">
-                    <a class="btn btn-outline-secondary" href="{{ route('admin.customers.index') }}">
+                    <a class="btn btn-outline-secondary" href="{{ route('admin.members.index') }}">
                         {{ __('_action.back') }}
                     </a>
                 </div>

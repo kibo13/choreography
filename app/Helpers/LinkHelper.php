@@ -19,7 +19,7 @@ function is_access($permission)
     return Auth::user()->permissions()->pluck('slug')->contains($permission);
 }
 
-function is_info($permission)
+function is_setting($permission)
 {
-    return Auth::user()->permissions()->pluck('info')->contains($permission);
+    return Auth::user()->permissions()->pluck('is_setting')->contains($permission);
 }

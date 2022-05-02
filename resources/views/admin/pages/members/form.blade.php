@@ -1,15 +1,15 @@
 @extends('admin.index')
-@section('title-admin', __('_section.customers'))
+@section('title-admin', __('_section.members'))
 @section('content-admin')
-    <section id="customers-form" class="overflow-auto is-validation">
-        <h3>{{ @form_title($user) }}</h3>
+    <section id="members-form" class="overflow-auto is-validation">
+        <h3>{{ @form_title($member) }}</h3>
         <form class="bk-form"
-              action="{{ @is_update($user, 'admin.customers') }}"
+              action="{{ @is_update($member, 'admin.members') }}"
               method="POST"
               enctype="multipart/form-data">
             <div class="bk-form__wrapper">
                 @csrf
-                @isset($user) @method('PUT') @endisset
+                @isset($member) @method('PUT') @endisset
 
                 <!-- last_name -->
                 <div class="bk-form__field">
@@ -20,8 +20,7 @@
                            id="last_name"
                            type="text"
                            name="last_name"
-                           value="{{ isset($user) ? $user->last_name : null }}"
-                           placeholder="Например: Жолмурзаева"
+                           value="{{ isset($member) ? $member->last_name : null }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -35,8 +34,7 @@
                            id="first_name"
                            type="text"
                            name="first_name"
-                           value="{{ isset($user) ? $user->first_name : null }}"
-                           placeholder="Например: Карина"
+                           value="{{ isset($member) ? $member->first_name : null }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -50,7 +48,7 @@
                            id="middle_name"
                            type="text"
                            name="middle_name"
-                           value="{{ isset($user) ? $user->middle_name : null }}"
+                           value="{{ isset($member) ? $member->middle_name : null }}"
                            autocomplete="off"/>
                 </div>
 
@@ -63,7 +61,7 @@
                         <option value="" disabled selected>{{ __('_select.doc') }}</option>
                         @foreach($docs as $index => $doc)
                         <option value="{{ $index }}"
-                                @isset($user) @if($user->doc_type == $index)
+                                @isset($member) @if($member->doc_type == $index)
                                 selected
                                 @endif @endisset>
                             {{ $doc }}
@@ -81,7 +79,7 @@
                            id="doc_num"
                            type="text"
                            name="doc_num"
-                           value="{{ isset($user) ? $user->doc_num : null }}"
+                           value="{{ isset($member) ? $member->doc_num : null }}"
                            maxlength="10"
                            required
                            autocomplete="off"/>
@@ -96,7 +94,7 @@
                            id="doc_date"
                            type="date"
                            name="doc_date"
-                           value="{{ isset($user) ? $user->doc_date : null }}"
+                           value="{{ isset($member) ? $member->doc_date : null }}"
                            required/>
                 </div>
 
@@ -109,7 +107,7 @@
                            id="birthday"
                            type="date"
                            name="birthday"
-                           value="{{ isset($user) ? $user->birthday : null }}"
+                           value="{{ isset($member) ? $member->birthday : null }}"
                            required/>
                 </div>
 
@@ -121,7 +119,7 @@
                     <input class="bk-form__input bk-max-w-300"
                            id="upload-file"
                            type="text"
-                           value="{{ isset($user->address_doc) ? $user->address_note : null }}"
+                           value="{{ isset($member->address_doc) ? $member->address_note : null }}"
                            placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
@@ -140,7 +138,7 @@
                            id="address_fact"
                            type="text"
                            name="address_fact"
-                           value="{{ isset($user) ? $user->address_fact : null }}"/>
+                           value="{{ isset($member) ? $member->address_fact : null }}"/>
                 </div>
 
                 <!-- phone -->
@@ -154,7 +152,7 @@
                            id="phone"
                            type="tel"
                            name="phone"
-                           value="{{ isset($user) ? $user->phone : null }}"
+                           value="{{ isset($member) ? $member->phone : null }}"
                            pattern="[+]7 [0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}"
                            maxlength="16"
                            required
@@ -171,7 +169,7 @@
                            id="email"
                            type="email"
                            name="email"
-                           value="{{ isset($user) ? $user->email : null }}"
+                           value="{{ isset($member) ? $member->email : null }}"
                            autocomplete="off"/>
                 </div>
 
@@ -184,14 +182,14 @@
                            id="activity"
                            type="text"
                            name="activity"
-                           value="{{ isset($user) ? $user->activity : null }}"/>
+                           value="{{ isset($member) ? $member->activity : null }}"/>
                 </div>
 
                 <div class="mt-1 mb-0 form-group">
                     <button class="btn btn-outline-success">
                         {{ __('_action.save') }}
                     </button>
-                    <a class="btn btn-outline-secondary" href="{{ route('admin.customers.index') }}">
+                    <a class="btn btn-outline-secondary" href="{{ route('admin.members.index') }}">
                         {{ __('_action.back') }}
                     </a>
                 </div>

@@ -1,7 +1,7 @@
 @extends('admin.index')
 @section('title-admin', __('_section.users'))
 @section('content-admin')
-    <section id="users-form" class="overflow-auto is-validation">
+    <section id="users-form" class="overflow-auto">
         <h3>{{ @form_title($user) }}</h3>
         <form class="bk-form"
               action="{{ @is_update($user, 'admin.users') }}"
@@ -10,104 +10,18 @@
                 @csrf
                 @isset($user) @method('PUT') @endisset
 
-                <!-- last_name -->
+                <!-- username -->
                 <div class="bk-form__field">
-                    <label class="bk-form__label" for="last_name">
-                        {{ __('_field.last_name') }} {{ @mandatory() }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 is-string"
-                           id="last_name"
-                           type="text"
-                           name="last_name"
-                           value="{{ isset($user) ? $user->last_name : null }}"
-                           placeholder="Например: Жолмурзаева"
-                           required
-                           autocomplete="off"/>
-                </div>
-
-                <!-- first_name -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="first_name">
-                        {{ __('_field.first_name') }} {{ @mandatory() }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 is-string"
-                           id="first_name"
-                           type="text"
-                           name="first_name"
-                           value="{{ isset($user) ? $user->first_name : null }}"
-                           placeholder="Например: Карина"
-                           required
-                           autocomplete="off"/>
-                </div>
-
-                <!-- middle_name -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="middle_name">
-                        {{ __('_field.middle_name') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 is-string"
-                           id="middle_name"
-                           type="text"
-                           name="middle_name"
-                           value="{{ isset($user) ? $user->middle_name : null }}"
-                           autocomplete="off"/>
-                </div>
-
-                <!-- birthday -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="birthday">
-                        {{ __('_field.birthday') }} {{ @mandatory() }}
+                    <label class="bk-form__label" for="username">
+                        {{ __('_field.username') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
-                           id="birthday"
-                           type="date"
-                           name="birthday"
-                           value="{{ isset($user) ? $user->birthday : null }}"
-                           required/>
-                </div>
-
-                <!-- phone -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="phone">
-                        {{ __('_field.phone') }}
-                        {{ @mandatory() }}
-                        {{ @tip('+7 776 123 45 67') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 is-phone"
-                           id="phone"
-                           type="tel"
-                           name="phone"
-                           value="{{ isset($user) ? $user->phone : null }}"
-                           pattern="[+]7 [0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}"
-                           maxlength="16"
+                           id="username"
+                           type="text"
+                           name="username"
+                           value="{{ isset($user) ? $user->username : null }}"
                            required
                            autocomplete="off"/>
-                </div>
-
-                <!-- email -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="email">
-                        {{ __('_field.email') }}
-                        {{ @tip('example@dance.ru') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300"
-                           id="email"
-                           type="email"
-                           name="email"
-                           value="{{ isset($user) ? $user->email : null }}"
-                           autocomplete="off"/>
-                </div>
-
-                <!-- address_fact -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="address_fact">
-                        {{ __('_field.address_fact') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300"
-                           id="address_fact"
-                           type="text"
-                           name="address_fact"
-                           value="{{ isset($user) ? $user->address_fact : null }}"/>
                 </div>
 
                 <!-- role -->

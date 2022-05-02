@@ -4,7 +4,7 @@
     <section id="specialties-index" class="overflow-auto">
         <h3>{{ __('_section.specialties') }}</h3>
 
-        @if(@is_access('sp_full'))
+        @if(@is_access('specialty_full'))
         <div class="my-2 btn-group">
             <a class="btn btn-primary" href="{{ route('admin.specialties.create') }}">
                 {{ __('_record.new') }}
@@ -26,7 +26,7 @@
                     <th class="w-25 bk-min-w-150">{{ __('_field.name') }}</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.sign') }}</th>
                     <th class="w-50 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
-                    @if(@is_access('sp_full'))
+                    @if(@is_access('specialty_full'))
                     <th class="no-sort">{{ __('_action.this') }}</th>
                     @endif
                 </tr>
@@ -38,7 +38,7 @@
                     <td>{{ $specialty->name }}</td>
                     <td>{{ $specialty->sign }}</td>
                     <td>{{ $specialty->note }}</td>
-                    @if(@is_access('sp_full'))
+                    @if(@is_access('specialty_full'))
                     <td>
                         <div class="bk-btn-actions">
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"

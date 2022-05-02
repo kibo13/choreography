@@ -22,23 +22,23 @@
                 </li>
                 @endif
 
-                @if(@is_info('1'))
+                @if(@is_setting('1'))
                 <li class="nav-item dropdown">
-                    <a class="nav-link pr-3" href="#" data-toggle="dropdown">
-                        {{ __('_section.info') }}
+                    <a class="nav-link" href="#" data-toggle="dropdown">
+                        {{ __('_section.settings') }}
                     </a>
                     <div class="navbar-dropdown-menu dropdown-menu">
+                        @if(@is_access('worker_read'))
+                        <a class="dropdown-item" href="{{ route('admin.workers.index') }}">
+                            {{ __('_section.workers') }}
+                        </a>
+                        @endif
                         @if(@is_access('group_read'))
                         <a class="dropdown-item" href="{{ route('admin.groups.index') }}">
                             {{ __('_section.groups') }}
                         </a>
                         @endif
-                        @if(@is_access('lesson_read'))
-                        <a class="dropdown-item" href="{{ route('admin.lessons.index') }}">
-                            {{ __('_section.lessons') }}
-                        </a>
-                        @endif
-                        @if(@is_access('sp_read'))
+                        @if(@is_access('specialty_read'))
                         <a class="dropdown-item" href="{{ route('admin.specialties.index') }}">
                             {{ __('_section.specialties') }}
                         </a>
@@ -59,7 +59,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link pr-3" href="#" data-toggle="dropdown">
-                        {{ @short_fio(Auth::user()->id) }}
+                        {{ Auth::user()->username }}
                     </a>
                     <form class="navbar-dropdown-menu dropdown-menu"
                           action="{{ route('logout') }}"

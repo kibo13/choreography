@@ -4,14 +4,14 @@
     <section id="groups-index" class="overflow-auto">
         <h3>{{ __('_section.groups') }}</h3>
 
-        @if(@is_access('group_full') || @is_access('name_read'))
+        @if(@is_access('group_full') || @is_access('title_read'))
         <div class="my-2 btn-group">
             @if(@is_access('group_full'))
             <a class="btn btn-primary" href="{{ route('admin.groups.create') }}">
                 {{ __('_record.new') }}
             </a>
             @endif
-            @if(@is_access('name_read'))
+            @if(@is_access('title_read'))
             <a class="btn btn-secondary" href="{{ route('admin.titles.index') }}">
                 {{ __('_section.titles') }}
             </a>

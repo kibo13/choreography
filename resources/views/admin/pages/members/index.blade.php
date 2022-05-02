@@ -1,12 +1,12 @@
 @extends('admin.index')
-@section('title-admin', __('_section.lessons'))
+@section('title-admin', __('_section.members'))
 @section('content-admin')
-    <section id="lessons-index" class="overflow-auto">
-        <h3>{{ __('_section.lessons') }}</h3>
+    <section id="members-index" class="overflow-auto">
+        <h3>{{ __('_section.members') }}</h3>
 
-        @if(@is_access('lesson_full'))
+        @if(@is_access('member_full'))
         <div class="my-2 btn-group">
-            <a class="btn btn-primary" href="{{ route('admin.lessons.create') }}">
+            <a class="btn btn-primary" href="{{ route('admin.members.create') }}">
                 {{ __('_record.new') }}
             </a>
         </div>
@@ -23,36 +23,39 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.name') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.sign') }}</th>
-                    <th class="w-50 bk-min-w-200 no-sort">{{ __('_field.note') }}</th>
-                    @if(@is_access('lesson_full'))
+                    <th class="w-25 bk-min-w-150">{{ __('_field.fio') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.age') }}</th>
+                    <th class="w-25 no-sort bk-min-w-150">{{ __('_field.phone') }}</th>
+                    <th class="w-25 no-sort bk-min-w-150">{{ __('_field.address') }}</th>
                     <th class="no-sort">{{ __('_action.this') }}</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
-            @foreach($lessons as $index => $lesson)
+            @foreach($members as $index => $member)
                 <tr>
                     <td>{{ ++$index }}</td>
-                    <td>{{ $lesson->name }}</td>
-                    <td>{{ $lesson->sign }}</td>
-                    <td>{{ $lesson->note }}</td>
-                    @if(@is_access('lesson_full'))
+                    <td>{{ @full_fio('member', $member->id) }}</td>
+                    <td>{{ $member->age }}</td>
+                    <td>{{ $member->phone }}</td>
+                    <td>{{ $member->address_fact }}</td>
                     <td>
                         <div class="bk-btn-actions">
+                            <a class="bk-btn-action bk-btn-action--info btn btn-info"
+                               href="{{ route('admin.members.show', $member) }}"
+                               data-tip="{{ __('_action.show') }}" ></a>
+                            @if(@is_access('member_full'))
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
-                               href="{{ route('admin.lessons.edit', $lesson) }}"
+                               href="{{ route('admin.members.edit', $member) }}"
                                data-tip="{{ __('_action.edit') }}" ></a>
                             <a class="bk-btn-action bk-btn-action--delete btn btn-danger"
                                href="javascript:void(0)"
-                               data-id="{{ $lesson->id }}"
+                               data-id="{{ $member->id }}"
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}" ></a>
+                            @endif
                         </div>
                     </td>
-                    @endif
                 </tr>
             @endforeach
             </tbody>
