@@ -13,9 +13,14 @@ class UserController extends Controller
 {
     public function index()
     {
-        $is_kibo        = Auth::user()->role_id;
-        $users          = $is_kibo == 1 ? User::get() : User::where('role_id', '>', 1)->get();
-        $sections       = @sections();
+        if (Auth::user()->role_id == 1) {
+            $users = User::orderBy('role_id')->get();
+        }
+        else {
+            $users = User::where('role_id', '>', 1)->orderBy('role_id')->get();
+        }
+
+        $sections = @sections();
 
         return view(
             'admin.pages.users.index',
@@ -26,8 +31,7 @@ class UserController extends Controller
     public function create()
     {
         $sections       = @sections();
-        $is_kibo        = Auth::user()->role_id;
-        $roles          = $is_kibo == 1 ? Role::get() : Role::where('id', '>', 1)->get();
+        $roles          = Auth::user()->role_id == 1 ? Role::get() : Role::where('id', '>', 1)->get();
         $permissions    = Permission::get();
 
         return view(
@@ -62,8 +66,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $sections       = @sections();
-        $is_kibo        = Auth::user()->role_id;
-        $roles          = $is_kibo == 1 ? Role::get() : Role::where('id', '>', 1)->get();
+        $roles          = Auth::user()->role_id == 1 ? Role::get() : Role::where('id', '>', 1)->get();
         $permissions    = Permission::get();
 
         return view(
@@ -80,9 +83,9 @@ class UserController extends Controller
         ]);
 
         $user->permissions()->detach();
-        if ($request->input('permissions')) :
+        if ($request->input('permissions')) {
             $user->permissions()->attach($request->input('permissions'));
-        endif;
+        }
 
         $user->save();
 

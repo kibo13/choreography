@@ -38,8 +38,15 @@ class WorkerController extends Controller
             'role_id'       => $request['role_id'],
         ]);
 
-        // TODO: keep track sections
-//        $user->permissions()->attach([1, 2, 9, 10]);
+        // TODO: head
+        if ($user->role_id == 3) {
+            $user->permissions()->attach([3, 4, 11, 12, 13, 14, 17, 18]);
+        }
+
+        // TODO: manager
+        if ($user->role_id == 4) {
+            $user->permissions()->attach([15, 16]);
+        }
 
         $worker = Worker::create([
             'user_id'       => $user->id,
@@ -53,9 +60,9 @@ class WorkerController extends Controller
             'address'       => $request['address'],
         ]);
 
-        if ($request->input('groups')) :
+        if ($request->input('groups')) {
             $worker->groups()->attach($request->input('groups'));
-        endif;
+        }
 
         $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.workers.index');
@@ -88,9 +95,11 @@ class WorkerController extends Controller
         ]);
 
         $worker->groups()->detach();
-        if ($request->input('groups')) :
+
+        if ($request->input('groups')) {
             $worker->groups()->attach($request->input('groups'));
-        endif;
+        }
+
         $worker->save();
 
         $request->session()->flash('success', __('_record.updated'));
