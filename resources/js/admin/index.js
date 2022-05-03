@@ -14,6 +14,7 @@ require('./components/image')
 
 // custom
 require('./custom/validation')
+require('./custom/calculation')
 
 // pages
 require('./pages/users')
