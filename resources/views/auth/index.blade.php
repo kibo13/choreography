@@ -15,15 +15,17 @@
                 </a>
             </div>
             <h3 class="mai-title">
-                {{ env('APP_FULLNAME') }}
+                Автоматизированная информационная система учета деятельности
+                руководителей клубных формирований хореографических коллективов
+                городского дворца культуры
             </h3>
             <ul class="mai-contributors">
                 <li class="mai-contributors__member">
-                    <p class="mai-contributors__position">руководитель:</p>
+                    <p class="mai-contributors__position">Руководитель:</p>
                     <p class="mai-contributors__fio">Н.Н. Кулепетова</p>
                 </li>
                 <li class="mai-contributors__member">
-                    <p class="mai-contributors__position">разработчик:</p>
+                    <p class="mai-contributors__position">Разработчик:</p>
                     <p class="mai-contributors__fio">К.С. Жолмурзаева</p>
                 </li>
             </ul>
