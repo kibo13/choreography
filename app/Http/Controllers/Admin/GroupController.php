@@ -7,14 +7,24 @@ use App\Models\Group;
 use App\Models\Title;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
     public function index()
     {
-        $titles         = Title::get();
+        $user   = Auth::user();
 
-        return view('admin.pages.groups.index', compact('titles'));
+        if ($user->role_id == 3) {
+            $worker = $user->worker->groups->pluck('title_id');
+            $titles = Title::whereIn('id', $worker)->get();
+            $groups = $user->worker->groups;
+        } else {
+            $titles = Title::get();
+            $groups = false;
+        }
+
+        return view('admin.pages.groups.index', compact('titles', 'groups'));
     }
 
     public function create()
