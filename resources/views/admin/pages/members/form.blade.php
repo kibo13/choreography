@@ -52,6 +52,31 @@
                            autocomplete="off"/>
                 </div>
 
+                <!-- group_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="group_id">
+                        {{ __('_field.group') }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="group_id"
+                            name="group_id"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.group') }}</option>
+                        @foreach($groups as $group)
+                        <option value="{{ $group->id }}"
+                                data-from="{{ $group->age_from }}"
+                                data-till="{{ $group->age_till }}"
+                                @isset($member) @if($member->group_id == $group->id)
+                                selected
+                                @endif @endisset>
+                            {{ $group->title->name }}
+                            {{ $group->category->name }}
+                            {{ $group->age_from . '-' . $group->age_till . ' лет' }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- doc_type -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_type">

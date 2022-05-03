@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -19,9 +20,13 @@ class MemberController extends Controller
 
     public function create()
     {
-        $docs = config('constants.docs');
+        $groups = Auth::user()->worker->groups;
+        $docs   = config('constants.docs');
 
-        return view('admin.pages.members.form', compact('docs'));
+        return view(
+            'admin.pages.members.form',
+            compact('groups', 'docs')
+        );
     }
 
     public function store(Request $request)
@@ -42,8 +47,8 @@ class MemberController extends Controller
             'role_id'       => 5,
         ]);
 
-        // TODO: keep track sections
-//        $user->permissions()->attach([1, 2, 9, 10]);
+        // TODO: client
+        $user->permissions()->attach([19, 20]);
 
         Member::create([
             'user_id'       => $user->id,
@@ -74,9 +79,13 @@ class MemberController extends Controller
 
     public function edit(Member $member)
     {
-        $docs = config('constants.docs');
+        $groups = Auth::user()->worker->groups;
+        $docs   = config('constants.docs');
 
-        return view('admin.pages.members.form', compact('member', 'docs'));
+        return view(
+            'admin.pages.members.form',
+            compact('member', 'groups', 'docs')
+        );
     }
 
     public function update(Request $request, Member $member)

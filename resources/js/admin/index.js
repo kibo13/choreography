@@ -19,3 +19,4 @@ require('./custom/calculation')
 // pages
 require('./pages/users')
 require('./pages/groups')
+require('./pages/members')
