@@ -42,11 +42,11 @@
                     <th class="text-center bk-min-w-100" title="{{ __('_field.group') }}">
                         Гр {{ @fa('fa-info-circle') }}
                     </th>
-                    <th class="text-center bk-min-w-100" title="{{ __('_field.basic_seats') }}">
-                        ОМ {{ @fa('fa-info-circle') }}
+                    <th class="text-center bk-min-w-100" title="{{ __('_field.free_seats') }}">
+                        БМ {{ @fa('fa-info-circle') }}
                     </th>
-                    <th class="text-center bk-min-w-100" title="{{ __('_field.extra_seats') }}">
-                        ДМ {{ @fa('fa-info-circle') }}
+                    <th class="text-center bk-min-w-100" title="{{ __('_field.paid_seats') }}">
+                        ПМ {{ @fa('fa-info-circle') }}
                     </th>
                     <th class="text-center bk-min-w-100">
                         от

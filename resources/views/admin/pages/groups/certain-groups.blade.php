@@ -15,7 +15,7 @@
             {{ $group->category->name }}
         </td>
         <td class="align-middle text-center">
-            {{ $group->basic_seats }}
+            {{ $group->basic_seats ? $group->basic_seats : '-' }}
         </td>
         <td class="align-middle text-center">
             {{ $group->extra_seats ? $group->extra_seats : '-' }}
