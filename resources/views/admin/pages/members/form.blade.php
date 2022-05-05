@@ -3,6 +3,13 @@
 @section('content-admin')
     <section id="members-form" class="overflow-auto is-validation">
         <h3>{{ @form_title($member) }}</h3>
+
+        @if(session()->has('warning'))
+        <div class="my-2 alert alert-warning" role="alert">
+            {{ session()->get('warning') }}
+        </div>
+        @endif
+
         <form class="bk-form"
               action="{{ @is_update($member, 'admin.members') }}"
               method="POST"

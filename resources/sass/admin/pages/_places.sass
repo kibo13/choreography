@@ -1,0 +1,44 @@
+.bk-places
+    &-mark
+        margin: 5px 0
+        display: flex
+        align-items: center
+        grid-gap: 10px
+
+    &-group
+        margin-top: 15px
+        margin-bottom: 0
+
+    &-row
+        display: grid
+        grid-template-columns: repeat(auto-fill, minmax(35px, 1fr))
+        grid-gap: 5px
+
+    &-cell
+        position: relative
+        width: 35px
+        height: 35px
+        display: flex
+        justify-content: center
+        align-items: center
+        font-size: $text-sm
+        border: $border-gray
+        border-radius: 4px
+
+        &--free
+            color: $dark
+            background-color: transparent
+            border: 2px solid $success
+        &--free-fill
+            color: $white
+            background-color: $success
+            border: 2px solid $success
+        &--paid
+            color: $dark
+            background-color: transparent
+            border: 2px solid $info
+        &--paid-fill
+            color: $white
+            background-color: $info
+            border: 2px solid $info
+

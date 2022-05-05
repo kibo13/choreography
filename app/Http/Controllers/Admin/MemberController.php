@@ -11,16 +11,45 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
-    public function index()
+    private function worker()
     {
-        $members = Member::get();
-
-        return view('admin.pages.members.index', compact('members'));
+        return Auth::user()->worker;
     }
 
-    public function create()
+    public function index(Request $request)
     {
-        $groups = Auth::user()->worker->groups;
+        switch (Auth::user()->role_id) {
+            case 1:
+            case 2:
+                $groups  = [];
+                $members = Member::get();
+                break;
+
+            case 3:
+                $groups  = $this->worker()->groups;
+                $members = [];
+                break;
+
+            case 4:
+            case 5:
+                $groups  = [];
+                $members = [];
+                $request->session()->flash('warning', __('_dialog.groups'));
+                break;
+        }
+
+        return view('admin.pages.members.index', compact('groups', 'members'));
+    }
+
+    public function create(Request $request)
+    {
+        if (is_null($this->worker())) {
+            $request->session()->flash('warning', __('_dialog.groups'));
+            $groups = [];
+        } else {
+            $groups = $this->worker()->groups;
+        }
+
         $docs   = config('constants.docs');
 
         return view(
@@ -78,9 +107,15 @@ class MemberController extends Controller
         return view('admin.pages.members.show', compact('member'));
     }
 
-    public function edit(Member $member)
+    public function edit(Request $request, Member $member)
     {
-        $groups = Auth::user()->worker->groups;
+        if (is_null($this->worker())) {
+            $request->session()->flash('warning', __('_dialog.groups'));
+            $groups = [];
+        } else {
+            $groups = $this->worker()->groups;
+        }
+
         $docs   = config('constants.docs');
 
         return view(

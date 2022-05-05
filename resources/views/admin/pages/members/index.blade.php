@@ -18,47 +18,35 @@
         </div>
         @endif
 
-        <table id="is-datatable"
-               class="dataTables table table-bordered table-hover table-responsive">
-            <thead class="thead-light">
-                <tr>
-                    <th>#</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.fio') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.age') }}</th>
-                    <th class="w-25 no-sort bk-min-w-150">{{ __('_field.phone') }}</th>
-                    <th class="w-25 no-sort bk-min-w-150">{{ __('_field.address') }}</th>
-                    <th class="no-sort">{{ __('_action.this') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($members as $index => $member)
-                <tr>
-                    <td>{{ ++$index }}</td>
-                    <td>{{ @full_fio('member', $member->id) }}</td>
-                    <td>{{ $member->age }}</td>
-                    <td>{{ $member->phone }}</td>
-                    <td>{{ $member->address_fact }}</td>
-                    <td>
-                        <div class="bk-btn-actions">
-                            <a class="bk-btn-action bk-btn-action--info btn btn-info"
-                               href="{{ route('admin.members.show', $member) }}"
-                               data-tip="{{ __('_action.show') }}" ></a>
-                            @if(@is_access('member_full'))
-                            <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
-                               href="{{ route('admin.members.edit', $member) }}"
-                               data-tip="{{ __('_action.edit') }}" ></a>
-                            <a class="bk-btn-action bk-btn-action--delete btn btn-danger"
-                               href="javascript:void(0)"
-                               data-id="{{ $member->id }}"
-                               data-toggle="modal"
-                               data-target="#bk-delete-modal"
-                               data-tip="{{ __('_action.delete') }}" ></a>
-                            @endif
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+        @if(session()->has('warning'))
+        <div class="my-2 alert alert-warning" role="alert">
+            {{ session()->get('warning') }}
+        </div>
+        @endif
+
+        <div class="bk-tabs">
+            <input class="bk-tabs__input bk-tab-1"
+                   id="tab-1"
+                   type="radio"
+                   name="tab"
+                   checked>
+            <label class="bk-tabs__label" for="tab-1">
+                {{ __('_field.places') }}
+            </label>
+            <input class="bk-tabs__input bk-tab-2"
+                   id="tab-2"
+                   type="radio"
+                   name="tab">
+            <label class="bk-tabs__label" for="tab-2">
+                {{ __('_field.list') }}
+            </label>
+            <div class="bk-tabs__content bk-tab-content-1">
+                @include('admin.pages.members.places')
+            </div>
+            <div class="bk-tabs__content bk-tab-content-2">
+                @include('admin.pages.members.table')
+            </div>
+        </div>
+
     </section>
 @endsection
