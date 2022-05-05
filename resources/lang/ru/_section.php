@@ -21,4 +21,5 @@ return [
     'specialties'           => 'Специализации',
     'rooms'                 => 'Помещения',
     'settings'              => 'Настройки',
+    'places'                => 'Места',
 ];
