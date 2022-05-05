@@ -25,6 +25,17 @@
                     </div>
                 </div>
 
+                <!-- group_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.group') }}
+                        {{ @tip($member->group->category->name) }}
+                    </label>
+                    <div class="bk-form__text">
+                        {{ $member->group->title->name }}
+                    </div>
+                </div>
+
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">

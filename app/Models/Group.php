@@ -34,4 +34,9 @@ class Group extends Model
     {
         return $this->belongsToMany(Worker::class);
     }
+
+    public function members()
+    {
+        return $this->hasMany(Member::class);
+    }
 }

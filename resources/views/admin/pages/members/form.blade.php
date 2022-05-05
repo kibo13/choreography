@@ -55,7 +55,7 @@
                 <!-- group_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="group_id">
-                        {{ __('_field.group') }}
+                        {{ __('_field.group') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300"
                             id="group_id"
