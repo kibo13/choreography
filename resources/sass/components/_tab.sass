@@ -1,0 +1,31 @@
+.bk-tabs
+    &__input
+        display: none
+
+        &:checked + .bk-tabs__label
+            color: $white
+            background-color: $dark
+
+    &__label
+        margin-bottom: 0
+        padding: 5px
+        width: 100%
+        max-width: 100px
+        text-align: center
+        background-color: transparent
+        border: $border-gray
+        transition: all 0.15s ease-in-out
+        cursor: pointer
+        user-select: none
+
+        &:hover
+            color: $white
+            background-color: $dark
+
+    &__content
+        display: none
+        padding: 10px 0
+
+@each $index in (1, 2)
+    .bk-tab-#{$index}:checked ~ .bk-tab-content-#{$index}
+        display: block
