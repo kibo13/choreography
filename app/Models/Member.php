@@ -15,7 +15,7 @@ class Member extends Model
         'first_name',
         'last_name',
         'middle_name',
-        'doc_type',
+        'doc_id',
         'doc_num',
         'doc_date',
         'birthday',
@@ -27,6 +27,11 @@ class Member extends Model
         'phone',
         'email',
     ];
+
+    public function doc()
+    {
+        return $this->belongsTo(Doc::class);
+    }
 
     public function group()
     {

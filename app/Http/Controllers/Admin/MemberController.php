@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\User;
+use App\Models\Doc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,7 @@ class MemberController extends Controller
             $groups = $this->worker()->groups;
         }
 
-        $docs   = config('constants.docs');
+        $docs = Doc::get();
 
         return view(
             'admin.pages.members.form',
@@ -85,7 +86,7 @@ class MemberController extends Controller
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
             'group_id'      => $request['group_id'],
-            'doc_type'      => $request['doc_type'],
+            'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
             'birthday'      => $request['birthday'],
@@ -116,7 +117,7 @@ class MemberController extends Controller
             $groups = $this->worker()->groups;
         }
 
-        $docs   = config('constants.docs');
+        $docs = Doc::get();
 
         return view(
             'admin.pages.members.form',
@@ -140,7 +141,7 @@ class MemberController extends Controller
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
             'group_id'      => $request['group_id'],
-            'doc_type'      => $request['doc_type'],
+            'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
             'birthday'      => $request['birthday'],

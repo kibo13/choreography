@@ -82,7 +82,7 @@
                         {{ __('_field.docs') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $member->doc_type == 1 ? __('_field.passport') : __('_field.id_card') }}
+                        {{ $member->doc->name }}
                         {{ $member->doc_num }}
                         {{ ' от ' . @getDMY($member->doc_date) }}
                     </div>

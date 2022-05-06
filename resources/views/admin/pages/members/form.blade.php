@@ -84,19 +84,22 @@
                     </select>
                 </div>
 
-                <!-- doc_type -->
+                <!-- doc_id -->
                 <div class="bk-form__field">
-                    <label class="bk-form__label" for="doc_type">
+                    <label class="bk-form__label" for="doc_id">
                         {{ __('_field.doc_type') }} {{ @mandatory() }}
                     </label>
-                    <select class="bk-form__select bk-max-w-300" name="doc_type" required>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="doc_id"
+                            name="doc_id"
+                            required>
                         <option value="" disabled selected>{{ __('_select.doc') }}</option>
-                        @foreach($docs as $index => $doc)
-                        <option value="{{ $index }}"
-                                @isset($member) @if($member->doc_type == $index)
+                        @foreach($docs as $doc)
+                        <option value="{{ $doc->id }}"
+                                @isset($member) @if($member->doc_id == $doc->id)
                                 selected
                                 @endif @endisset>
-                            {{ $doc }}
+                            {{ $doc->name }}
                         </option>
                         @endforeach
                     </select>
