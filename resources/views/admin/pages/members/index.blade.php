@@ -31,20 +31,20 @@
                    name="tab"
                    checked>
             <label class="bk-tabs__label" for="tab-1">
-                {{ __('_field.places') }}
+                {{ __('_field.list') }}
             </label>
             <input class="bk-tabs__input bk-tab-2"
                    id="tab-2"
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-2">
-                {{ __('_field.list') }}
+                {{ __('_field.places') }}
             </label>
             <div class="bk-tabs__content bk-tab-content-1">
-                @include('admin.pages.members.places')
+                @include('admin.pages.members.table')
             </div>
             <div class="bk-tabs__content bk-tab-content-2">
-                @include('admin.pages.members.table')
+                @include('admin.pages.members.places')
             </div>
         </div>
 
