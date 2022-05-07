@@ -44,7 +44,7 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>{{ $title->name }}</td>
-                    <td>{{ $title->is_paid == 1 ? __('_field.paid') : __('_field.free') }}</td>
+                    <td>{{ $title->is_paid == 1 ? __('_field.paid_group') : __('_field.free_group') }}</td>
                     <td>{{ $title->specialty->name }}</td>
                     <td>
                         <div class="bk-btn-info">

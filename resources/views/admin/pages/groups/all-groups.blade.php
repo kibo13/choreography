@@ -9,7 +9,7 @@
                 {{ $title->specialty->name }}
             </p>
             <p class="m-0 text-info">
-                {{ $title->is_paid ? __('_field.paid') : __('_field.free')  }}
+                {{ $title->is_paid ? __('_field.paid_group') : __('_field.free_group')  }}
             </p>
         </td>
     </tr>

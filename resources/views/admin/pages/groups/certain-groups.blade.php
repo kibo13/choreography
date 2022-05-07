@@ -8,7 +8,7 @@
                 </strong>
             </p>
             <p class="m-0 text-info">
-                {{ $group->title->is_paid ? __('_field.paid') : __('_field.free')  }}
+                {{ $group->title->is_paid ? __('_field.paid_group') : __('_field.free_group')  }}
             </p>
         </td>
         <td class="align-middle text-center">

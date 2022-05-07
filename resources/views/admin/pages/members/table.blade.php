@@ -4,8 +4,8 @@
             <th>#</th>
             <th class="w-25 bk-min-w-150">{{ __('_field.member') }}</th>
             <th class="w-25 bk-min-w-200">{{ __('_field.group') }}</th>
-            <th class="w-25 bk-min-w-100">{{ __('_field.age') }}</th>
-            <th class="w-25 no-sort bk-min-w-250">{{ __('_field.contacts') }}</th>
+            <th class="w-25 bk-min-w-100">{{ __('_field.study') }}</th>
+            <th class="w-25 no-sort bk-min-w-250">{{ __('_field.info') }}</th>
             <th class="no-sort">{{ __('_action.this') }}</th>
         </tr>
     </thead>
@@ -22,19 +22,23 @@
                 <strong>{{ $member->group->title->name }}</strong>
                 {{ @tip($member->group->category->name) }}
             </td>
-            <td>{{ $member->age }}</td>
+            <td>{{ $member->form_study ? __('_field.paid') : __('_field.free') }}</td>
             <td>
                 <ul class="bk-btn-info">
                     <li>
-                        <strong>Телефон</strong>
+                        <strong>{{ __('_field.phone') }}</strong>
                         {{ $member->phone }}
                     </li>
                     <li>
-                        <strong>E-mail</strong>
+                        <strong>{{ __('_field.email') }}</strong>
                         {{ $member->email ? $member->email : '…' }}
                     </li>
                     <li>
-                        <strong>Адрес</strong>
+                        <strong>{{ __('_field.age') }}</strong>
+                        {{ $member->age . ' лет' }}
+                    </li>
+                    <li>
+                        <strong>{{ __('_field.address') }}</strong>
                         {{ $member->address_fact }}
                     </li>
                     {{ @fa('fa fa-eye bk-btn-info--fa') }}
@@ -72,19 +76,23 @@
                 <strong>{{ $member->group->title->name }}</strong>
                 {{ @tip($member->group->category->name) }}
             </td>
-            <td>{{ $member->age }}</td>
+            <td>{{ $member->form_study ? __('_field.paid') : __('_field.free') }}</td>
             <td>
                 <ul class="bk-btn-info">
                     <li>
-                        <strong>Телефон</strong>
+                        <strong>{{ __('_field.phone') }}</strong>
                         {{ $member->phone }}
                     </li>
                     <li>
-                        <strong>E-mail</strong>
+                        <strong>{{ __('_field.email') }}</strong>
                         {{ $member->email ? $member->email : '…' }}
                     </li>
                     <li>
-                        <strong>Адрес</strong>
+                        <strong>{{ __('_field.age') }}</strong>
+                        {{ $member->age . ' лет' }}
+                    </li>
+                    <li>
+                        <strong>{{ __('_field.address') }}</strong>
                         {{ $member->address_fact }}
                     </li>
                     {{ @fa('fa fa-eye bk-btn-info--fa') }}

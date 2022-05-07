@@ -35,7 +35,7 @@ class MemberController extends Controller
             case 5:
                 $groups  = [];
                 $members = [];
-                $request->session()->flash('warning', __('_dialog.groups'));
+                $request->session()->flash('warning', __('_dialog.group_null'));
                 break;
         }
 
@@ -45,7 +45,7 @@ class MemberController extends Controller
     public function create(Request $request)
     {
         if (is_null($this->worker())) {
-            $request->session()->flash('warning', __('_dialog.groups'));
+            $request->session()->flash('warning', __('_dialog.group_null'));
             $groups = [];
         } else {
             $groups = $this->worker()->groups;
@@ -111,7 +111,7 @@ class MemberController extends Controller
     public function edit(Request $request, Member $member)
     {
         if (is_null($this->worker())) {
-            $request->session()->flash('warning', __('_dialog.groups'));
+            $request->session()->flash('warning', __('_dialog.group_null'));
             $groups = [];
         } else {
             $groups = $this->worker()->groups;
