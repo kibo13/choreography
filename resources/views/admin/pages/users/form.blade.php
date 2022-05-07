@@ -52,7 +52,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
-                                <th class="w-50 text-left bk-min-w-200">{{ __('_section.this') }}</th>
+                                <th class="w-50 text-left bk-min-w-200">{{ __('_section.sections') }}</th>
                                 <th class="w-25 text-center bk-min-w-150">{{ __('_action.looking') }}</th>
                                 <th class="w-25 text-center bk-min-w-150">{{ __('_action.editing') }}</th>
                             </tr>
