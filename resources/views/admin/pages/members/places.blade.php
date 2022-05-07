@@ -28,17 +28,19 @@
 </h5>
 <hr class="my-2">
 <ul class="bk-places-row">
-@for($i = 1; $i <= $group->basic_seats + $group->extra_seats; $i++)
-    @if($i <= $group->members->count())
+@for($i = 1; $i <= $group->basic_seats; $i++)
+    @if($i <= $group->members->where('form_study', 0)->count())
     <li class="bk-places-cell bk-places-cell--free-fill">
         {{ $i }}
     </li>
-    @elseif($i <= $group->basic_seats)
+    @else
     <li class="bk-places-cell bk-places-cell--free">
         {{ $i }}
     </li>
-    @elseif($i > $group->basic_seats)
-    @if($group->members->count() - $i >= 0)
+    @endif
+@endfor
+@for($i = 1; $i <= $group->extra_seats; $i++)
+    @if($i <= $group->members->where('form_study', 1)->count())
     <li class="bk-places-cell bk-places-cell--paid-fill">
         {{ $i }}
     </li>
@@ -46,7 +48,6 @@
     <li class="bk-places-cell bk-places-cell--paid">
         {{ $i }}
     </li>
-    @endif
     @endif
 @endfor
 </ul>
