@@ -36,7 +36,7 @@
                         {{ __('_field.author') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ @full_fio($application->user_id) }}
+                        {{ @full_fio('member', $application->member_id) }}
                     </div>
                 </div>
 

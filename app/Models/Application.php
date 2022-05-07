@@ -11,16 +11,13 @@ class Application extends Model
 
     protected $fillable = [
         'num',
-        'user_id',
+        'member_id',
+        'group_id',
+        'worker_id',
         'topic',
         'desc',
         'file',
         'note',
         'status',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

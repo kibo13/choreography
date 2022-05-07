@@ -15,6 +15,7 @@ return [
     'discount'              => 'Скидка',
     'docs'                  => 'Документы',
     'email'                 => 'E-mail',
+    'executor'              => 'Исполнитель',
     'file'                  => 'Файл',
     'file_not'              => 'Файл не выбран',
     'floor'                 => 'Этаж',

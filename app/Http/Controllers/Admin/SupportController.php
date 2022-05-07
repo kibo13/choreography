@@ -13,7 +13,21 @@ class SupportController extends Controller
 {
     public function index()
     {
-        $applications = Application::where('user_id', Auth::user()->id)->get();
+        switch (Auth::user()->role_id)
+        {
+            case 1:
+            case 2:
+                $applications = Application::get();
+                break;
+
+            case 5:
+                $applications = Application::where('member_id', Auth::user()->member->id)->get();
+                break;
+
+            default:
+                $applications = [];
+                break;
+        }
 
         return view('admin.pages.support.index', compact('applications'));
     }
@@ -35,7 +49,8 @@ class SupportController extends Controller
 
         Application::create([
             'num'       => @bk_rand('number', null, 10),
-            'user_id'   => Auth::user()->id,
+            'member_id' => Auth::user()->member->id,
+            'group_id'  => Auth::user()->member->group_id,
             'topic'     => $request['topic'],
             'desc'      => $request['desc'],
             'file'      => $file_path ?? null ? $file_path : null,
@@ -68,6 +83,7 @@ class SupportController extends Controller
         }
 
         $application->update([
+            'group_id'  => Auth::user()->member->group_id,
             'topic'     => $request['topic'],
             'desc'      => $request['desc'],
             'file'      => $file_path ?? null ? $file_path : null,

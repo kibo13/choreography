@@ -4,12 +4,6 @@
     <section id="applications-index" class="overflow-auto">
         <h3>{{ __('_section.applications') }}</h3>
 
-        @if(session()->has('success'))
-        <div class="my-2 alert alert-success" role="alert">
-            {{ session()->get('success') }}
-        </div>
-        @endif
-
         <div class="my-2 bk-callout">
             <h5>Контроль заявок {{ @tip(@getToday()) }}</h5>
             <hr>
@@ -29,37 +23,43 @@
             </ul>
         </div>
 
+        @if(session()->has('success'))
+        <div class="my-2 alert alert-success" role="alert">
+            {{ session()->get('success') }}
+        </div>
+        @endif
+
         <table id="is-datatable"
                class="dataTables table table-bordered table-hover table-responsive">
             <thead class="thead-light">
-            <tr>
-                <th>#</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.num') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.created_at') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.topic') }}</th>
-                <th class="w-25 bk-min-w-150">{{ __('_field.status') }}</th>
-                <th class="bk-min-w-150">{{ __('_field.author') }}</th>
-                <th class="no-sort">{{ __('_action.this') }}</th>
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.num') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.created_at') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.author') }}</th>
+                    <th class="w-25 bk-min-w-150">{{ __('_field.executor') }}</th>
+                    <th class="bk-min-w-150">{{ __('_field.status') }}</th>
+                    <th class="no-sort">{{ __('_action.this') }}</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach($applications as $index => $application)
+            @foreach($applications as $index => $app)
                 <tr>
                     <td>{{ ++$index }}</td>
-                    <td>{{ $application->num }}</td>
-                    <td>{{ @getDMY($application->created_at) }}</td>
-                    <td>{{ $application->topic }}</td>
-                    <td>{{ @status($application->status) }}</td>
-                    <td>{{ @full_fio($application->user_id) }}</td>
+                    <td>{{ $app->num }}</td>
+                    <td>{{ @getDMY($app->created_at) }}</td>
+                    <td>{{ @full_fio('member', $app->member_id) }}</td>
+                    <td>{{ $app->status ? @full_fio('worker', $app->worker_id) : '-' }}</td>
+                    <td>{{ @status($app->status) }}</td>
                     <td>
                         <div class="bk-btn-actions">
                             <a class="bk-btn-action bk-btn-action--info btn btn-info"
-                               href="{{ route('admin.applications.show', $application) }}"
-                               data-tip="{{ __('_action.show') }}" ></a>
-                            @if(@is_access('app_full') && $application->status == 0)
+                               href="{{ route('admin.applications.show', $app) }}"
+                               data-tip="{{ __('_action.look') }}" ></a>
+                            @if(@is_access('app_full') && $app->status == 0 && Auth::user()->role_id == 3)
                             <a class="bk-btn-action bk-btn-action--check btn btn-success"
                                href="javascript:void(0)"
-                               data-id="{{ $application->id }}"
+                               data-id="{{ $app->id }}"
                                data-toggle="modal"
                                data-target="#bk-confirm-modal"
                                data-tip="{{ __('_action.execute') }}"></a>
