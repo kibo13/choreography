@@ -84,6 +84,27 @@
                     </select>
                 </div>
 
+                <!-- form_study -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="form_study">
+                        {{ __('_field.study') }} {{ @mandatory() }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="form_study"
+                            name="form_study"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.study') }}</option>
+                        @foreach($studies as $index => $study)
+                        <option value="{{ $index }}"
+                                @isset($member) @if($member->form_study == $index)
+                                selected
+                                @endif @endisset>
+                            {{ $study }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- doc_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="doc_id">

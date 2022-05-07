@@ -12,6 +12,7 @@ class Member extends Model
     protected $fillable = [
         'user_id',
         'group_id',
+        'form_study',
         'first_name',
         'last_name',
         'middle_name',

@@ -36,6 +36,16 @@
                     </div>
                 </div>
 
+                <!-- form_study -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.study') }}
+                    </label>
+                    <div class="bk-form__text">
+                        {{ $member->form_study ? __('_field.paid') : __('_field.free') }}
+                    </div>
+                </div>
+
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">

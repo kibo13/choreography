@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\Doc;
@@ -51,17 +52,42 @@ class MemberController extends Controller
             $groups = $this->worker()->groups;
         }
 
-        $docs = Doc::get();
+        $studies    = config('constants.form_education');
+        $docs       = Doc::get();
 
         return view(
             'admin.pages.members.form',
-            compact('groups', 'docs')
+            compact('groups', 'studies', 'docs')
         );
     }
 
     public function store(Request $request)
     {
         $default_password = config('constants.password');
+        $basic_seats      = Group::where('id', $request['group_id'])->first()->basic_seats;
+        $extra_seats      = Group::where('id', $request['group_id'])->first()->extra_seats;
+        $population       = Member::where([
+            'group_id'   => $request['group_id'],
+            'form_study' => $request['form_study']
+        ])->count();
+
+        if ($request['form_study'] == 0)
+        {
+            if ($population >= $basic_seats)
+            {
+                $request->session()->flash('warning', __('_dialog.free_full'));
+                return redirect()->back();
+            }
+        }
+
+        if ($request['form_study'] == 1)
+        {
+            if ($population >= $extra_seats)
+            {
+                $request->session()->flash('warning', __('_dialog.paid_full'));
+                return redirect()->back();
+            }
+        }
 
         unset($request['address_doc']);
 
@@ -86,6 +112,7 @@ class MemberController extends Controller
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
             'group_id'      => $request['group_id'],
+            'form_study'    => $request['form_study'],
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
@@ -117,16 +144,42 @@ class MemberController extends Controller
             $groups = $this->worker()->groups;
         }
 
-        $docs = Doc::get();
+        $studies    = config('constants.form_education');
+        $docs       = Doc::get();
 
         return view(
             'admin.pages.members.form',
-            compact('member', 'groups', 'docs')
+            compact('member', 'groups', 'studies', 'docs')
         );
     }
 
     public function update(Request $request, Member $member)
     {
+        $basic_seats = Group::where('id', $request['group_id'])->first()->basic_seats;
+        $extra_seats = Group::where('id', $request['group_id'])->first()->extra_seats;
+        $condition   = $member->group_id == $request['group_id'] && $member->form_study == $request['form_study'];
+        $population  = $condition
+            ? Member::where(['group_id'   => $request['group_id'], 'form_study' => $request['form_study']])->count() - 1
+            : Member::where(['group_id'   => $request['group_id'], 'form_study' => $request['form_study']])->count();
+
+        if ($request['form_study'] == 0)
+        {
+            if ($population >= $basic_seats)
+            {
+                $request->session()->flash('warning', __('_dialog.free_full'));
+                return redirect()->back();
+            }
+        }
+
+        if ($request['form_study'] == 1)
+        {
+            if ($population >= $extra_seats)
+            {
+                $request->session()->flash('warning', __('_dialog.paid_full'));
+                return redirect()->back();
+            }
+        }
+
         unset($request['address_doc']);
 
         if ($request->has('address_doc')) {
@@ -141,6 +194,7 @@ class MemberController extends Controller
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
             'group_id'      => $request['group_id'],
+            'form_study'    => $request['form_study'],
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
