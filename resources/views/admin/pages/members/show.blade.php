@@ -46,6 +46,18 @@
                     </div>
                 </div>
 
+                <!-- passport -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.docs') }}
+                    </label>
+                    <div class="bk-form__text">
+                        {{ $member->doc->name }}
+                        {{ $member->doc_num }}
+                        {{ ' от ' . @getDMY($member->doc_date) }}
+                    </div>
+                </div>
+
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
@@ -86,15 +98,43 @@
                     </div>
                 </div>
 
-                <!-- passport -->
+                <!-- discount_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_field.docs') }}
+                        {{ __('_field.discount_person') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $member->doc->name }}
-                        {{ $member->doc_num }}
-                        {{ ' от ' . @getDMY($member->doc_date) }}
+                        {{ @no_record($member->discount->name, __('_record.no')) }}
+                    </div>
+                </div>
+
+                <!-- discount_doc -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.discount_doc') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @if($member->discount_doc)
+                        <a class="text-lowercase text-primary"
+                           href="{{ asset('assets/' . $member->discount_doc ) }}"
+                           target="_blank">
+                            {{ __('_action.look') }}
+                        </a>
+                        @else
+                        <span class="text-info">
+                            {{ __('_record.no') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- address_fact -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.address_fact') }}
+                    </label>
+                    <div class="bk-form__text">
+                        {{ @no_record($member->address_fact, __('_record.no')) }}
                     </div>
                 </div>
 
@@ -115,16 +155,6 @@
                             {{ __('_record.no') }}
                         </span>
                         @endif
-                    </div>
-                </div>
-
-                <!-- address_fact -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label">
-                        {{ __('_field.address_fact') }}
-                    </label>
-                    <div class="bk-form__text">
-                        {{ @no_record($member->address_fact, __('_record.no')) }}
                     </div>
                 </div>
 

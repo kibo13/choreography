@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Member;
+use App\Models\Discount;
 use App\Models\User;
 use App\Models\Doc;
 use Illuminate\Http\Request;
@@ -54,10 +55,11 @@ class MemberController extends Controller
 
         $studies    = config('constants.form_education');
         $docs       = Doc::get();
+        $discounts  = Discount::get();
 
         return view(
             'admin.pages.members.form',
-            compact('groups', 'studies', 'docs')
+            compact('groups', 'studies', 'docs', 'discounts')
         );
     }
 
@@ -89,12 +91,18 @@ class MemberController extends Controller
             }
         }
 
-        unset($request['address_doc']);
+        unset($request['discount_doc'], $request['address_doc']);
+
+        if ($request->has('discount_doc')) {
+            $discount_file      = $request->file('discount_doc');
+            $discount_file_name = $discount_file->getClientOriginalName();
+            $discount_file_path = $discount_file->store('documents');
+        }
 
         if ($request->has('address_doc')) {
-            $file       = $request->file('address_doc');
-            $file_name  = $file->getClientOriginalName();
-            $file_path  = $file->store('members');
+            $address_file      = $request->file('address_doc');
+            $address_file_name = $address_file->getClientOriginalName();
+            $address_file_path = $address_file->store('documents');
         }
 
         $user = User::create([
@@ -118,8 +126,11 @@ class MemberController extends Controller
             'doc_date'      => $request['doc_date'],
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
-            'address_doc'   => $file_path ?? null ? $file_path : null,
-            'address_note'  => $file_name ?? null ? $file_name : null,
+            'discount_id'   => $request['discount_id'],
+            'discount_doc'  => $discount_file_path ?? null ? $discount_file_path : null,
+            'discount_note' => $discount_file_name ?? null ? $discount_file_name : null,
+            'address_doc'   => $address_file_path ?? null ? $address_file_path : null,
+            'address_note'  => $address_file_name ?? null ? $address_file_name : null,
             'address_fact'  => $request['address_fact'],
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],
@@ -146,10 +157,11 @@ class MemberController extends Controller
 
         $studies    = config('constants.form_education');
         $docs       = Doc::get();
+        $discounts  = Discount::get();
 
         return view(
             'admin.pages.members.form',
-            compact('member', 'groups', 'studies', 'docs')
+            compact('member', 'groups', 'studies', 'docs', 'discounts')
         );
     }
 
@@ -180,13 +192,20 @@ class MemberController extends Controller
             }
         }
 
-        unset($request['address_doc']);
+        unset($request['discount_doc'], $request['address_doc']);
+
+        if ($request->has('discount_doc')) {
+            Storage::delete($member->discount_doc);
+            $discount_file      = $request->file('discount_doc');
+            $discount_file_name = $discount_file->getClientOriginalName();
+            $discount_file_path = $discount_file->store('documents');
+        }
 
         if ($request->has('address_doc')) {
             Storage::delete($member->address_doc);
-            $file       = $request->file('address_doc');
-            $file_name  = $file->getClientOriginalName();
-            $file_path  = $file->store('members');
+            $address_file      = $request->file('address_doc');
+            $address_file_name = $address_file->getClientOriginalName();
+            $address_file_path = $address_file->store('documents');
         }
 
         $member->update([
@@ -200,8 +219,11 @@ class MemberController extends Controller
             'doc_date'      => $request['doc_date'],
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
-            'address_doc'   => $file_path ?? null ? $file_path : null,
-            'address_note'  => $file_name ?? null ? $file_name : null,
+            'discount_id'   => $request['discount_id'],
+            'discount_doc'  => $discount_file_path ?? null ? $discount_file_path : null,
+            'discount_note' => $discount_file_name ?? null ? $discount_file_name : null,
+            'address_doc'   => $address_file_path ?? null ? $address_file_path : null,
+            'address_note'  => $address_file_name ?? null ? $address_file_name : null,
             'address_fact'  => $request['address_fact'],
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],
@@ -215,7 +237,7 @@ class MemberController extends Controller
     public function destroy(Request $request, Member $member)
     {
         $member->delete();
-        Storage::delete($member->address_doc);
+        Storage::delete([$member->discount_doc, $member->address_doc]);
 
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.members.index');

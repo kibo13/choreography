@@ -55,6 +55,10 @@ return [
     'address_fact'          => 'Адрес проживания',
     'activity'              => 'Вид деятельности',
 
+    // members
+    'discount_person'       => 'Категория граждан, которым положена скидка',
+    'discount_doc'          => 'Подтверждающий скидку документ',
+
     // specialties
     'specialty'             => 'Специализация',
 

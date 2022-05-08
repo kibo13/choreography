@@ -167,36 +167,6 @@
                            required/>
                 </div>
 
-                <!-- address_doc -->
-                <div class="bk-form__field position-relative">
-                    <label class="bk-form__label" for="address_doc">
-                        {{ __('_field.address_doc') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300"
-                           id="upload-file"
-                           type="text"
-                           value="{{ isset($member->address_doc) ? $member->address_note : null }}"
-                           placeholder="{{ __('_field.file_not') }}"
-                           disabled/>
-                    <input class="bk-form__file bk-max-w-300"
-                           id="upload-btn"
-                           type="file"
-                           name="address_doc"
-                           accept="image/*"/>
-                </div>
-
-                <!-- address_fact -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="address_fact">
-                        {{ __('_field.address_fact') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300"
-                           id="address_fact"
-                           type="text"
-                           name="address_fact"
-                           value="{{ isset($member) ? $member->address_fact : null }}"/>
-                </div>
-
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="phone">
@@ -227,6 +197,75 @@
                            name="email"
                            value="{{ isset($member) ? $member->email : null }}"
                            autocomplete="off"/>
+                </div>
+
+                <!-- discount_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="discount_id">
+                        {{ __('_field.discount_person') }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="discount_id"
+                            name="discount_id">
+                        <option value="" disabled selected>{{ __('_select.discount') }}</option>
+                        @foreach($discounts as $discount)
+                        <option value="{{ $discount->id }}"
+                                @isset($member) @if($member->discount_id == $discount->id)
+                                selected
+                                @endif @endisset>
+                            {{ $discount->name . ', '}}
+                            {{ $discount->size . '%' }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- discount_doc -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="discount_doc">
+                        {{ __('_field.discount_doc') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="upload-file"
+                           type="text"
+                           value="{{ isset($member->discount_doc) ? $member->discount_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           id="upload-btn"
+                           type="file"
+                           name="discount_doc"
+                           accept="image/*"/>
+                </div>
+
+                <!-- address_fact -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="address_fact">
+                        {{ __('_field.address_fact') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="address_fact"
+                           type="text"
+                           name="address_fact"
+                           value="{{ isset($member) ? $member->address_fact : null }}"/>
+                </div>
+
+                <!-- address_doc -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="address_doc">
+                        {{ __('_field.address_doc') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="upload-file"
+                           type="text"
+                           value="{{ isset($member->address_doc) ? $member->address_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           id="upload-btn"
+                           type="file"
+                           name="address_doc"
+                           accept="image/*"/>
                 </div>
 
                 <!-- activity -->

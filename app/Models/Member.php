@@ -13,6 +13,9 @@ class Member extends Model
         'user_id',
         'group_id',
         'form_study',
+        'discount_id',
+        'discount_doc',
+        'discount_note',
         'first_name',
         'last_name',
         'middle_name',
@@ -37,6 +40,11 @@ class Member extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function discount()
+    {
+        return $this->belongsTo(Discount::class);
     }
 
     public function user()
