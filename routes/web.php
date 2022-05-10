@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TitleController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\SupportController;
+use App\Http\Controllers\Admin\PassController;
 
 // auth
 Auth::routes([
@@ -140,5 +141,15 @@ Route::group([
             ->name('support.index');
         Route::get('support/{application}', [SupportController::class, 'show'])
             ->name('support.show');
+    });
+
+    // passes
+    Route::group(['middleware' => 'permission:pass_full'], function () {
+        Route::resource('passes', PassController::class);
+    });
+
+    Route::group(['middleware' => 'permission:pass_read'], function () {
+        Route::get('passes', [PassController::class, 'index'])
+            ->name('passes.index');
     });
 });

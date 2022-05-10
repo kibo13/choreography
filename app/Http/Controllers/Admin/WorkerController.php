@@ -40,7 +40,7 @@ class WorkerController extends Controller
 
         // TODO: head
         if ($user->role_id == 3) {
-            $user->permissions()->attach([3, 4, 11, 12, 13, 14, 17, 18]);
+            $user->permissions()->attach([3, 4, 11, 12, 13, 14, 17, 18, 21, 22]);
         }
 
         // TODO: manager

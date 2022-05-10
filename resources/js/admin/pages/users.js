@@ -29,6 +29,8 @@ if (users_form) {
                 $('.member_full').prop('checked', true)
                 $('.discount_read').prop('checked', true)
                 $('.discount_full').prop('checked', true)
+                $('.pass_read').prop('checked', true)
+                $('.pass_full').prop('checked', true)
                 break
 
             case 'manager':

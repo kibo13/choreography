@@ -35,6 +35,13 @@ function status($param)
         : '<strong class="text-success">' . __('_action.completed') .'</strong>';
 }
 
+function is_pay($param)
+{
+    echo $param
+        ? '<strong class="text-success">' . __('_field.pay_yep') .'</strong>'
+        : '<strong class="text-danger">' . __('_field.pay_no') .'</strong>';
+}
+
 function short_fio($type, $id)
 {
     switch ($type)
@@ -80,4 +87,28 @@ function full_fio($type, $id)
     $middle_name = isset($result->middle_name) ? substr($result->middle_name, 0, 2) . '.' : null;
 
     echo '<span title="' . $result->last_name . ' '. $result->first_name . ' ' . $result->middle_name .'">' . $last_name . ' ' . $first_name . $middle_name . '</span>';
+}
+
+function getFIO($type, $id)
+{
+    switch ($type)
+    {
+        case 'member':
+            $result = Member::where('id', $id)->first();
+            break;
+
+        case 'worker':
+            $result = Worker::where('id', $id)->first();
+            break;
+
+        default:
+            $result = User::where('id', $id)->first();
+            break;
+    }
+
+    $last_name   = ucfirst($result->last_name) . ' ';
+    $first_name  = ucfirst($result->first_name) . ' ';
+    $middle_name = isset($result->middle_name) ? ucfirst($result->middle_name) : null;
+
+    return $last_name . $first_name . $middle_name;
 }
