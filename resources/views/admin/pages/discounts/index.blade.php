@@ -36,7 +36,7 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>{{ $discount->name }}</td>
-                    <td>{{ $discount->size }} {{ @tip('%') }}</td>
+                    <td>{{ $discount->size ? $discount->size . '%' : '-'}}</td>
                     <td>{{ $discount->note }}</td>
                     @if(@is_access('discount_full'))
                     <td>

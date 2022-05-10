@@ -58,6 +58,7 @@ return [
     // members
     'discount_person'       => 'Категория граждан, которым положена скидка',
     'discount_doc'          => 'Подтверждающий скидку документ',
+    'discount_no'           => 'Без скидки',
 
     // specialties
     'specialty'             => 'Специализация',

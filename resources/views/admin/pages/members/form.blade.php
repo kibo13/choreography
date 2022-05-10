@@ -213,8 +213,12 @@
                                 @isset($member) @if($member->discount_id == $discount->id)
                                 selected
                                 @endif @endisset>
+                            @if($discount->size)
                             {{ $discount->name . ', '}}
                             {{ $discount->size . '%' }}
+                            @else
+                            {{ __('_field.discount_no') }}
+                            @endif
                         </option>
                         @endforeach
                     </select>
