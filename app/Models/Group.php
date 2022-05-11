@@ -39,4 +39,9 @@ class Group extends Model
     {
         return $this->hasMany(Member::class);
     }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
 }

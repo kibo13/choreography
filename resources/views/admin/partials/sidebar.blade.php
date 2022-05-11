@@ -45,6 +45,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('event_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.event*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.events.index') }}"
+               title="{{ __('_section.events') }}">
+                {{ @fa('fa-eercast sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('_section.events') }}
+                </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('member_read'))
         <li class="sidebar-list__item {{ @is_active('admin.member*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
@@ -57,18 +69,6 @@
             </a>
         </li>
         @endif
-        @if(@is_access('help_read'))
-        <li class="sidebar-list__item {{ @is_active('admin.support*', 'sidebar-list__item--active') }}">
-            <a class="sidebar-list__link"
-               href="{{ route('admin.support.index') }}"
-               title="{{ __('_section.support') }}">
-                {{ @fa('fa-pencil-square-o sidebar-list__icon') }}
-                <span class="sidebar-list__text">
-                    {{ __('_section.support') }}
-                </span>
-            </a>
-        </li>
-        @endif
         @if(@is_access('pass_read'))
         <li class="sidebar-list__item {{ @is_active('admin.pass*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
@@ -77,6 +77,18 @@
                 {{ @fa('fa-wpforms sidebar-list__icon') }}
                 <span class="sidebar-list__text">
                     {{ __('_section.passes') }}
+                </span>
+            </a>
+        </li>
+        @endif
+        @if(@is_access('help_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.support*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.support.index') }}"
+               title="{{ __('_section.support') }}">
+                {{ @fa('fa-pencil-square-o sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('_section.support') }}
                 </span>
             </a>
         </li>

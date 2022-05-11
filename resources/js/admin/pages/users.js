@@ -11,13 +11,16 @@ if (users_form) {
         switch (slug) {
             case 'sa':
                 $('.bk-form__checkbox').prop('checked', true)
+                $('.help_read').prop('checked', false)
+                $('.help_full').prop('checked', false)
                 break
 
             case 'admin':
                 $('.bk-form__checkbox').prop('checked', true)
-                $('.user_full').prop('checked', false)
                 $('.help_read').prop('checked', false)
                 $('.help_full').prop('checked', false)
+                $('.pass_full').prop('checked', false)
+                $('.event_full').prop('checked', false)
                 break
 
             case 'head':
@@ -31,6 +34,8 @@ if (users_form) {
                 $('.discount_full').prop('checked', true)
                 $('.pass_read').prop('checked', true)
                 $('.pass_full').prop('checked', true)
+                $('.event_read').prop('checked', true)
+                $('.event_full').prop('checked', true)
                 break
 
             case 'manager':

@@ -1,9 +1,11 @@
 <?php
 
 return [
+    'achievements'          => 'Достижения',
     'admin'                 => 'Админ-панель',
     'applications'          => 'Заявки',
     'attendance'            => 'Посещаемость',
+    'awards'                => 'Награды',
     'cabinet'               => 'Личный кабинет',
     'categories'            => 'Категории групп',
     'discounts'             => 'Скидки',

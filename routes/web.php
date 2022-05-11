@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\PassController;
+use App\Http\Controllers\Admin\EventController;
 
 // auth
 Auth::routes([
@@ -151,5 +152,15 @@ Route::group([
     Route::group(['middleware' => 'permission:pass_read'], function () {
         Route::get('passes', [PassController::class, 'index'])
             ->name('passes.index');
+    });
+
+    // events
+    Route::group(['middleware' => 'permission:event_full'], function () {
+        Route::resource('events', EventController::class);
+    });
+
+    Route::group(['middleware' => 'permission:event_read'], function () {
+        Route::get('events', [EventController::class, 'index'])
+            ->name('events.index');
     });
 });
