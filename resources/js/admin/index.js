@@ -1,7 +1,7 @@
 // vendors
-require('bootstrap');
-window.$ = require('jquery');
-window.dt = require('datatables.net');
+require('bootstrap')
+window.$ = require('jquery')
+window.dt = require('datatables.net')
 
 // components
 require('./components/sidebar')

@@ -1,10 +1,11 @@
-import { calc } from '../custom/calculation';
+import { calc } from '../custom/calculation'
 
 const members_form = document.getElementById('members-form')
 
 if (members_form) {
     $('.btn-outline-success').on('click', function (event) {
 
+        // check: age verification
         let from    = $('#group_id').find(':selected').data('from')
         let till    = $('#group_id').find(':selected').data('till')
         let fullAge = calc.age($('#birthday').val())
