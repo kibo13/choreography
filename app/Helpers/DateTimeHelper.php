@@ -12,6 +12,11 @@ function getToday()
     return date('d.m.Y', strtotime(getCurrentDay()));
 }
 
+function getDateTime($param)
+{
+    return str_replace(' ', 'T', $param);
+}
+
 function getDMY($date)
 {
     return date('d.m.Y', strtotime($date));
