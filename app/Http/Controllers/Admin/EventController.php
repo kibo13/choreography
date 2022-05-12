@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
-use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,10 +11,9 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::get();
-        $titles = Title::get();
+        $events  = Event::get();
 
-        return view('admin.pages.events.index', compact('events', 'titles'));
+        return view('admin.pages.events.index', compact('events'));
     }
 
     public function create(Request $request)
@@ -24,7 +22,7 @@ class EventController extends Controller
 
         switch (Auth::user()->role_id) {
             case 3:
-                $groups = Auth::user()->worker->groups;
+                $groups  = Auth::user()->worker->groups;
                 break;
 
             default:
@@ -38,11 +36,20 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $event = Event::create($request->all());
+        if (Auth::user()->role_id != 3) {
+            $request->session()->flash('warning', __('_dialog.just_head'));
+            return redirect()->back();
+        }
 
-        if ($request->input('groups')) :
-            $event->groups()->attach($request->input('groups'));
-        endif;
+        Event::create([
+            'type'      => $request['type'],
+            'name'      => $request['name'],
+            'from'      => $request['from'],
+            'till'      => $request['till'],
+            'place'     => $request['place'],
+            'group_id'  => $request['group_id'],
+            'worker_id' => Auth::user()->worker->id,
+        ]);
 
         $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.events.index');
@@ -59,25 +66,25 @@ class EventController extends Controller
 
         switch (Auth::user()->role_id) {
             case 3:
-                $groups = Auth::user()->worker->groups;
+                $members = $event->group->members;
                 break;
 
             default:
-                $groups = [];
+                $members = [];
                 $request->session()->flash('warning', __('_dialog.group_null'));
                 break;
         }
 
-        return view('admin.pages.events.form', compact('event', 'types', 'groups'));
+        return view('admin.pages.events.form', compact('event', 'types', 'members'));
     }
 
     public function update(Request $request, Event $event)
     {
         $event->update($request->all());
-        $event->groups()->detach();
+        $event->members()->detach();
 
-        if ($request->input('groups')) :
-            $event->groups()->attach($request->input('groups'));
+        if ($request->input('members')) :
+            $event->members()->attach($request->input('members'));
         endif;
 
         $event->save();
@@ -88,7 +95,7 @@ class EventController extends Controller
 
     public function destroy(Request $request, Event $event)
     {
-        $event->groups()->detach();
+        $event->members()->detach();
         $event->delete();
 
         $request->session()->flash('success', __('_record.deleted'));

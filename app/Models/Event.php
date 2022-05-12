@@ -15,10 +15,22 @@ class Event extends Model
         'from',
         'till',
         'place',
+        'group_id',
+        'worker_id',
     ];
 
-    public function groups()
+    public function group()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsTo(Group::class);
+    }
+
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(Member::class);
     }
 }

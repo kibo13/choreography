@@ -12,9 +12,11 @@ class CreateEventsTable extends Migration
             $table->bigIncrements('id');
             $table->tinyInteger('type');
             $table->string('name');
-            $table->date('from');
-            $table->date('till')->nullable();
+            $table->dateTime('from');
+            $table->dateTime('till');
             $table->string('place');
+            $table->bigInteger('group_id')->unsigned();
+            $table->bigInteger('worker_id')->unsigned();
             $table->timestamps();
         });
     }

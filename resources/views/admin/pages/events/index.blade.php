@@ -23,13 +23,15 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th class="w-25 bk-min-w-250">{{ __('_field.name') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.type') }}</th>
-                    <th class="w-25 bk-min-w-150 no-sort">{{ __('_field.period_event') }}</th>
-                    <th class="w-25 bk-min-w-200 no-sort">{{ __('_field.place') }}</th>
-                    <th class="bk-min-w-300 no-sort">{{ __('_field.groups') }}</th>
+                    <th class="bk-min-w-250 w-25">{{ __('_field.event') }}</th>
+                    <th class="bk-min-w-150 w-25">{{ __('_field.type') }}</th>
+                    <th class="bk-min-w-150">{{ __('_field.date_from') }}</th>
+                    <th class="bk-min-w-150">{{ __('_field.date_till') }}</th>
+                    <th class="bk-min-w-150 w-25">{{ __('_field.place') }}</th>
+                    <th class="bk-min-w-150 w-25">{{ __('_field.group') }}</th>
+                    <th class="bk-min-w-150 no-sort">{{ __('_field.members') }}</th>
                     @if(@is_access('event_full'))
-                    <th class="no-sort">{{ __('_action.this') }}</th>
+                    <th class=" text-center no-sort">{{ __('_action.this') }}</th>
                     @endif
                 </tr>
             </thead>
@@ -38,26 +40,32 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>{{ $event->name }}</td>
-                    <td>{{ $event->type ? __('_field.international') : __('_field.local') }}</td>
                     <td>
-                        {{ @getDMY($event->from) }}
-                        {{ $event->till ? ' - ' . @getDMY($event->till) : null }}
+                        {{ $event->type ? __('_field.international') : __('_field.town') }}
+                    </td>
+                    <td>
+                        <strong>{{ @getDMY($event->from) }}</strong>
+                        <small>{{ @getHI($event->from) }}</small>
+                    </td>
+                    <td>
+                        <strong>{{ @getDMY($event->till) }}</strong>
+                        <small>{{ @getHI($event->till) }}</small>
                     </td>
                     <td>{{ $event->place }}</td>
                     <td>
-                        <ul>
-                            @foreach($titles as $title)
+                        <strong>{{ $event->group->title->name }}</strong>
+                        @if($event->group->category_id != 4)
+                        <small>{{ $event->group->category->name }}</small>
+                        @endif
+                    </td>
+                    <td>
+                        <ul class="bk-btn-info">
+                            @foreach($event->members as $member)
                             <li>
-                                @if($event->groups->where('title_id', $title->id)->count())
-                                <strong>{{ $title->name }}</strong>
-                                @endif
-                                @foreach($event->groups as $group)
-                                @if($group->title_id == $title->id)
-                                {{ @tip($group->category->name) }}
-                                @endif
-                                @endforeach
+                                {{ @full_fio('member', $member->id) }}
                             </li>
                             @endforeach
+                            {{ $event->members->count() ? @fa('fa fa-eye bk-btn-info--fa') : null }}
                         </ul>
                     </td>
                     @if(@is_access('event_full'))
