@@ -4,7 +4,7 @@
             <th>#</th>
             <th class="w-25 bk-min-w-150">{{ __('_field.member') }}</th>
             <th class="w-25 bk-min-w-200">{{ __('_field.group') }}</th>
-            <th class="w-25 bk-min-w-100">{{ __('_field.study') }}</th>
+            <th class="w-25 bk-min-w-150">{{ __('_field.study') }}</th>
             <th class="w-25 no-sort bk-min-w-250">{{ __('_field.info') }}</th>
             <th class="no-sort">{{ __('_action.this') }}</th>
         </tr>

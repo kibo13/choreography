@@ -24,7 +24,7 @@ class MemberController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 2:
-                $groups  = [];
+                $groups  = Group::get();
                 $members = Member::get();
                 break;
 
@@ -96,7 +96,31 @@ class MemberController extends Controller
             }
         }
 
-        unset($request['discount_doc'], $request['address_doc']);
+        unset(
+            $request['doc_file'],
+            $request['app_file'],
+            $request['consent_file'],
+            $request['discount_doc'],
+            $request['address_doc'],
+        );
+
+        if ($request->has('doc_file')) {
+            $doc_file      = $request->file('doc_file');
+            $doc_file_name = $doc_file->getClientOriginalName();
+            $doc_file_path = $doc_file->store('documents');
+        }
+
+        if ($request->has('app_file')) {
+            $app_file      = $request->file('app_file');
+            $app_file_name = $app_file->getClientOriginalName();
+            $app_file_path = $app_file->store('documents');
+        }
+
+        if ($request->has('consent_file')) {
+            $consent_file      = $request->file('consent_file');
+            $consent_file_name = $consent_file->getClientOriginalName();
+            $consent_file_path = $consent_file->store('documents');
+        }
 
         if ($request->has('discount_doc')) {
             $discount_file      = $request->file('discount_doc');
@@ -129,6 +153,12 @@ class MemberController extends Controller
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
+            'doc_file'      => $doc_file_path ?? null ? $doc_file_path : null,
+            'doc_note'      => $doc_file_name ?? null ? $doc_file_name : null,
+            'app_file'      => $app_file_path ?? null ? $app_file_path : null,
+            'app_note'      => $app_file_name ?? null ? $app_file_name : null,
+            'consent_file'  => $consent_file_path ?? null ? $consent_file_path : null,
+            'consent_note'  => $consent_file_name ?? null ? $consent_file_name : null,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
             'discount_id'   => $request['discount_id'],
@@ -197,7 +227,34 @@ class MemberController extends Controller
             }
         }
 
-        unset($request['discount_doc'], $request['address_doc']);
+        unset(
+            $request['doc_file'],
+            $request['app_file'],
+            $request['consent_file'],
+            $request['discount_doc'],
+            $request['address_doc'],
+        );
+
+        if ($request->has('doc_file')) {
+            Storage::delete($member->doc_file);
+            $doc_file      = $request->file('doc_file');
+            $doc_file_name = $doc_file->getClientOriginalName();
+            $doc_file_path = $doc_file->store('documents');
+        }
+
+        if ($request->has('app_file')) {
+            Storage::delete($member->app_file);
+            $app_file      = $request->file('app_file');
+            $app_file_name = $app_file->getClientOriginalName();
+            $app_file_path = $app_file->store('documents');
+        }
+
+        if ($request->has('consent_file')) {
+            Storage::delete($member->consent_file);
+            $consent_file      = $request->file('consent_file');
+            $consent_file_name = $consent_file->getClientOriginalName();
+            $consent_file_path = $consent_file->store('documents');
+        }
 
         if ($request->has('discount_doc')) {
             Storage::delete($member->discount_doc);
@@ -222,6 +279,12 @@ class MemberController extends Controller
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
+            'doc_file'      => $doc_file_path ?? null ? $doc_file_path : null,
+            'doc_note'      => $doc_file_name ?? null ? $doc_file_name : null,
+            'app_file'      => $app_file_path ?? null ? $app_file_path : null,
+            'app_note'      => $app_file_name ?? null ? $app_file_name : null,
+            'consent_file'  => $consent_file_path ?? null ? $consent_file_path : null,
+            'consent_note'  => $consent_file_name ?? null ? $consent_file_name : null,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
             'discount_id'   => $request['discount_id'],
@@ -242,7 +305,13 @@ class MemberController extends Controller
     public function destroy(Request $request, Member $member)
     {
         $member->delete();
-        Storage::delete([$member->discount_doc, $member->address_doc]);
+        Storage::delete([
+            $member->doc_file,
+            $member->app_file,
+            $member->consent_file,
+            $member->discount_doc,
+            $member->address_doc
+        ]);
 
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.members.index');

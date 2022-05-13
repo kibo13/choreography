@@ -154,6 +154,57 @@
                            required/>
                 </div>
 
+                <!-- doc_scan -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="doc_file">
+                        {{ __('_field.doc_scan') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           type="text"
+                           value="{{ isset($member->doc_file) ? $member->doc_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           data-file="upload"
+                           type="file"
+                           name="doc_file"
+                           accept="image/*"/>
+                </div>
+
+                <!-- app_scan -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="app_file">
+                        {{ __('_field.app_scan') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           type="text"
+                           value="{{ isset($member->app_file) ? $member->app_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           data-file="upload"
+                           type="file"
+                           name="app_file"
+                           accept="image/*"/>
+                </div>
+
+                <!-- consent -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="consent_file">
+                        {{ __('_field.consent') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           type="text"
+                           value="{{ isset($member->consent_file) ? $member->consent_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           data-file="upload"
+                           type="file"
+                           name="consent_file"
+                           accept="image/*"/>
+                </div>
+
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="birthday">

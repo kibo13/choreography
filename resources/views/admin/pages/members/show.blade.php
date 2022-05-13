@@ -58,6 +58,66 @@
                     </div>
                 </div>
 
+                <!-- doc_scan -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.doc_scan') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @if($member->doc_file)
+                        <a class="text-lowercase text-primary"
+                           href="{{ asset('assets/' . $member->doc_file ) }}"
+                           target="_blank">
+                            {{ __('_action.look') }}
+                        </a>
+                        @else
+                        <span class="text-info">
+                            {{ __('_record.no') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- app_scan -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.app_scan') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @if($member->app_file)
+                        <a class="text-lowercase text-primary"
+                           href="{{ asset('assets/' . $member->app_file ) }}"
+                           target="_blank">
+                            {{ __('_action.look') }}
+                        </a>
+                        @else
+                        <span class="text-info">
+                            {{ __('_record.no') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- consent -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.consent') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @if($member->consent_file)
+                        <a class="text-lowercase text-primary"
+                           href="{{ asset('assets/' . $member->consent_file ) }}"
+                           target="_blank">
+                            {{ __('_action.look') }}
+                        </a>
+                        @else
+                        <span class="text-info">
+                            {{ __('_record.no') }}
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
                 <!-- phone -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
