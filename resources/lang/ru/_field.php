@@ -8,6 +8,7 @@ return [
     'attachment'            => 'Вложение',
     'author'                => 'Автор',
     'birthday'              => 'Дата рождения',
+    'blanks'                => 'Бланки',
     'category'              => 'Категория',
     'contacts'              => 'Контакты',
     'cost'                  => 'Стоимость',

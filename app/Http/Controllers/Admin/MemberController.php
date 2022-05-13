@@ -41,7 +41,12 @@ class MemberController extends Controller
                 break;
         }
 
-        return view('admin.pages.members.index', compact('groups', 'members'));
+        $blanks = config('constants.blanks');
+
+        return view(
+            'admin.pages.members.index',
+            compact('groups', 'members', 'blanks')
+        );
     }
 
     public function create(Request $request)

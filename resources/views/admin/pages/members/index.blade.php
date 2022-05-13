@@ -40,13 +40,22 @@
             <label class="bk-tabs__label" for="tab-2">
                 {{ __('_field.list') }}
             </label>
+            <input class="bk-tabs__input bk-tab-3"
+                   id="tab-3"
+                   type="radio"
+                   name="tab">
+            <label class="bk-tabs__label" for="tab-3">
+                {{ __('_field.blanks') }}
+            </label>
             <div class="bk-tabs__content bk-tab-content-1">
                 @include('admin.pages.members.places')
             </div>
             <div class="bk-tabs__content bk-tab-content-2">
                 @include('admin.pages.members.table')
             </div>
+            <div class="bk-tabs__content bk-tab-content-3">
+                @include('admin.pages.members.blanks')
+            </div>
         </div>
-
     </section>
 @endsection
