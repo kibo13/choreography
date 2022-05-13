@@ -101,7 +101,7 @@
                 <!-- discount_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
-                        {{ __('_field.discount_person') }}
+                        {{ __('_field.cat_privileges') }}
                     </label>
                     <div class="bk-form__text">
                         {{ @no_record($member->discount->name, __('_record.no')) }}

@@ -50,7 +50,7 @@
                         @endif
                         @if(@is_access('discount_read'))
                         <a class="dropdown-item" href="{{ route('admin.discounts.index') }}">
-                            {{ __('_section.discounts') }}
+                            {{ __('_section.privileges') }}
                         </a>
                         @endif
                     </div>

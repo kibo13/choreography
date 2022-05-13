@@ -109,5 +109,10 @@ return [
     'datetime_till'         => 'Дата и время окончания',
 
     // rooms
-    'room'                  => 'Помещение',
+    'room'                  => 'Кабинет',
+
+    // privileges
+    'cat_privileges'        => 'Категории льготников',
+    'no_privileges'         => 'Не льготник',
+    'discount_doc'          => 'Документ подтверждающий льготу',
 ];

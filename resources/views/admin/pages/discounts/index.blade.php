@@ -2,7 +2,7 @@
 @section('title-admin', __('_section.discounts'))
 @section('content-admin')
     <section id="discounts-index" class="overflow-auto">
-        <h3>{{ __('_section.discounts') }}</h3>
+        <h3>{{ __('_section.privileges') }}</h3>
 
         @if(@is_access('discount_full'))
         <div class="my-2 btn-group">
@@ -23,7 +23,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th class="w-25 bk-min-w-250">{{ __('_field.name') }}</th>
+                    <th class="w-25 bk-min-w-250">{{ __('_field.cat_privileges') }}</th>
                     <th class="w-25 bk-min-w-100">{{ __('_field.size') }}</th>
                     <th class="w-50 bk-min-w-250 no-sort">{{ __('_field.note') }}</th>
                     @if(@is_access('discount_full'))

@@ -10,7 +10,7 @@ class DiscountController extends Controller
 {
     public function index()
     {
-        $discounts = Discount::orderBy('size')->get();
+        $discounts = Discount::where('size', '>', 0)->get();
 
         return view('admin.pages.discounts.index', compact('discounts'));
     }

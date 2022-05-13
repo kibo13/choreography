@@ -202,12 +202,12 @@
                 <!-- discount_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="discount_id">
-                        {{ __('_field.discount_person') }}
+                        {{ __('_field.cat_privileges') }}
                     </label>
                     <select class="bk-form__select bk-max-w-300"
                             id="discount_id"
                             name="discount_id">
-                        <option value="" disabled selected>{{ __('_select.discount') }}</option>
+                        <option value="" disabled selected>{{ __('_select.privileges') }}</option>
                         @foreach($discounts as $discount)
                         <option value="{{ $discount->id }}"
                                 @isset($member) @if($member->discount_id == $discount->id)
@@ -217,7 +217,7 @@
                             {{ $discount->name . ', '}}
                             {{ $discount->size . '%' }}
                             @else
-                            {{ __('_field.discount_no') }}
+                            {{ __('_field.no_privileges') }}
                             @endif
                         </option>
                         @endforeach
