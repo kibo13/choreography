@@ -230,13 +230,12 @@
                         {{ __('_field.discount_doc') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
-                           id="upload-file"
                            type="text"
                            value="{{ isset($member->discount_doc) ? $member->discount_note : null }}"
                            placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
-                           id="upload-btn"
+                           data-file="upload"
                            type="file"
                            name="discount_doc"
                            accept="image/*"/>
@@ -260,13 +259,12 @@
                         {{ __('_field.address_doc') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
-                           id="upload-file"
                            type="text"
                            value="{{ isset($member->address_doc) ? $member->address_note : null }}"
                            placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
-                           id="upload-btn"
+                           data-file="upload"
                            type="file"
                            name="address_doc"
                            accept="image/*"/>

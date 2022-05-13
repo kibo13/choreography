@@ -1,3 +1,3 @@
-$('#upload-btn').on('change', function (event) {
-    $('#upload-file').val(this.value)
+$('[data-file=upload]').on('change', function (event) {
+    this.previousElementSibling.value = this.value
 })

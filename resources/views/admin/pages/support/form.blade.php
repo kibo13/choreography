@@ -41,14 +41,13 @@
                     <label class="bk-form__label" for="file">
                         {{ __('_field.attachment') }}
                     </label>
-                    <input class="bk-form__input bk-max-w-300  @error('file') border border-danger @enderror"
-                           id="upload-file"
+                    <input class="bk-form__input bk-max-w-300 @error('file') border border-danger @enderror"
                            type="text"
                            value="{{ isset($application->file) ? $application->note : null }}"
                            placeholder="{{ __('_field.file_not') }}"
                            disabled/>
                     <input class="bk-form__file bk-max-w-300"
-                           id="upload-btn"
+                           data-file="upload"
                            type="file"
                            name="file"
                            accept="image/*"/>
