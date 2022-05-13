@@ -45,6 +45,32 @@
                     @endisset
                 </div>
 
+                <!-- from -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="from">
+                        {{ __('_field.date_from') }} {{ @mandatory() }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="from"
+                           type="date"
+                           name="from"
+                           value="{{ isset($pass) ? $pass->from : null }}"
+                           required/>
+                </div>
+
+                <!-- till -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="till">
+                        {{ __('_field.date_till') }} {{ @mandatory() }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="till"
+                           type="date"
+                           name="till"
+                           value="{{ isset($pass) ? $pass->till : null }}"
+                           required/>
+                </div>
+
                 <!-- discount -->
                 @isset($pass)
                 <div class="bk-form__field">
@@ -84,7 +110,7 @@
                 <!-- status -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="status">
-                        {{ __('_field.study') }} {{ @mandatory() }}
+                        {{ __('_field.pay_status') }} {{ @mandatory() }}
                     </label>
                     <select class="bk-form__select bk-max-w-300"
                             id="status"

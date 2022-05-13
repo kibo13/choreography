@@ -80,8 +80,8 @@ class PassController extends Controller
         $member   = Member::where('id', $request['member_id'])->first();
         $discount = $member->discount;
         $group    = $member->group->id;
-        $from     = Carbon::now()->addHour(5);
-        $till     = Carbon::now()->addHour(5)->addMonth();
+//        $from     = Carbon::now()->addHour(5);
+//        $till     = Carbon::now()->addHour(5)->addMonth();
         $price    = $member->group->price;
         $cost     = $discount ? $price - $price * $discount->size / 100 : $price;
         $lessons  = $member->group->lessons;
@@ -90,8 +90,8 @@ class PassController extends Controller
             'member_id' => $request['member_id'],
             'group_id'  => $group,
             'worker_id' => $this->worker()->id,
-            'from'      => $from,
-            'till'      => $till,
+            'from'      => $request['from'],
+            'till'      => $request['till'],
             'cost'      => $cost,
             'lessons'   => $lessons,
             'status'    => $request['status'],
@@ -190,6 +190,8 @@ class PassController extends Controller
     public function update(Request $request, Pass $pass)
     {
         $pass->update([
+            'from'      => $request['from'],
+            'till'      => $request['till'],
             'status'    => $request['status'],
         ]);
 
