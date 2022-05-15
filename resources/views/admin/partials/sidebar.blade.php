@@ -57,6 +57,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('achievement_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.achievement*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.achievements.index') }}"
+               title="{{ __('_section.achievements') }}">
+                {{ @fa('fa-trophy sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('_section.achievements') }}
+                </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('member_read'))
         <li class="sidebar-list__item {{ @is_active('admin.member*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"

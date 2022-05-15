@@ -29,6 +29,11 @@ class Event extends Model
         return $this->belongsTo(Worker::class);
     }
 
+    public function achievement()
+    {
+        return $this->hasOne(Achievement::class);
+    }
+
     public function members()
     {
         return $this->belongsToMany(Member::class);

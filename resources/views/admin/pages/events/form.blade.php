@@ -26,7 +26,7 @@
                             id="type"
                             name="type"
                             required>
-                        <option value="" disabled selected>{{ __('_select.event') }}</option>
+                        <option value="" disabled selected>{{ __('_select.type') }}</option>
                         @foreach($types as $index => $type)
                         <option value="{{ $index }}"
                                 @isset($event) @if($event->type == $index)

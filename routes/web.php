@@ -19,6 +19,8 @@ use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\PassController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\DiplomController;
 
 // auth
 Auth::routes([
@@ -162,5 +164,33 @@ Route::group([
     Route::group(['middleware' => 'permission:event_read'], function () {
         Route::get('events', [EventController::class, 'index'])
             ->name('events.index');
+    });
+
+    // achievements
+    Route::group(['middleware' => 'permission:achievement_full'], function () {
+        Route::get('achievements/{event}/create', [AchievementController::class, 'create'])
+            ->name('achievements.create');
+        Route::post('achievements', [AchievementController::class, 'store'])
+            ->name('achievements.store');
+        Route::get('achievements/{event}/edit', [AchievementController::class, 'edit'])
+            ->name('achievements.edit');
+        Route::match(['put', 'patch'], 'achievements/{achievement}', [AchievementController::class, 'update'])
+            ->name('achievements.update');
+        Route::delete('achievements/{achievement}', [AchievementController::class, 'destroy'])
+            ->name('achievements.destroy');
+
+        Route::post('diploms', [DiplomController::class, 'store'])
+            ->name('diploms.store');
+        Route::delete('diploms/{diplom}', [DiplomController::class, 'destroy'])
+            ->name('diploms.destroy');
+    });
+
+    Route::group(['middleware' => 'permission:achievement_read'], function () {
+        Route::get('achievements', [AchievementController::class, 'index'])
+            ->name('achievements.index');
+        Route::get('achievements/{event}', [AchievementController::class, 'show'])
+            ->name('achievements.show');
+        Route::get('achievements/report/{year}', [AchievementController::class, 'report'])
+            ->name('achievements.report');
     });
 });
