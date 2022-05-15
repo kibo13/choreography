@@ -61,10 +61,10 @@
                         @foreach($sections as $index => $section)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ $section }}</td>
-                                @if($permissions->where('name', $section)->count() == 2)
+                                <td>{{ $section->name }}</td>
+                                @if($permissions->where('name', $section->name)->count() == 2)
                                 @foreach($permissions as $permission)
-                                @if($permission->name == $section)
+                                @if($permission->name == $section->name)
                                 <td class="text-center">
                                     <input class="bk-form__checkbox {{$permission->slug}}"
                                            name="permissions[]"
@@ -78,7 +78,7 @@
                                 @endforeach
                                 @else
                                 @foreach($permissions as $permission)
-                                @if($permission->name == $section)
+                                @if($permission->name == $section->name)
                                 <td class="text-center">
                                     <input class="bk-form__checkbox {{$permission->slug}}"
                                            name="permissions[]"

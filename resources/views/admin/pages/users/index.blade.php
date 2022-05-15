@@ -41,11 +41,11 @@
                         <ul class="bk-btn-info">
                             @foreach($sections as $section)
                             <li>
-                                @if($user->permissions->where('name', $section)->count())
-                                <strong>{{ $section }}</strong>
+                                @if($user->permissions->where('name', $section->name)->count())
+                                <strong>{{ $section->name }}</strong>
                                 @endif
                                 @foreach($user->permissions as $permission)
-                                @if($permission->name == $section)
+                                @if($permission->name == $section->name)
                                 {{ @tip($permission->note) }}
                                 @endif
                                 @endforeach
