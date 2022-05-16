@@ -12,20 +12,33 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class AchievementController extends Controller
 {
+    private function worker()
+    {
+        return Auth::user()->worker;
+    }
+
     public function index()
     {
         switch (Auth::user()->role_id)
         {
             case 3:
-                $events = Event::where('worker_id', Auth::user()->worker->id)->get();
+                $events = Event::where('worker_id', $this->worker()->id)->get();
+                $worker = $this->worker()->id;
                 break;
 
             default:
                 $events = Event::get();
+                $worker = null;
                 break;
         }
 
-        return view('admin.pages.achievements.index', compact('events'));
+        $years = @getAchievementsByYears('ASC', $this->worker()->id)->pluck('total', 'year')->keys();
+        $total = @getAchievementsByYears('ASC', $this->worker()->id)->pluck('total', 'year')->values();
+
+        return view(
+            'admin.pages.achievements.index',
+            compact('events', 'worker', 'years', 'total')
+        );
     }
 
     public function create(Event $event)

@@ -8,14 +8,37 @@ function sections()
     return DB::table('permissions')->select('name')->groupBy('name')->get();
 }
 
-function periods()
+function getAchievementsByYears($sort = 'DESC', $worker = null)
 {
     return DB::table('events')
+                ->join('achievements', 'events.id', '=', 'achievements.event_id')
+                ->select(DB::raw('YEAR(events.from) as year'), DB::raw('COUNT(events.id) as total'))
+                ->where('events.worker_id', $worker)
+                ->groupBy('year')
+                ->orderBy('year', $sort)
+                ->get();
+}
+
+function getAchievementsByMonths($year = '2020', $worker = null)
+{
+    $query = DB::table('events')
         ->join('achievements', 'events.id', '=', 'achievements.event_id')
-        ->select(DB::raw('YEAR(events.from) as year'))
-        ->groupBy('year')
-        ->orderBy('year', 'DESC')
+        ->select(DB::raw('MONTH(events.from) as month'), DB::raw('COUNT(events.id) as total'))
+        ->where(DB::raw('YEAR(events.from)'), $year)
+        ->where('events.worker_id', $worker)
+        ->groupBy('month')
         ->get();
+
+    for ($month = 1; $month <= 12; $month++)
+    {
+        if ($query->where('month', $month)->first()->total) {
+            $result .= $month . ',' . $query->where('month', $month)->first()->total . ',';
+        } else {
+            $result .= $month . ',' . 0 . ',';
+        }
+    }
+
+    return $result;
 }
 
 function diplom($achievement, $member)

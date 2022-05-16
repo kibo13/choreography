@@ -9,9 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+    private function worker()
+    {
+        return Auth::user()->worker;
+    }
+
     public function index()
     {
-        $events  = Event::get();
+        switch (Auth::user()->role_id)
+        {
+            case 3:
+                $events = Event::where('worker_id', $this->worker()->id)->get();
+                break;
+
+            default:
+                $events = Event::get();
+                break;
+        }
 
         return view('admin.pages.events.index', compact('events'));
     }

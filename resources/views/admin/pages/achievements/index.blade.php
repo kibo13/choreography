@@ -24,7 +24,7 @@
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-2">
-                {{ __('_field.graph') }}
+                {{ __('_field.chart') }}
             </label>
             <input class="bk-tabs__input bk-tab-3"
                    id="tab-3"
@@ -37,7 +37,7 @@
                 @include('admin.pages.achievements.table')
             </div>
             <div class="bk-tabs__content bk-tab-content-2">
-                @include('admin.pages.achievements.graph')
+                @include('admin.pages.achievements.chart')
             </div>
             <div class="bk-tabs__content bk-tab-content-3">
                 @include('admin.pages.achievements.reports')
