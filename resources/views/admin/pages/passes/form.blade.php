@@ -48,7 +48,7 @@
                 <!-- from -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="from">
-                        {{ __('_field.date_from') }} {{ @mandatory() }}
+                        {{ __('_field.action_from') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="from"
@@ -61,7 +61,7 @@
                 <!-- till -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="till">
-                        {{ __('_field.date_till') }} {{ @mandatory() }}
+                        {{ __('_field.action_till') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="till"

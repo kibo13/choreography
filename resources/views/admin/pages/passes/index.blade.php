@@ -22,15 +22,15 @@
                class="dataTables table table-bordered table-hover table-responsive">
             <thead class="thead-light">
                 <tr>
-                    <th>#</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.pass') }}</th>
-                    <th class="w-25 bk-min-w-150 no-sort">{{ __('_field.date_from') }}</th>
-                    <th class="w-25 bk-min-w-150 no-sort">{{ __('_field.date_till') }}</th>
-                    <th class="w-25 bk-min-w-150 no-sort">{{ __('_field.cost') }}</th>
-                    <th class="bk-min-w-150 no-sort">{{ __('_field.lessons') }}</th>
-                    <th class="bk-min-w-150 no-sort">{{ __('_field.status') }}</th>
+                    <th class="align-top">#</th>
+                    <th class="align-top w-25 bk-min-w-150">{{ __('_field.pass') }}</th>
+                    <th class="align-top w-25 bk-min-w-150 no-sort">{{ __('_field.action_from') }}</th>
+                    <th class="align-top w-25 bk-min-w-150 no-sort">{{ __('_field.action_till') }}</th>
+                    <th class="align-top w-25 bk-min-w-150 no-sort">{{ __('_field.cost') }}</th>
+                    <th class="align-top bk-min-w-150 no-sort">{{ __('_field.lessons') }}</th>
+                    <th class="align-top bk-min-w-150 no-sort">{{ __('_field.status') }}</th>
                     @if(@is_access('pass_full'))
-                    <th class="no-sort">{{ __('_action.this') }}</th>
+                    <th class="align-top no-sort">{{ __('_action.this') }}</th>
                     @endif
                 </tr>
             </thead>
