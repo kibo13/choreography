@@ -11,8 +11,6 @@ mix .js("resources/js/admin/index.js", "public/js/admin.js")
     .sass("resources/sass/admin/index.sass", "public/css/admin.css")
     .version();
 
-mix.copy('node_modules/chart.js/dist/chart.js', 'public/js/chart.js');
-
 if (!mix.inProduction()) {
     mix.browserSync("dance.test");
 }

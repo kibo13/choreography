@@ -3,7 +3,6 @@
     <title>@yield('title-admin') | {{ config('app.name') }} </title>
     <link rel="stylesheet" href="{{ mix('css/admin.css') }}">
     <script src="{{ mix('js/admin.js') }}" defer></script>
-    <script src="{{ mix('js/chart.js') }}" defer></script>
 @endsection
 @section('content-body')
     <div class="admin">
