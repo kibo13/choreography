@@ -29,6 +29,8 @@
         "datatables.net": "^1.10.24",
         "datatables.net-dt": "^1.10.24",
         "font-awesome": "^4.7.0",
+        "fullcalendar": "^5.11.0",
+        "moment": "^2.29.3",
         "vue": "^3.2.31"
     },
     "browserslist": [
