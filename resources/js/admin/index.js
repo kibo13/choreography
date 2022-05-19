@@ -13,6 +13,7 @@ require('./custom/calculation')
 require('./custom/comparison')
 
 // pages
+require('./pages/home')
 require('./pages/users')
 require('./pages/groups')
 require('./pages/members')
