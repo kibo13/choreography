@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Diplom;
+use Illuminate\Support\Facades\Auth;
 
 function sections()
 {
@@ -44,4 +45,19 @@ function getAchievementsByMonths($year = '2020', $worker = null)
 function diplom($achievement, $member)
 {
     return Diplom::where(['achievement_id' => $achievement->id, 'member_id' => $member->id])->first();
+}
+
+function getGroupsByDirector()
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+            $groups = Auth::user()->worker->groups;
+            break;
+
+        default:
+            $groups = [];
+            break;
+    }
+
+    return $groups;
 }

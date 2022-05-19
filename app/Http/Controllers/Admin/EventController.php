@@ -66,7 +66,10 @@ class EventController extends Controller
         ]);
 
         $request->session()->flash('success', __('_record.added'));
-        return redirect()->route('admin.events.index');
+
+        return $request->has('created_from')
+            ? redirect()->back()
+            : redirect()->route('admin.events.index');
     }
 
     public function show(Event $event)

@@ -27,4 +27,5 @@
     </div>
     @include('components.modals.delete')
     @include('components.modals.confirm')
+    @include('components.modals.event')
 @endsection
