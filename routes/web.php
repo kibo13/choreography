@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 // site
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DataController;
 
 // admin
 use App\Http\Controllers\Admin\UserController;
@@ -37,7 +38,13 @@ Route::group([
     'as'         => 'admin.'
 ], function () {
 
+    // home
     Route::get('/', [HomeController::class, 'admin'])->name('home');
+
+    // data
+    Route::get('/data/events', [DataController::class, 'events'])->name('data.events');
+
+    // profile
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
