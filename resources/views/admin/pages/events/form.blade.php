@@ -55,11 +55,11 @@
                 <!-- from -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="from">
-                        {{ __('_field.datetime_from') }} {{ @mandatory() }}
+                        {{ __('_field.date_from') }} {{ @mandatory() }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="from"
-                           type="datetime-local"
+                           type="date"
                            name="from"
                            value="{{ isset($event) ? @getDateTime($event->from) : null }}"
                            required/>
@@ -68,14 +68,13 @@
                 <!-- till -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="till">
-                        {{ __('_field.datetime_till') }} {{ @mandatory() }}
+                        {{ __('_field.date_till') }}
                     </label>
                     <input class="bk-form__input bk-max-w-300"
                            id="till"
-                           type="datetime-local"
+                           type="date"
                            name="till"
-                           value="{{ isset($event) ? @getDateTime($event->till) : null }}"
-                           required/>
+                           value="{{ isset($event) ? @getDateTime($event->till) : null }}"/>
                 </div>
 
                 <!-- place -->

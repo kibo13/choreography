@@ -43,14 +43,8 @@
                     <td>
                         {{ $event->type ? __('_field.international') : __('_field.town') }}
                     </td>
-                    <td>
-                        <strong>{{ @getDMY($event->from) }}</strong>
-                        <small>{{ @getHI($event->from) }}</small>
-                    </td>
-                    <td>
-                        <strong>{{ @getDMY($event->till) }}</strong>
-                        <small>{{ @getHI($event->till) }}</small>
-                    </td>
+                    <td>{{ @getDMY($event->from) }}</td>
+                    <td>{{ @getDMY($event->till) }}</td>
                     <td>{{ $event->place }}</td>
                     <td>
                         <strong>{{ $event->group->title->name }}</strong>
