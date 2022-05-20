@@ -5,6 +5,7 @@
     <!-- vendors -->
     <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css') }}">
     <script src="{{ asset('js/vendors/jquery.min.js') }}" defer></script>
+    <script src="{{ asset('js/vendors/popper.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/bootstrap.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/jquery.dataTables.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/moment.min.js') }}" defer></script>
