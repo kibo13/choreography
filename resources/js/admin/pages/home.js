@@ -16,7 +16,7 @@ if (home_index) {
     const calendar = new Calendar(events, {
         locale: 'ru',
         firstDay: 1,
-        editable: true,
+        editable: false,
         selectable: director ? true : false,
         initialView: 'dayGridMonth',
         plugins: [
