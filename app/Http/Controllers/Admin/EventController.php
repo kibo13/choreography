@@ -56,13 +56,14 @@ class EventController extends Controller
         }
 
         Event::create([
-            'type'      => $request['type'],
-            'name'      => $request['name'],
-            'from'      => $request['from'],
-            'till'      => $request['till'],
-            'place'     => $request['place'],
-            'group_id'  => $request['group_id'],
-            'worker_id' => Auth::user()->worker->id,
+            'type'        => $request['type'],
+            'name'        => $request['name'],
+            'from'        => $request['from'],
+            'till'        => $request['till'],
+            'place'       => $request['place'],
+            'description' => $request['description'],
+            'group_id'    => $request['group_id'],
+            'worker_id'   => Auth::user()->worker->id,
         ]);
 
         $request->session()->flash('success', __('_record.added'));

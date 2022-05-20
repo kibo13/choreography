@@ -90,6 +90,16 @@
                            required/>
                 </div>
 
+                <!-- description -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="description">
+                        {{ __('_field.desc') }}
+                    </label>
+                    <textarea class="bk-form__textarea"
+                              id="description"
+                              name="description">{{ isset($event) ? $event->description : null }}</textarea>
+                </div>
+
                 <!-- group_id -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="group_id">

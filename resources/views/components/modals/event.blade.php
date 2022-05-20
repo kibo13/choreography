@@ -72,6 +72,14 @@
                            required>
                 </div>
 
+                <!-- description -->
+                <div class="mb-2">
+                    <label class="m-0 font-weight-bold" for="">
+                        {{ __('_field.desc') }}
+                    </label>
+                    <textarea class="form-control" name="description"></textarea>
+                </div>
+
                 <!-- group -->
                 <div class="">
                     <label class="m-0 font-weight-bold" for="">

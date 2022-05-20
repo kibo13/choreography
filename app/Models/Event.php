@@ -17,6 +17,7 @@ class Event extends Model
         'place',
         'group_id',
         'worker_id',
+        'description',
     ];
 
     public function group()
