@@ -6,6 +6,7 @@ require('./components/modal-check')
 require('./components/alert')
 require('./components/button')
 require('./components/image')
+require('./components/tooltip')
 
 // custom
 require('./custom/validation')

@@ -10,7 +10,15 @@ class DataController extends Controller
     public function events()
     {
         return DB::table('events')
-            ->select('events.name as title', 'events.from as start', 'events.till as end')
+            ->select([
+                'events.id as event_id',
+                'events.name as title',
+                'events.from as start',
+                'events.till as end',
+                'events.description',
+                'events.place',
+//                DB::raw('\'background\' as display'),
+            ])
             ->get();
     }
 }

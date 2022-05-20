@@ -3,7 +3,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
-import {compare} from '../custom/comparison'
+import { tag } from '../components/tooltip'
+import { compare } from '../custom/comparison'
 
 const home_index = document.getElementById('home-index')
 
@@ -44,6 +45,29 @@ if (home_index) {
             return {
                 start: today
             }
+        },
+
+        eventDidMount(info) {
+            const data = {
+                title: info.event.title,
+                event_id: info.event.extendedProps.event_id,
+                place: info.event.extendedProps.place,
+                description: info.event.extendedProps.description,
+            }
+
+            if (director) {
+                $(info.el).on('click', function (event) {
+                    window.location.href = `${window.location.origin}/events/${data.event_id}/edit`
+                })
+            }
+
+            $(info.el).tooltip({
+                container: 'body',
+                html: true,
+                title: tag.event(data),
+                boundary: 'window',
+                trigger : 'hover focus',
+            })
         },
 
         events: `${window.location.origin}/data/events`,
