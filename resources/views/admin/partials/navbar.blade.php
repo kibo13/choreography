@@ -53,6 +53,11 @@
                             {{ __('_section.privileges') }}
                         </a>
                         @endif
+                        @if(@is_access('orgkomitet_read'))
+                        <a class="dropdown-item" href="{{ route('admin.orgkomitets.index') }}">
+                            {{ __('_section.orgkomitets') }}
+                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif

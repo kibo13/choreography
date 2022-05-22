@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Diplom;
+use App\Models\Orgkomitet;
 use Illuminate\Support\Facades\Auth;
 
 function sections()
@@ -60,4 +61,9 @@ function getGroupsByDirector()
     }
 
     return $groups;
+}
+
+function getAllOrgcomitets()
+{
+    return Orgkomitet::get();
 }

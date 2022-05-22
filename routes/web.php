@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\PassController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\DiplomController;
+use App\Http\Controllers\Admin\OrgkomitetController;
 
 // auth
 Auth::routes([
@@ -161,6 +162,16 @@ Route::group([
     Route::group(['middleware' => 'permission:pass_read'], function () {
         Route::get('passes', [PassController::class, 'index'])
             ->name('passes.index');
+    });
+
+    // orgkomitets
+    Route::group(['middleware' => 'permission:orgkomitet_full'], function () {
+        Route::resource('orgkomitets', OrgkomitetController::class);
+    });
+
+    Route::group(['middleware' => 'permission:orgkomitet_read'], function () {
+        Route::get('orgkomitets', [OrgkomitetController::class, 'index'])
+            ->name('orgkomitets.index');
     });
 
     // events

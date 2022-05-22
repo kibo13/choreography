@@ -22,6 +22,21 @@
                     </select>
                 </div>
 
+                <!-- orgkomitet_id -->
+                <div class="mb-2">
+                    <label class="m-0 font-weight-bold" for="">
+                        {{ __('_field.orgkomitet') }} {{ @mandatory() }}
+                    </label>
+                    <select class="form-control form-control-sm" name="orgkomitet_id" required>
+                        <option value="" disabled selected>{{ __('_select.orgkomitet') }}</option>
+                        @foreach(@getAllOrgcomitets() as $orgkomitet)
+                        <option value="{{ $orgkomitet->id }}">
+                            {{ $orgkomitet->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- name -->
                 <div class="mb-2">
                     <label class="m-0 font-weight-bold" for="">

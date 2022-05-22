@@ -38,6 +38,27 @@
                     </select>
                 </div>
 
+                <!-- orgkomitet_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="orgkomitet_id">
+                        {{ __('_field.orgkomitet') }} {{ @mandatory() }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="orgkomitet_id"
+                            name="orgkomitet_id"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.orgkomitet') }}</option>
+                        @foreach($orgkomitets as $orgkomitet)
+                        <option value="{{ $orgkomitet->id }}"
+                                @isset($event) @if($event->orgkomitet_id == $orgkomitet->id)
+                                selected
+                                @endif @endisset>
+                            {{ $orgkomitet->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="name">

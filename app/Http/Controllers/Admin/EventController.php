@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\Orgkomitet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +33,8 @@ class EventController extends Controller
 
     public function create(Request $request)
     {
-        $types = config('constants.types');
+        $types       = config('constants.types');
+        $orgkomitets = Orgkomitet::get();
 
         switch (Auth::user()->role_id) {
             case 3:
@@ -45,7 +47,10 @@ class EventController extends Controller
                 break;
         }
 
-        return view('admin.pages.events.form', compact('types', 'groups'));
+        return view(
+            'admin.pages.events.form',
+            compact('types', 'orgkomitets', 'groups')
+        );
     }
 
     public function store(Request $request)
@@ -56,14 +61,15 @@ class EventController extends Controller
         }
 
         Event::create([
-            'type'        => $request['type'],
-            'name'        => $request['name'],
-            'from'        => $request['from'],
-            'till'        => $request['till'],
-            'place'       => $request['place'],
-            'description' => $request['description'],
-            'group_id'    => $request['group_id'],
-            'worker_id'   => Auth::user()->worker->id,
+            'type'          => $request['type'],
+            'orgkomitet_id' => $request['orgkomitet_id'],
+            'name'          => $request['name'],
+            'from'          => $request['from'],
+            'till'          => $request['till'],
+            'place'         => $request['place'],
+            'description'   => $request['description'],
+            'group_id'      => $request['group_id'],
+            'worker_id'     => Auth::user()->worker->id,
         ]);
 
         $request->session()->flash('success', __('_record.added'));
@@ -80,7 +86,8 @@ class EventController extends Controller
 
     public function edit(Request $request, Event $event)
     {
-        $types = config('constants.types');
+        $types       = config('constants.types');
+        $orgkomitets = Orgkomitet::get();
 
         switch (Auth::user()->role_id) {
             case 3:
@@ -93,7 +100,10 @@ class EventController extends Controller
                 break;
         }
 
-        return view('admin.pages.events.form', compact('event', 'types', 'members'));
+        return view(
+            'admin.pages.events.form',
+            compact('event', 'types', 'orgkomitets', 'members')
+        );
     }
 
     public function update(Request $request, Event $event)

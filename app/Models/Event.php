@@ -11,6 +11,7 @@ class Event extends Model
 
     protected $fillable = [
         'type',
+        'orgkomitet_id',
         'name',
         'from',
         'till',
@@ -23,6 +24,11 @@ class Event extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function orgkomitet()
+    {
+        return $this->belongsTo(Orgkomitet::class);
     }
 
     public function worker()

@@ -28,6 +28,7 @@
                     <th class="bk-min-w-150">{{ __('_field.date_from') }}</th>
                     <th class="bk-min-w-150">{{ __('_field.date_till') }}</th>
                     <th class="bk-min-w-150 w-25">{{ __('_field.place') }}</th>
+                    <th class="bk-min-w-250 w-25 no-sort">{{ __('_field.orgkomitet') }}</th>
                     <th class="bk-min-w-250 no-sort">{{ __('_field.concert_title') }}</th>
                     <th class="bk-min-w-150 no-sort">{{ __('_field.group') }}</th>
                     <th class="bk-min-w-150 no-sort">{{ __('_field.members') }}</th>
@@ -47,6 +48,42 @@
                     <td>{{ @getDMY($event->from) }}</td>
                     <td>{{ @getDMY($event->till) }}</td>
                     <td>{{ $event->place }}</td>
+                    <td>
+                        <ul class="bk-btn-info">
+                            <li>
+                                <strong>{{ __('_field.name') }}</strong>
+                                {{ $event->orgkomitet->name }}
+                            </li>
+                            <li>
+                                <strong>{{ __('_field.phone') }}</strong>
+                                {{ $event->orgkomitet->phone }}
+                            </li>
+                            <li>
+                                <strong>{{ __('_field.email') }}</strong>
+                                {{ $event->orgkomitet->email ? $event->orgkomitet->email : '…' }}
+                            </li>
+                            <li>
+                                <strong>{{ __('_field.website') }}</strong>
+                                @if($event->orgkomitet->site)
+                                <a class="text-primary"
+                                   href="{{ $event->orgkomitet->site }}" target="_blank">
+                                    посмотреть
+                                </a>
+                                @else
+                                <span class="text-info">
+                                    запись отсутствует
+                                </span>
+                                @endif
+                            </li>
+                            <li>
+                                <strong>{{ __('_field.office_hours') }}</strong>
+                                {{ getHI($event->orgkomitet->from) }}
+                                {{ '-' }}
+                                {{ getHI($event->orgkomitet->till) }}
+                            </li>
+                            {{ $event->orgkomitet_id ? @fa('fa fa-eye bk-btn-info--fa') : null }}
+                        </ul>
+                    </td>
                     <td>
                         <div class="bk-btn-info">
                             {{ $event->description }}

@@ -15,6 +15,7 @@ return [
     'info'                  => 'Информация',
     'lessons'               => 'Занятия',
     'members'               => 'Участники',
+    'orgkomitets'           => 'Оргкомитеты',
     'passes'                => 'Абонементы',
     'places'                => 'Места',
     'positions'             => 'Должности',

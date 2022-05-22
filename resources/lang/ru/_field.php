@@ -125,4 +125,14 @@ return [
     'cat_privileges'        => 'Категории льготников',
     'no_privileges'         => 'Не льготник',
     'discount_doc'          => 'Документ подтверждающий льготу',
+
+    // orgkomitet
+    'orgkomitet'            => 'Оргкомитет',
+    'whatsapp'              => 'WhatsApp',
+    'telegram'              => 'Telegram',
+    'website'               => 'Веб-сайт',
+    'orgtime_from'          => 'Время начала приёма',
+    'orgtime_till'          => 'Время окончания приёма',
+    'office_hours'          => 'Часы приёма',
+    'write_us'              => 'Написать нам в',
 ];
