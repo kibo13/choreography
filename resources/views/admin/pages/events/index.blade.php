@@ -28,7 +28,8 @@
                     <th class="bk-min-w-150">{{ __('_field.date_from') }}</th>
                     <th class="bk-min-w-150">{{ __('_field.date_till') }}</th>
                     <th class="bk-min-w-150 w-25">{{ __('_field.place') }}</th>
-                    <th class="bk-min-w-150 w-25">{{ __('_field.group') }}</th>
+                    <th class="bk-min-w-250 no-sort">{{ __('_field.concert_title') }}</th>
+                    <th class="bk-min-w-150 no-sort">{{ __('_field.group') }}</th>
                     <th class="bk-min-w-150 no-sort">{{ __('_field.members') }}</th>
                     @if(@is_access('event_full'))
                     <th class=" text-center no-sort">{{ __('_action.this') }}</th>
@@ -46,6 +47,12 @@
                     <td>{{ @getDMY($event->from) }}</td>
                     <td>{{ @getDMY($event->till) }}</td>
                     <td>{{ $event->place }}</td>
+                    <td>
+                        <div class="bk-btn-info">
+                            {{ $event->description }}
+                            {{ $event->description ? @fa('fa fa-eye bk-btn-info--fa') : null }}
+                        </div>
+                    </td>
                     <td>
                         <strong>{{ $event->group->title->name }}</strong>
                         @if($event->group->category_id != 4)

@@ -93,7 +93,7 @@
                 <!-- description -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="description">
-                        {{ __('_field.desc') }}
+                        {{ __('_field.concert_title') }}
                     </label>
                     <textarea class="bk-form__textarea"
                               id="description"

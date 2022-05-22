@@ -75,7 +75,7 @@
                 <!-- description -->
                 <div class="mb-2">
                     <label class="m-0 font-weight-bold" for="">
-                        {{ __('_field.desc') }}
+                        {{ __('_field.concert_title') }}
                     </label>
                     <textarea class="form-control" name="description"></textarea>
                 </div>

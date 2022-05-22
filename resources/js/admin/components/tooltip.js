@@ -11,7 +11,7 @@ export const tag = {
                     <span>${data.place}</span>
                 </li>
                 <li>
-                    <strong>Описание: </strong>
+                    <strong>Название концертного номера: </strong>
                     <span>${data.description}</span>
                 </li>
             </ul>
