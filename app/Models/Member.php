@@ -36,6 +36,7 @@ class Member extends Model
         'activity',
         'phone',
         'email',
+        'master',
     ];
 
     public function doc()

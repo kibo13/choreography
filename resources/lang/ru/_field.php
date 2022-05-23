@@ -12,6 +12,7 @@ return [
     'blanks'                => 'Бланки',
     'category'              => 'Категория',
     'chart'                 => 'График',
+    'command'               => 'Приказ',
     'contacts'              => 'Контакты',
     'cost'                  => 'Стоимость',
     'created_at'            => 'Дата создания',

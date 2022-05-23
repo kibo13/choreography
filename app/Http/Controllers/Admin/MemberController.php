@@ -11,6 +11,8 @@ use App\Models\Doc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class MemberController extends Controller
 {
@@ -24,29 +26,22 @@ class MemberController extends Controller
         switch (Auth::user()->role_id) {
             case 1:
             case 2:
-                $groups  = Group::get();
-                $members = Member::get();
+                $groups = Group::get();
                 break;
 
             case 3:
-                $groups  = $this->worker()->groups;
-                $members = [];
+                $groups = $this->worker()->groups;
                 break;
 
-            case 4:
-            case 5:
-                $groups  = [];
-                $members = [];
+            default:
+                $groups = [];
                 $request->session()->flash('warning', __('_dialog.group_null'));
                 break;
         }
 
         $blanks = config('constants.blanks');
 
-        return view(
-            'admin.pages.members.index',
-            compact('groups', 'members', 'blanks')
-        );
+        return view('admin.pages.members.index', compact('groups', 'blanks'));
     }
 
     public function create(Request $request)
@@ -77,6 +72,11 @@ class MemberController extends Controller
             'group_id'   => $request['group_id'],
             'form_study' => $request['form_study']
         ])->count();
+
+        if (Auth::user()->role_id != 3) {
+            $request->session()->flash('warning', __('_dialog.just_head'));
+            return redirect()->back();
+        }
 
         if ($request['form_study'] == 0)
         {
@@ -170,6 +170,7 @@ class MemberController extends Controller
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],
             'email'         => $request['email'],
+            'master'        => @command_master(Auth::user()->worker),
         ]);
 
         $request->session()->flash('success', __('_record.added'));
@@ -315,5 +316,44 @@ class MemberController extends Controller
 
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.members.index');
+    }
+
+    public function command(Member $member)
+    {
+        $paid = 'reports/command_paid.docx';
+        $free = 'reports/command_free.docx';
+        $word = new TemplateProcessor($member->form_study == 1 ? $paid : $free);
+
+        $word->setValues([
+            'date_command' => @getDMY($member->created_at) . ' г.',
+            'num'          => $member->id,
+            'master'       => $member->master,
+        ]);
+
+        $table     = new Table(['borderColor' => '000000', 'borderSize' => 6]);
+        $fontStyle = ['bold' => true];
+
+        $table->addRow();
+        $table->addCell(1000)->addText('№ <w:br/>п/п', $fontStyle);
+        $table->addCell(3000)->addText('Ф.И.О. <w:br/>участника', $fontStyle);
+        $table->addCell(3000)->addText('Дата рождения', $fontStyle);
+        $table->addCell(3000)->addText('Категория <w:br/>группы', $fontStyle);
+        $table->addCell(3000)->addText('Название <w:br/>группы', $fontStyle);
+        $table->addCell(3000)->addText('Форма <w:br/>обучения', $fontStyle);
+
+        $table->addRow();
+        $table->addCell(1000)->addText(1);
+        $table->addCell(3000)->addText(@getFIO('member', $member->id));
+        $table->addCell(3000)->addText(@getDMY($member->birthday));
+        $table->addCell(3000)->addText($member->group->category->name);
+        $table->addCell(3000)->addText($member->group->title->name);
+        $table->addCell(3000)->addText($member->form_study == 1 ? __('_field.paid') : __('_field.free'));
+
+        $word->setComplexBlock('table', $table);
+
+        $filename = __('_field.command') . ' №' . $member->id . ' от ' . @getDMY($member->created_at);
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
     }
 }

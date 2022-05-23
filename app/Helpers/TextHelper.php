@@ -89,6 +89,16 @@ function full_fio($type, $id)
     echo '<span title="' . $result->last_name . ' '. $result->first_name . ' ' . $result->middle_name .'">' . $last_name . ' ' . $first_name . $middle_name . '</span>';
 }
 
+function command_master($master)
+{
+    $worker      = Worker::where('id', $master->id)->first();
+    $last_name   = ucfirst($worker->last_name);
+    $first_name  = substr($worker->first_name, 0, 2) . '.';
+    $middle_name = isset($worker->middle_name) ? substr($worker->middle_name, 0, 2) . '.' : null;
+
+    return $last_name . ' ' . $first_name . $middle_name;
+}
+
 function getFIO($type, $id)
 {
     switch ($type)

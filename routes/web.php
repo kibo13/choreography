@@ -69,6 +69,8 @@ Route::group([
             ->name('members.index');
         Route::get('members/{member}', [MemberController::class, 'show'])
             ->name('members.show');
+        Route::get('members/command/{member}', [MemberController::class, 'command'])
+            ->name('members.command');
     });
 
     // workers
