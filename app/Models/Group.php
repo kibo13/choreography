@@ -16,6 +16,7 @@ class Group extends Model
         'extra_seats',
         'age_from',
         'age_till',
+        'workload',
         'price',
         'lessons',
     ];

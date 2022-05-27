@@ -93,6 +93,12 @@ return [
     'paid_group'            => 'Платная группа',
     'paid_seats'            => 'Кол-во платных мест',
 
+    // loads
+    'loads'                 => 'Нагрузка',
+    'hours_per_year'        => 'Кол-во часов в год',
+    'hours_per_month'       => 'Кол-во часов в месяц',
+    'hours_per_week'        => 'Кол-во часов в неделю',
+
     // passes
     'pass'                  => 'Абонемент',
     'date_from'             => 'Дата начала',

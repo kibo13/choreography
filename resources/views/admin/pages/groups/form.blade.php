@@ -111,6 +111,21 @@
                            autocomplete="off"/>
                 </div>
 
+                <!-- workload -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="workload">
+                        {{ __('_field.hours_per_month') }} {{ @mandatory() }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-100 is-number"
+                           id="workload"
+                           type="text"
+                           name="workload"
+                           maxlength="2"
+                           value="{{ isset($group) ? $group->workload : null }}"
+                           required
+                           autocomplete="off"/>
+                </div>
+
                 <!-- price -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="price">
