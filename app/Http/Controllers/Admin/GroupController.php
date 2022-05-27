@@ -13,18 +13,18 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $user   = Auth::user();
+        switch (Auth::user()->role_id) {
+            case 3:
+                $title_id = Auth::user()->worker->groups->pluck('title_id');
+                $titles   = Title::whereIn('id', $title_id)->get();
+                break;
 
-        if ($user->role_id == 3) {
-            $worker = $user->worker->groups->pluck('title_id');
-            $titles = Title::whereIn('id', $worker)->get();
-            $groups = $user->worker->groups;
-        } else {
-            $titles = Title::get();
-            $groups = false;
+            default:
+                $titles   = Title::get();
+                break;
         }
 
-        return view('admin.pages.groups.index', compact('titles', 'groups'));
+        return view('admin.pages.groups.index', compact('titles'));
     }
 
     public function create()
