@@ -39,6 +39,8 @@ if (users_form) {
                 $('.achievement_read').prop('checked', true)
                 $('.achievement_full').prop('checked', true)
                 $('.orgkomitet_read').prop('checked', true)
+                $('.load_read').prop('checked', true)
+                $('.load_full').prop('checked', true)
                 break
 
             case 'manager':

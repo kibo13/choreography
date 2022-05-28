@@ -29,4 +29,5 @@
     @include('components.modals.delete')
     @include('components.modals.confirm')
     @include('components.modals.event')
+    @include('components.modals.load')
 @endsection

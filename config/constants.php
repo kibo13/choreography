@@ -22,6 +22,52 @@ return [
         1 => 'Международное',
     ],
 
+    // days of week
+    'days_of_week'   => [
+        [
+            'id'        => 1,
+            'fullname'  => 'Понедельник',
+            'shortname' => 'Пн',
+            'slug'      => 'MO',
+        ],
+        [
+            'id'        => 2,
+            'fullname'  => 'Вторник',
+            'shortname' => 'Вт',
+            'slug'      => 'TU',
+        ],
+        [
+            'id'        => 3,
+            'fullname'  => 'Среда',
+            'shortname' => 'Ср',
+            'slug'      => 'WE',
+        ],
+        [
+            'id'        => 4,
+            'fullname'  => 'Четверг',
+            'shortname' => 'Чт',
+            'slug'      => 'TH',
+        ],
+        [
+            'id'        => 5,
+            'fullname'  => 'Пятница',
+            'shortname' => 'Пт',
+            'slug'      => 'FR',
+        ],
+        [
+            'id'        => 6,
+            'fullname'  => 'Суббота',
+            'shortname' => 'Сб',
+            'slug'      => 'SA',
+        ],
+        [
+            'id'        => 0,
+            'fullname'  => 'Воскресенье',
+            'shortname' => 'Вс',
+            'slug'      => 'SU',
+        ]
+    ],
+
     // blanks
     'blanks'         => [
         [

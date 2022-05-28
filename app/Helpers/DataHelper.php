@@ -67,3 +67,18 @@ function getAllOrgcomitets()
 {
     return Orgkomitet::get();
 }
+
+function load($group, $day_of_week, $field = null)
+{
+    $load = $group->loads->where('day_of_week', $day_of_week);
+
+    if (is_null($field))
+    {
+        return $load->count();
+    }
+
+    else
+    {
+        return $load->first()->$field;
+    }
+}

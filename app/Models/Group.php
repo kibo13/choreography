@@ -31,6 +31,22 @@ class Group extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function loads()
+    {
+        return $this->hasMany(Load::class);
+    }
+
+    public function getTotalHours()
+    {
+        $total = 0;
+
+        foreach ($this->loads as $load) {
+            $total += $load->duration;
+        }
+
+        return $total;
+    }
+
     public function workers()
     {
         return $this->belongsToMany(Worker::class);

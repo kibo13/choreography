@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
+use App\Http\Controllers\Admin\LoadController;
 
 // auth
 Auth::routes([
@@ -174,6 +175,19 @@ Route::group([
     Route::group(['middleware' => 'permission:orgkomitet_read'], function () {
         Route::get('orgkomitets', [OrgkomitetController::class, 'index'])
             ->name('orgkomitets.index');
+    });
+
+    // loads
+    Route::group(['middleware' => 'permission:load_full'], function () {
+        Route::post('loads/create-or-update', [LoadController::class, 'create_or_update'])
+            ->name('loads.action');
+        Route::delete('loads/{load}', [LoadController::class, 'destroy'])
+            ->name('loads.destroy');
+    });
+
+    Route::group(['middleware' => 'permission:load_read'], function () {
+        Route::get('loads', [LoadController::class, 'index'])
+            ->name('loads.index');
     });
 
     // events

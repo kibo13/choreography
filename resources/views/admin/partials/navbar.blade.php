@@ -58,6 +58,11 @@
                             {{ __('_section.orgkomitets') }}
                         </a>
                         @endif
+                        @if(@is_access('load_read'))
+                        <a class="dropdown-item" href="{{ route('admin.loads.index') }}">
+                            {{ __('_section.loads') }}
+                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif
