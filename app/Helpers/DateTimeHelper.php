@@ -26,3 +26,8 @@ function getHI($time)
 {
     return date('H:i', strtotime($time));
 }
+
+function plusMinutes($time, $minutes)
+{
+    return date('H:i', strtotime('+' . $minutes . ' minutes', strtotime($time)));
+}
