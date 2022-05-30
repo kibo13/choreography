@@ -19,6 +19,7 @@ class Group extends Model
         'workload',
         'price',
         'lessons',
+        'color',
     ];
 
     public function title()

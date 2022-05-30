@@ -47,7 +47,7 @@ class GroupController extends Controller
             'workload'     => $request['workload'],
             'price'        => $request['price'] ?? null ? $request['price'] : 0,
             'lessons'      => $request['lessons'] ?? null ? $request['lessons'] : 0,
-            'note'         => $request['note'],
+            'color'        => $request['color'],
         ]);
 
         $request->session()->flash('success', __('_record.added'));
@@ -79,7 +79,7 @@ class GroupController extends Controller
             'workload'     => $request['workload'],
             'price'        => $request['price'] ?? null ? $request['price'] : 0,
             'lessons'      => $request['lessons'] ?? null ? $request['lessons'] : 0,
-            'note'         => $request['note'],
+            'color'        => $request['color'],
         ]);
 
         $request->session()->flash('success', __('_record.updated'));

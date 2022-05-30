@@ -154,6 +154,18 @@
                            autocomplete="off"/>
                 </div>
 
+                <!-- color -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="color">
+                        {{ __('_field.color') }}
+                    </label>
+                    <input class="bk-form__color"
+                           id="color"
+                           type="color"
+                           name="color"
+                           value="{{ isset($group) ? $group->color : null }}"/>
+                </div>
+
                 <div class="mt-1 mb-0 form-group">
                     <button class="btn btn-outline-success">
                         {{ __('_action.save') }}
