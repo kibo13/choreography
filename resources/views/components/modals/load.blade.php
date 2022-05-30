@@ -16,6 +16,24 @@
                 <!-- day_of_week -->
                 <input type="hidden" id="day_of_week" name="day_of_week" value="">
 
+                <!-- room_id -->
+                <div class="mb-2">
+                    <label class="m-0 font-weight-bold" for="room_id">
+                        {{ __('_field.room') }} {{ @mandatory() }}
+                    </label>
+                    <select class="form-control form-control-sm"
+                            id="room_id"
+                            name="room_id"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.room') }}</option>
+                        @foreach(@getAllRooms() as $room)
+                        <option value="{{ $room->id }}">
+                            {{ __('_field.room') . ' ' . $room->num }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- start -->
                 <div class="mb-2">
                     <label class="m-0 font-weight-bold" for="start">

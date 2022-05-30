@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Diplom;
+use App\Models\Room;
 use App\Models\Orgkomitet;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,6 +62,11 @@ function getGroupsByDirector()
     }
 
     return $groups;
+}
+
+function getAllRooms()
+{
+    return Room::get();
 }
 
 function getAllOrgcomitets()

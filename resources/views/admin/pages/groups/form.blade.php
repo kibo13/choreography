@@ -126,6 +126,27 @@
                            autocomplete="off"/>
                 </div>
 
+                <!-- room_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="room_id">
+                        {{ __('_field.room') }} {{ @mandatory() }}
+                    </label>
+                    <select class="bk-form__select bk-max-w-300"
+                            id="room_id"
+                            name="room_id"
+                            required>
+                        <option value="" disabled selected>{{ __('_select.room') }}</option>
+                        @foreach($rooms as $room)
+                            <option value="{{ $room->id }}"
+                                    @isset($group) @if($group->room_id == $room->id)
+                                    selected
+                                    @endif @endisset>
+                                {{ __('_field.room') . ' ' . $room->num }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- price -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="price">

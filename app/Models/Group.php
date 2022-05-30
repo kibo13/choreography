@@ -17,6 +17,7 @@ class Group extends Model
         'age_from',
         'age_till',
         'workload',
+        'room_id',
         'price',
         'lessons',
         'color',
@@ -25,6 +26,11 @@ class Group extends Model
     public function title()
     {
         return $this->belongsTo(Title::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
     }
 
     public function category()

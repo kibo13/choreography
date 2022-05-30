@@ -70,6 +70,7 @@ class LoadController extends Controller
             ])->first();
 
             $load->update([
+                'room_id'     => $request['room_id'],
                 'start'       => $request['start'],
                 'duration'    => $request['duration'],
             ]);

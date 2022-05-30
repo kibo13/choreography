@@ -14,5 +14,16 @@ class Load extends Model
         'day_of_week',
         'start',
         'duration',
+        'room_id',
     ];
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }
