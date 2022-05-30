@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Diplom;
 use App\Models\Room;
 use App\Models\Orgkomitet;
+use App\Models\Load;
 use Illuminate\Support\Facades\Auth;
 
 function sections()
@@ -72,6 +73,20 @@ function getAllRooms()
 function getAllOrgcomitets()
 {
     return Orgkomitet::get();
+}
+
+function getLoadsByDayOfWeek($day_of_week)
+{
+    return Load::where('day_of_week', $day_of_week)->get();
+}
+
+function fillHours($hour, $load, $duration)
+{
+    $formatHour = date('H', strtotime($hour));
+    $formatLoad = date('H', strtotime($load));
+    $diff       = $formatHour - $formatLoad;
+
+    return $formatHour >= $formatLoad && $diff < $duration ? true : false;
 }
 
 function load($group, $day_of_week, $field = null)

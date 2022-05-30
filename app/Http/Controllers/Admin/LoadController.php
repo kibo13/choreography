@@ -25,8 +25,12 @@ class LoadController extends Controller
         }
 
         $daysOfWeek = config('constants.days_of_week');
+        $dayByHours = config('constants.day_by_hours');
 
-        return view('admin.pages.loads.index', compact('titles', 'daysOfWeek'));
+        return view(
+            'admin.pages.loads.index',
+            compact('titles', 'daysOfWeek', 'dayByHours')
+        );
     }
 
     public function create_or_update(Request $request)
