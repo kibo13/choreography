@@ -12,7 +12,8 @@
 
         <form class="bk-form"
               action="{{ @is_update($pass, 'admin.passes') }}"
-              method="POST">
+              method="POST"
+              enctype="multipart/form-data">
             <div class="bk-form__wrapper">
                 @csrf
                 @isset($pass) @method('PUT') @endisset
@@ -126,6 +127,36 @@
                         </option>
                         @endforeach
                     </select>
+                </div>
+
+                <!-- pay_date -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="pay_date">
+                        {{ __('_field.pay_date') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           id="pay_date"
+                           type="date"
+                           name="pay_date"
+                           value="{{ isset($pass) ? $pass->pay_date : null }}"/>
+                </div>
+
+                <!-- pay_file -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="pay_file">
+                        {{ __('_field.pay_file') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           type="text"
+                           value="{{ isset($pass->pay_file) ? $pass->pay_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           data-file="upload"
+                           type="file"
+                           name="pay_file"
+                           value="{{ isset($pass->pay_file) ? $pass->pay_file : null }}"
+                           accept="image/*"/>
                 </div>
 
                 <div class="mt-1 mb-0 form-title">

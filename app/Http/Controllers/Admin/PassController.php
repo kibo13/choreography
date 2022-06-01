@@ -8,6 +8,7 @@ use App\Models\Pass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -65,23 +66,31 @@ class PassController extends Controller
         $is_pass  = Pass::where('member_id', $request['member_id'])->first();
         $today    = Carbon::now()->addHour(5);
 
+        // check to exist pass by member
         if ($is_pass && $today <= $is_pass->till)
         {
             $request->session()->flash('warning', __('_dialog.pass_active'));
             return redirect()->back();
         }
 
+        // output message about just teacher can work with passes
         if (Auth::user()->role_id != 3)
         {
             $request->session()->flash('warning', __('_dialog.just_head'));
             return redirect()->back();
         }
 
+        unset($request['pay_file']);
+
+        if ($request->has('pay_file')) {
+            $pay_file      = $request->file('pay_file');
+            $pay_file_name = $pay_file->getClientOriginalName();
+            $pay_file_path = $pay_file->store('payments');
+        }
+
         $member   = Member::where('id', $request['member_id'])->first();
         $discount = $member->discount;
         $group    = $member->group->id;
-//        $from     = Carbon::now()->addHour(5);
-//        $till     = Carbon::now()->addHour(5)->addMonth();
         $price    = $member->group->price;
         $cost     = $discount ? $price - $price * $discount->size / 100 : $price;
         $lessons  = $member->group->lessons;
@@ -95,6 +104,9 @@ class PassController extends Controller
             'cost'      => $cost,
             'lessons'   => $lessons,
             'status'    => $request['status'],
+            'pay_date'  => $request['pay_date'],
+            'pay_file'  => $pay_file_path ?? null ? $pay_file_path : null,
+            'pay_note'  => $pay_file_name ?? null ? $pay_file_name : null,
         ]);
 
         $request->session()->flash('success', __('_record.added'));
@@ -189,19 +201,32 @@ class PassController extends Controller
 
     public function update(Request $request, Pass $pass)
     {
+        unset($request['pay_file']);
+
+        if ($request->has('pay_file')) {
+            Storage::delete($pass->pay_file);
+            $pay_file      = $request->file('pay_file');
+            $pay_file_name = $pay_file->getClientOriginalName();
+            $pay_file_path = $pay_file->store('payments');
+        }
+
         $pass->update([
             'from'      => $request['from'],
             'till'      => $request['till'],
             'status'    => $request['status'],
+            'pay_date'  => $request['pay_date'],
+            'pay_file'  => $pay_file_path ?? null ? $pay_file_path : null,
+            'pay_note'  => $pay_file_name ?? null ? $pay_file_name : null,
         ]);
 
         $request->session()->flash('success', __('_record.updated'));
-        return redirect()->route('admin.members.index');
+        return redirect()->route('admin.passes.index');
     }
 
     public function destroy(Request $request, Pass $pass)
     {
         $pass->delete();
+        Storage::delete($pass->pay_file);
 
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.passes.index');

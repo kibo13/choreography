@@ -18,6 +18,9 @@ class Pass extends Model
         'cost',
         'lessons',
         'status',
+        'pay_date',
+        'pay_file',
+        'pay_note',
     ];
 
     public function member()
