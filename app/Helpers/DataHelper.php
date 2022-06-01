@@ -70,6 +70,22 @@ function getAllRooms()
     return Room::get();
 }
 
+function getTeachers()
+{
+    return DB::table('workers')
+        ->join('users', 'workers.user_id', '=', 'users.id')
+        ->select([
+            'workers.id',
+            'workers.last_name',
+            'workers.first_name',
+            'workers.middle_name',
+            'workers.phone',
+            'workers.address',
+        ])
+        ->where('users.role_id', 3)
+        ->get();
+}
+
 function getAllOrgcomitets()
 {
     return Orgkomitet::get();

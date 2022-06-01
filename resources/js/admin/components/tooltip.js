@@ -16,6 +16,33 @@ export const tag = {
                 </li>
             </ul>
         `
+    },
+
+    timetable(data) {
+        return `
+            <ul>
+                <li>
+                    <strong>Группа: </strong>
+                    <span>${data.group}</span>
+                </li>
+                <li>
+                    <strong>Категория: </strong>
+                    <span>${data.category}</span>
+                </li>
+                <li>
+                    <strong>Кабинет: </strong>
+                    <span>${data.room}</span>
+                </li>
+                <li>
+                    <strong>Время занятия: </strong>
+                    <span>${data.title}</span>
+                </li>
+                <li>
+                    <strong>Руководитель: </strong>
+                    <span>${data.teacher}</span>
+                </li>
+            </ul>
+        `
     }
 }
 

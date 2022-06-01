@@ -30,4 +30,5 @@
     @include('components.modals.confirm')
     @include('components.modals.event')
     @include('components.modals.load')
+    @include('components.modals.timetable')
 @endsection
