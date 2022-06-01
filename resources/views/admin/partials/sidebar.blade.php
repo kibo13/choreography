@@ -45,6 +45,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('timetable_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.timetable*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.timetable.index') }}"
+               title="{{ __('_section.timetable') }}">
+                {{ @fa('fa-calendar sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                    {{ __('_section.timetable') }}
+                </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('event_read'))
         <li class="sidebar-list__item {{ @is_active('admin.event*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"

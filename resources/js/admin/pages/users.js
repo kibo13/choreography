@@ -41,16 +41,20 @@ if (users_form) {
                 $('.orgkomitet_read').prop('checked', true)
                 $('.load_read').prop('checked', true)
                 $('.load_full').prop('checked', true)
+                $('.timetable_read').prop('checked', true)
+                $('.timetable_full').prop('checked', true)
                 break
 
             case 'manager':
                 $('.room_read').prop('checked', true)
                 $('.room_full').prop('checked', true)
+                $('.timetable_read').prop('checked', true)
                 break
 
             case 'client':
                 $('.help_read').prop('checked', true)
                 $('.help_full').prop('checked', true)
+                $('.timetable_read').prop('checked', true)
                 break
         }
     })

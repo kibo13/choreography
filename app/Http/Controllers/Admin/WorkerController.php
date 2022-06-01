@@ -49,13 +49,17 @@ class WorkerController extends Controller
                 23, 24,
                 25, 26,
                 27,
-                29, 30
+                29, 30,
+                31, 32
             ]);
         }
 
         // TODO: manager
         if ($user->role_id == 4) {
-            $user->permissions()->attach([15, 16]);
+            $user->permissions()->attach([
+                15, 16,
+                31
+            ]);
         }
 
         $worker = Worker::create([

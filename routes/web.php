@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
 use App\Http\Controllers\Admin\LoadController;
+use App\Http\Controllers\Admin\TimetableController;
 
 // auth
 Auth::routes([
@@ -44,11 +45,16 @@ Route::group([
     Route::get('/', [HomeController::class, 'admin'])->name('home');
 
     // data
-    Route::get('/data/events', [DataController::class, 'events'])->name('data.events');
+    Route::group(['prefix' => 'data'], function() {
+       Route::get('events', [DataController::class, 'events']);
+       Route::get('timetable', [DataController::class, 'timetable']);
+    });
 
     // profile
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('profile', [ProfileController::class, 'index'])
+        ->name('profile.index');
+    Route::match(['put', 'patch'], 'profile/{user}', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
     // users
     Route::group(['middleware' => 'permission:user_full'], function () {
@@ -188,6 +194,19 @@ Route::group([
     Route::group(['middleware' => 'permission:load_read'], function () {
         Route::get('loads', [LoadController::class, 'index'])
             ->name('loads.index');
+    });
+
+    // timetable
+    Route::group(['middleware' => 'permission:timetable_full'], function () {
+        Route::get('timetable/create', [TimetableController::class, 'create'])
+            ->name('timetable.create');
+        Route::post('timetable/edit', [TimetableController::class, 'edit'])
+            ->name('timetable.edit');
+    });
+
+    Route::group(['middleware' => 'permission:timetable_read'], function () {
+        Route::get('timetable', [TimetableController::class, 'index'])
+            ->name('timetable.index');
     });
 
     // events
