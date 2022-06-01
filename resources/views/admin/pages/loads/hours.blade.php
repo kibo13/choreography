@@ -22,7 +22,7 @@
                     <p class="m-0 text-info">
                         {{ $title->is_paid ? __('_field.paid_group') : __('_field.free_group')  }}
                     </p>
-                    <ul style="display: grid; grid-gap: 5px;">
+                    <ul class="bk-grid">
                         @foreach($title->groups as $group)
                         <li class="py-1 px-2 text-white rounded" style="background: {{ $group->color }};">
                             {{ $group->category->name }}
