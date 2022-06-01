@@ -77,7 +77,17 @@ function getAllOrgcomitets()
 
 function getLoadsByDayOfWeek($day_of_week)
 {
-    return Load::where('day_of_week', $day_of_week)->get();
+    switch (Auth::user()->role_id) {
+        case 3:
+            $groups = Auth::user()->worker->groups->pluck('id');
+            $loads  = Load::whereIn('group_id', $groups)->where('day_of_week', $day_of_week)->get();
+            break;
+
+        default:
+            $loads  = Load::where('day_of_week', $day_of_week)->get();
+    }
+
+    return $loads;
 }
 
 function fillHours($hour, $load, $duration)
