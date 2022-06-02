@@ -58,22 +58,22 @@
             </thead>
             <tbody>
             @foreach($titles as $index => $title)
-                <tr>
-                    <td rowspan="4">{{ ++$index }}</td>
-                    <td rowspan="4">
-                        <h5 class="text-uppercase">
-                            {{ $title->name }}
-                        </h5>
-                        <p class="m-0 font-weight-bold">
-                            {{ $title->specialty->name }}
-                        </p>
-                        <p class="m-0 text-info">
-                            {{ $title->is_paid ? __('_field.paid_group') : __('_field.free_group')  }}
-                        </p>
-                    </td>
-                </tr>
                 @foreach($title->groups as $group)
                 <tr>
+                    <td>{{ ++$index }}</td>
+                    <td>
+                        <ul>
+                            <li class="text-uppercase font-weight-bold">
+                                {{ $title->name }}
+                            </li>
+                            <li>
+                                {{ $title->specialty->name }}
+                            </li>
+                            <li class="text-info">
+                                {{ $title->is_paid ? __('_field.paid_group') : __('_field.free_group')  }}
+                            </li>
+                        </ul>
+                    </td>
                     <td class="align-middle text-center">
                         {{ $group->category->name }}
                     </td>
