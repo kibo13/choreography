@@ -11,18 +11,15 @@ class DiplomController extends Controller
 {
     public function store(Request $request)
     {
-        if ($request->has('file'))
-        {
-            $file      = $request->file('file');
-            $file_name = $file->getClientOriginalName();
-            $file_path = $file->store('achievements');
-        }
+        $file      = $request->file('file');
+        $file_name = is_null($file) ? null : $file->getClientOriginalName();
+        $file_path = is_null($file) ? null : $file->store('achievements');
 
         Diplom::create([
             'achievement_id' => $request['achievement_id'],
             'member_id'      => $request['member_id'],
-            'file'           => $file_path ?? null ? $file_path : null,
-            'note'           => $file_name ?? null ? $file_name : null
+            'file'           => $file_path,
+            'note'           => $file_name
         ]);
 
         $request->session()->flash('success', __('_record.added'));

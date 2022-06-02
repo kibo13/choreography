@@ -96,43 +96,25 @@ class MemberController extends Controller
             }
         }
 
-        unset(
-            $request['doc_file'],
-            $request['app_file'],
-            $request['consent_file'],
-            $request['discount_doc'],
-            $request['address_doc'],
-        );
+        $doc_file           = $request->file('doc_file');
+        $doc_file_name      = is_null($doc_file) ? null : $doc_file->getClientOriginalName();
+        $doc_file_path      = is_null($doc_file) ? null : $doc_file->store('documents');
 
-        if ($request->has('doc_file')) {
-            $doc_file      = $request->file('doc_file');
-            $doc_file_name = $doc_file->getClientOriginalName();
-            $doc_file_path = $doc_file->store('documents');
-        }
+        $app_file           = $request->file('app_file');
+        $app_file_name      = is_null($app_file) ? null : $app_file->getClientOriginalName();
+        $app_file_path      = is_null($app_file) ? null : $app_file->store('documents');
 
-        if ($request->has('app_file')) {
-            $app_file      = $request->file('app_file');
-            $app_file_name = $app_file->getClientOriginalName();
-            $app_file_path = $app_file->store('documents');
-        }
+        $consent_file       = $request->file('consent_file');
+        $consent_file_name  = is_null($consent_file) ? null : $consent_file->getClientOriginalName();
+        $consent_file_path  = is_null($consent_file) ? null : $consent_file->store('documents');
 
-        if ($request->has('consent_file')) {
-            $consent_file      = $request->file('consent_file');
-            $consent_file_name = $consent_file->getClientOriginalName();
-            $consent_file_path = $consent_file->store('documents');
-        }
+        $discount_file      = $request->file('discount_doc');
+        $discount_file_name = is_null($discount_file) ? null : $discount_file->getClientOriginalName();
+        $discount_file_path = is_null($discount_file) ? null : $discount_file->store('documents');
 
-        if ($request->has('discount_doc')) {
-            $discount_file      = $request->file('discount_doc');
-            $discount_file_name = $discount_file->getClientOriginalName();
-            $discount_file_path = $discount_file->store('documents');
-        }
-
-        if ($request->has('address_doc')) {
-            $address_file      = $request->file('address_doc');
-            $address_file_name = $address_file->getClientOriginalName();
-            $address_file_path = $address_file->store('documents');
-        }
+        $address_file       = $request->file('address_doc');
+        $address_file_name  = is_null($address_file) ? null : $address_file->getClientOriginalName();
+        $address_file_path  = is_null($address_file) ? null : $address_file->store('documents');
 
         $user = User::create([
             'username'      => @bk_rand('login', $request['last_name'], 5),
@@ -156,19 +138,19 @@ class MemberController extends Controller
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
-            'doc_file'      => $doc_file_path ?? null ? $doc_file_path : null,
-            'doc_note'      => $doc_file_name ?? null ? $doc_file_name : null,
-            'app_file'      => $app_file_path ?? null ? $app_file_path : null,
-            'app_note'      => $app_file_name ?? null ? $app_file_name : null,
-            'consent_file'  => $consent_file_path ?? null ? $consent_file_path : null,
-            'consent_note'  => $consent_file_name ?? null ? $consent_file_name : null,
+            'doc_file'      => $doc_file_path,
+            'doc_note'      => $doc_file_name,
+            'app_file'      => $app_file_path,
+            'app_note'      => $app_file_name,
+            'consent_file'  => $consent_file_path,
+            'consent_note'  => $consent_file_name,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
             'discount_id'   => $request['discount_id'],
-            'discount_doc'  => $discount_file_path ?? null ? $discount_file_path : null,
-            'discount_note' => $discount_file_name ?? null ? $discount_file_name : null,
-            'address_doc'   => $address_file_path ?? null ? $address_file_path : null,
-            'address_note'  => $address_file_name ?? null ? $address_file_name : null,
+            'discount_doc'  => $discount_file_path,
+            'discount_note' => $discount_file_name,
+            'address_doc'   => $address_file_path,
+            'address_note'  => $address_file_name,
             'address_fact'  => $request['address_fact'],
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],
@@ -231,13 +213,8 @@ class MemberController extends Controller
             }
         }
 
-        unset(
-            $request['doc_file'],
-            $request['app_file'],
-            $request['consent_file'],
-            $request['discount_doc'],
-            $request['address_doc'],
-        );
+        $doc_file_name = $member->doc_note;
+        $doc_file_path = $member->doc_file;
 
         if ($request->has('doc_file')) {
             Storage::delete($member->doc_file);
@@ -246,12 +223,18 @@ class MemberController extends Controller
             $doc_file_path = $doc_file->store('documents');
         }
 
+        $app_file_name = $member->app_note;
+        $app_file_path = $member->app_file;
+
         if ($request->has('app_file')) {
             Storage::delete($member->app_file);
             $app_file      = $request->file('app_file');
             $app_file_name = $app_file->getClientOriginalName();
             $app_file_path = $app_file->store('documents');
         }
+
+        $consent_file_name = $member->consent_note;
+        $consent_file_path = $member->consent_file;
 
         if ($request->has('consent_file')) {
             Storage::delete($member->consent_file);
@@ -260,12 +243,18 @@ class MemberController extends Controller
             $consent_file_path = $consent_file->store('documents');
         }
 
+        $discount_file_name = $member->discount_note;
+        $discount_file_path = $member->discount_doc;
+
         if ($request->has('discount_doc')) {
             Storage::delete($member->discount_doc);
             $discount_file      = $request->file('discount_doc');
             $discount_file_name = $discount_file->getClientOriginalName();
             $discount_file_path = $discount_file->store('documents');
         }
+
+        $address_file_name = $member->address_note;
+        $address_file_path = $member->address_doc;
 
         if ($request->has('address_doc')) {
             Storage::delete($member->address_doc);
@@ -283,19 +272,19 @@ class MemberController extends Controller
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
-            'doc_file'      => $doc_file_path ?? null ? $doc_file_path : null,
-            'doc_note'      => $doc_file_name ?? null ? $doc_file_name : null,
-            'app_file'      => $app_file_path ?? null ? $app_file_path : null,
-            'app_note'      => $app_file_name ?? null ? $app_file_name : null,
-            'consent_file'  => $consent_file_path ?? null ? $consent_file_path : null,
-            'consent_note'  => $consent_file_name ?? null ? $consent_file_name : null,
+            'doc_file'      => $doc_file_path,
+            'doc_note'      => $doc_file_name,
+            'app_file'      => $app_file_path,
+            'app_note'      => $app_file_name,
+            'consent_file'  => $consent_file_path,
+            'consent_note'  => $consent_file_name,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
             'discount_id'   => $request['discount_id'],
-            'discount_doc'  => $discount_file_path ?? null ? $discount_file_path : null,
-            'discount_note' => $discount_file_name ?? null ? $discount_file_name : null,
-            'address_doc'   => $address_file_path ?? null ? $address_file_path : null,
-            'address_note'  => $address_file_name ?? null ? $address_file_name : null,
+            'discount_doc'  => $discount_file_path,
+            'discount_note' => $discount_file_name,
+            'address_doc'   => $address_file_path,
+            'address_note'  => $address_file_name,
             'address_fact'  => $request['address_fact'],
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],

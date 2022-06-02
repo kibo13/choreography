@@ -73,7 +73,8 @@ class SupportController extends Controller
 
     public function update(SupportRequest $request, Application $application)
     {
-        unset($request['file']);
+        $file_name = $application->note;
+        $file_path = $application->file;
 
         if ($request->has('file')) {
             Storage::delete($application->file);
@@ -86,8 +87,8 @@ class SupportController extends Controller
             'group_id'  => Auth::user()->member->group_id,
             'topic'     => $request['topic'],
             'desc'      => $request['desc'],
-            'file'      => $file_path ?? null ? $file_path : null,
-            'note'      => $file_name ?? null ? $file_name : null
+            'file'      => $file_path,
+            'note'      => $file_name
         ]);
 
         $request->session()->flash('success', __('_record.updated'));

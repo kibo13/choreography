@@ -80,20 +80,15 @@ class PassController extends Controller
             return redirect()->back();
         }
 
-        unset($request['pay_file']);
-
-        if ($request->has('pay_file')) {
-            $pay_file      = $request->file('pay_file');
-            $pay_file_name = $pay_file->getClientOriginalName();
-            $pay_file_path = $pay_file->store('payments');
-        }
-
-        $member   = Member::where('id', $request['member_id'])->first();
-        $discount = $member->discount;
-        $group    = $member->group->id;
-        $price    = $member->group->price;
-        $cost     = $discount ? $price - $price * $discount->size / 100 : $price;
-        $lessons  = $member->group->lessons;
+        $member        = Member::where('id', $request['member_id'])->first();
+        $discount      = $member->discount;
+        $group         = $member->group->id;
+        $price         = $member->group->price;
+        $cost          = $discount ? $price - $price * $discount->size / 100 : $price;
+        $lessons       = $member->group->lessons;
+        $pay_file      = $request->file('pay_file');
+        $pay_file_name = is_null($pay_file) ? null : $pay_file->getClientOriginalName();
+        $pay_file_path = is_null($pay_file) ? null : $pay_file->store('payments');
 
         Pass::create([
             'member_id' => $request['member_id'],
@@ -105,8 +100,8 @@ class PassController extends Controller
             'lessons'   => $lessons,
             'status'    => $request['status'],
             'pay_date'  => $request['pay_date'],
-            'pay_file'  => $pay_file_path ?? null ? $pay_file_path : null,
-            'pay_note'  => $pay_file_name ?? null ? $pay_file_name : null,
+            'pay_file'  => $pay_file_path,
+            'pay_note'  => $pay_file_name
         ]);
 
         $request->session()->flash('success', __('_record.added'));
@@ -201,7 +196,8 @@ class PassController extends Controller
 
     public function update(Request $request, Pass $pass)
     {
-        unset($request['pay_file']);
+        $pay_file_name = $pass->pay_note;
+        $pay_file_path = $pass->pay_file;
 
         if ($request->has('pay_file')) {
             Storage::delete($pass->pay_file);
@@ -215,8 +211,8 @@ class PassController extends Controller
             'till'      => $request['till'],
             'status'    => $request['status'],
             'pay_date'  => $request['pay_date'],
-            'pay_file'  => $pay_file_path ?? null ? $pay_file_path : null,
-            'pay_note'  => $pay_file_name ?? null ? $pay_file_name : null,
+            'pay_file'  => $pay_file_path,
+            'pay_note'  => $pay_file_name
         ]);
 
         $request->session()->flash('success', __('_record.updated'));
