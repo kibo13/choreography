@@ -2,10 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DataController extends Controller
 {
+    private function groups()
+    {
+        switch (Auth::user()->role_id)
+        {
+            case 1:
+            case 2:
+            case 4:
+                $groups = Group::pluck('id');
+                break;
+
+            case 3:
+                $groups = Auth::user()->worker->groups->pluck('id');
+                break;
+
+            case 5:
+                $groups = [Auth::user()->member->group->id];
+                break;
+        }
+
+        return $groups;
+    }
+
     public function events()
     {
         return DB::table('events')
@@ -16,7 +40,6 @@ class DataController extends Controller
                 'events.till as end',
                 'events.description',
                 'events.place',
-//                DB::raw('\'background\' as display'),
             ])
             ->get();
     }
@@ -42,6 +65,7 @@ class DataController extends Controller
                 'timetables.worker_id',
                 'groups.color as bgColor',
             ])
+            ->whereIn('group_id', $this->groups())
             ->get();
     }
 }
