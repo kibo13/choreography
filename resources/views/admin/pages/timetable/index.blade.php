@@ -17,7 +17,7 @@
             <hr>
             <div class="bk-grid bk-grid--gtc-150">
             @foreach($titles as $title)
-                <div class="bk-grid">
+                <div class="bk-grid bk-grid--gtr-30">
                     <h6>{{ $title->name }}</h6>
                     @foreach($title->groups as $group)
                     <div class="py-1 px-2 text-white rounded" style="background: {{ $group->color }};">
