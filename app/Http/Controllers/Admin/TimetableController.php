@@ -84,13 +84,22 @@ class TimetableController extends Controller
             {
                 for ($lesson = 1; $lesson <= $load->duration; $lesson++)
                 {
-                    Timetable::create([
-                        'group_id'  => $load->group_id,
-                        'room_id'   => $load->room_id,
-                        'from'      => $date . ' ' . @plusMinutes($load->start, 60 * ($lesson - 1)),
-                        'till'      => $date . ' ' . @plusMinutes($load->start, 45 + 60 * ($lesson - 1)),
-                        'worker_id' => $user->worker->id,
-                    ]);
+                    $from      = $date . ' ' . @plusMinutes($load->start, 60 * ($lesson - 1));
+                    $till      = $date . ' ' . @plusMinutes($load->start, 45 + 60 * ($lesson - 1));
+                    $code      = $load->group_id . '-' . $from . '-' . $till;
+                    $condition = Timetable::where('code', $code)->exists();
+
+                    if (!$condition) {
+                        Timetable::create([
+                            'code'       => $code,
+                            'group_id'   => $load->group_id,
+                            'room_id'    => $load->room_id,
+                            'from'       => $from,
+                            'till'       => $till,
+                            'worker_id'  => $user->worker->id,
+                            'is_replace' => $user->worker->id,
+                        ]);
+                    }
                 }
             }
         }

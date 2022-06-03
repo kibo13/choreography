@@ -10,11 +10,13 @@ class CreateTimetablesTable extends Migration
     {
         Schema::create('timetables', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->nullable();
             $table->bigInteger('group_id')->unsigned()->nullable();
             $table->dateTime('from')->nullable();
             $table->dateTime('till')->nullable();
             $table->bigInteger('worker_id')->unsigned()->nullable();
             $table->bigInteger('room_id')->unsigned()->nullable();
+            $table->integer('is_replace')->nullable();
         });
     }
 

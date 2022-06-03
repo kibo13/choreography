@@ -10,11 +10,13 @@ class Timetable extends Model
     use HasFactory;
 
     protected $fillable = [
+        'code',
         'group_id',
         'from',
         'till',
         'worker_id',
         'room_id',
+        'is_replace',
     ];
 
     public function room()
