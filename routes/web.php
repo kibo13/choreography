@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
 use App\Http\Controllers\Admin\LoadController;
 use App\Http\Controllers\Admin\TimetableController;
+use App\Http\Controllers\Admin\ReportController;
 
 // auth
 Auth::routes([
@@ -245,5 +246,19 @@ Route::group([
             ->name('achievements.show');
         Route::get('achievements/report/{year}', [AchievementController::class, 'report'])
             ->name('achievements.report');
+    });
+
+    // reports
+    Route::group(['middleware' => 'permission:report_read'], function () {
+        Route::get('reports/index', [ReportController::class, 'index'])
+            ->name('reports.index');
+        Route::get('reports/privileges', [ReportController::class, 'privileges'])
+            ->name('reports.privileges');
+        Route::get('reports/passes/{type}', [ReportController::class, 'passes'])
+            ->name('reports.passes');
+        Route::get('reports/amounts', [ReportController::class, 'amounts'])
+            ->name('reports.amounts');
+        Route::get('reports/ages', [ReportController::class, 'ages'])
+            ->name('reports.ages');
     });
 });

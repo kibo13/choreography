@@ -28,6 +28,11 @@ class Pass extends Model
         return $this->belongsTo(Member::class);
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function worker()
     {
         return $this->belongsTo(Worker::class);

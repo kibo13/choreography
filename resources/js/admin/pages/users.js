@@ -43,6 +43,7 @@ if (users_form) {
                 $('.load_full').prop('checked', true)
                 $('.timetable_read').prop('checked', true)
                 $('.timetable_full').prop('checked', true)
+                $('.report_read').prop('checked', true)
                 break
 
             case 'manager':

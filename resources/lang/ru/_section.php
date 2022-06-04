@@ -22,6 +22,7 @@ return [
     'positions'             => 'Должности',
     'privileges'            => 'Льготники',
     'profile'               => 'Профиль',
+    'reports'               => 'Отчеты',
     'rooms'                 => 'Кабинеты',
     'schedule'              => 'Расписание',
     'sections'              => 'Разделы',
