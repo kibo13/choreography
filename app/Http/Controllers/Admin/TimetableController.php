@@ -86,7 +86,7 @@ class TimetableController extends Controller
                 {
                     $from      = $date . ' ' . @plusMinutes($load->start, 60 * ($lesson - 1));
                     $till      = $date . ' ' . @plusMinutes($load->start, 45 + 60 * ($lesson - 1));
-                    $code      = $load->group_id . '-' . $from . '-' . $till;
+                    $code      = @bk_code($load->group_id, $date, @plusMinutes($load->start, 60 * ($lesson - 1)));
                     $condition = Timetable::where('code', $code)->exists();
 
                     if (!$condition) {

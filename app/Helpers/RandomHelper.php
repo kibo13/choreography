@@ -27,3 +27,16 @@ function bk_rand($type, $param = null, $length = 13)
 
     return $result;
 }
+
+function bk_code($group, $date, $time)
+{
+    $formattedDate = str_replace('-', '', $date);
+    $formattedTime = str_replace(':', '', $time);
+
+    if (iconv_strlen($formattedDate) == 7)
+    {
+        $formattedDate = substr_replace($formattedDate, '0', 6, 0);
+    }
+
+    return $group . $formattedDate . $formattedTime;
+}
