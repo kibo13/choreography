@@ -81,6 +81,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('award_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.award*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.awards.index') }}"
+               title="{{ __('_section.awards') }}">
+                {{ @fa('fa-certificate sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                {{ __('_section.awards') }}
+            </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('member_read'))
         <li class="sidebar-list__item {{ @is_active('admin.member*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"

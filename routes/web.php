@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\PassController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\AwardController;
 use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
 use App\Http\Controllers\Admin\LoadController;
@@ -248,6 +249,16 @@ Route::group([
             ->name('achievements.report');
     });
 
+    // awards
+    Route::group(['middleware' => 'permission:award_full'], function () {
+        Route::resource('awards', AwardController::class);
+    });
+
+    Route::group(['middleware' => 'permission:award_read'], function () {
+        Route::get('awards', [AwardController::class, 'index'])
+            ->name('awards.index');
+    });
+
     // reports
     Route::group(['middleware' => 'permission:report_read'], function () {
         Route::get('reports/index', [ReportController::class, 'index'])
@@ -260,5 +271,7 @@ Route::group([
             ->name('reports.amounts');
         Route::get('reports/ages', [ReportController::class, 'ages'])
             ->name('reports.ages');
+        Route::get('reports/awards', [ReportController::class, 'awards'])
+            ->name('reports.awards');
     });
 });

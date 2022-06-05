@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Award;
 use App\Models\Group;
 use App\Models\Member;
 use App\Models\Pass;
@@ -258,6 +259,55 @@ class ReportController extends Controller
             $table->addCell()->addText($member->group->title->name);
             $table->addCell()->addText($member->group->category->name);
             $table->addCell()->addText(@getFIO('worker', Auth::user()->worker->id));
+        }
+
+        $word->setComplexBlock('table', $table);
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
+
+    public function awards(Request $request)
+    {
+        if (Auth::user()->role_id != 3) {
+            $request->session()->flash('warning', 'Данный отчет доступен только руководителю');
+            return redirect()->back();
+        }
+
+        // get list of age categories of club members
+        $awards = Award::whereIn('group_id', $this->groups())->get();
+
+        // set filename
+        $filename = config('constants.reports')[5]['name'];
+
+        // create empty template
+        $word = new TemplateProcessor('reports/awards.docx');
+
+        // set title of report
+        $word->setValue('title', $filename);
+
+        // create table
+        $table    = new Table(['borderColor' => '000000', 'borderSize' => 6]);
+        $fontText = ['bold' => true];
+
+        $table->addRow();
+        $table->addCell(2000)->addText('Номер регистрации', $fontText);
+        $table->addCell(2000)->addText('Дата регистрации', $fontText);
+        $table->addCell(2000)->addText('Дата выдачи  <w:br/>документа', $fontText);
+        $table->addCell(5000)->addText('Название документа', $fontText);
+        $table->addCell(3000)->addText('Краткое содержание', $fontText);
+        $table->addCell(2000)->addText('Кем выдан', $fontText);
+        $table->addCell(3000)->addText('Примечание', $fontText);
+
+        foreach ($awards as $award) {
+            $table->addRow();
+            $table->addCell()->addText('№' . $award->num);
+            $table->addCell()->addText(@getDMY($award->date_reg));
+            $table->addCell()->addText(@getDMY($award->date_doc));
+            $table->addCell()->addText($award->name_doc);
+            $table->addCell()->addText('Выдан коллективу <w:br/>' . $award->group->title->name . ' / ' . $award->group->category->name . '<w:br/>(' . $award->totalSeats() . ' чел.)');
+            $table->addCell()->addText('Организаторы конкурса: <w:br/>' . $award->orgkomitet->name);
+            $table->addCell()->addText($award->note);
         }
 
         $word->setComplexBlock('table', $table);
