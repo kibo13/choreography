@@ -14,16 +14,16 @@ class WorkerController extends Controller
 {
     public function index()
     {
-        $workers        = Worker::get();
-        $titles         = Title::get();
+        $workers = Worker::orderBy('created_at', 'desc')->get();
+        $titles  = Title::get();
 
         return view('admin.pages.workers.index', compact('workers', 'titles'));
     }
 
     public function create()
     {
-        $roles          = Role::whereIn('slug', ['head', 'manager'])->get();
-        $groups         = Group::get();
+        $roles  = Role::whereIn('slug', ['head', 'manager'])->get();
+        $groups = Group::get();
 
         return view('admin.pages.workers.form', compact('roles', 'groups'));
     }
@@ -91,8 +91,8 @@ class WorkerController extends Controller
 
     public function edit(Worker $worker)
     {
-        $roles          = Role::whereIn('slug', ['head', 'manager'])->get();
-        $groups         = Group::get();
+        $roles  = Role::whereIn('slug', ['head', 'manager'])->get();
+        $groups = Group::get();
 
         return view('admin.pages.workers.form', compact('worker', 'groups', 'roles'));
     }
