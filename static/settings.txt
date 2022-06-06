@@ -12,11 +12,23 @@
 |
 | name: Иванова-37628
 | pass: EHoB1dPRXKlyYoH
-| slug: head
+| slug: presto
 |
 | name: Тен-70461
 | pass: BpgN240lA2
-| slug: head
+| slug: adivas
+|
+| name: Дмитриенко-04356
+| pass: 123456
+| slug: bluz
+|
+| name: Швец-10962
+| pass: 123456
+| slug: astra
+|
+| name: Игорева-18429
+| pass: 123456
+| slug: russian_samocveti
 |
 |-------------------------------------------------------------------------
 | role: Заведующий
