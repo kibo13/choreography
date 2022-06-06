@@ -4,14 +4,6 @@
     <section id="members-index" class="overflow-auto">
         <h3>{{ __('_section.members') }}</h3>
 
-        @if(@is_access('member_full'))
-        <div class="my-2 btn-group">
-            <a class="btn btn-primary" href="{{ route('admin.members.create') }}">
-                {{ __('_record.new') }}
-            </a>
-        </div>
-        @endif
-
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">
             {{ session()->get('success') }}

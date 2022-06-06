@@ -23,6 +23,11 @@
 
 @foreach($groups as $group)
 <h5 class="bk-places-group">
+    @if(@is_access('member_full'))
+    <a class="text-primary" href="{{ route('admin.members.create', $group) }}">
+        [Добавить участника]
+    </a>
+    @endif
     {{ $group->title->name }}
     {{ @tip($group->category->name) }}
 </h5>

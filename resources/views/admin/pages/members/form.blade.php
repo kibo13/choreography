@@ -18,6 +18,47 @@
                 @csrf
                 @isset($member) @method('PUT') @endisset
 
+                <!-- group_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="">
+                        {{ __('_field.group') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @isset($member)
+                        {{ $member->group->title->name }}
+                        {{ $member->group->category->name }}
+                        @else
+                        <input type="hidden"
+                               id="group_id"
+                               name="group_id"
+                               value="{{ old('group_id', $group->id) }}"
+                               data-from="{{ $group->from }}"
+                               data-till="{{ $group->till }}">
+                        {{ $group->title->name }}
+                        {{ $group->category->name }}
+                        {{ $group->age_from . '-' . $group->age_till . ' лет' }}
+                        @endisset
+                    </div>
+                </div>
+
+                <!-- form_study -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="">
+                        {{ __('_field.study') }}
+                    </label>
+                    <div class="bk-form__text">
+                        @isset($member)
+                        {{ $member->form_study == 1 ? __('_field.paid') : __('_field.free') }}
+                        @else
+                        <input type="hidden"
+                               id="form_study"
+                               name="form_study"
+                               value="{{ old('form_study', $form_study['id']) }}">
+                        {{ $form_study['id'] == 1 ? __('_field.paid') : __('_field.free') }}
+                        @endisset
+                    </div>
+                </div>
+
                 <!-- last_name -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="last_name">
@@ -27,7 +68,7 @@
                            id="last_name"
                            type="text"
                            name="last_name"
-                           value="{{ isset($member) ? $member->last_name : null }}"
+                           value="{{ old('last_name', isset($member) ? $member->last_name : null) }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -41,7 +82,7 @@
                            id="first_name"
                            type="text"
                            name="first_name"
-                           value="{{ isset($member) ? $member->first_name : null }}"
+                           value="{{ old('first_name', isset($member) ? $member->first_name : null) }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -55,54 +96,8 @@
                            id="middle_name"
                            type="text"
                            name="middle_name"
-                           value="{{ isset($member) ? $member->middle_name : null }}"
+                           value="{{ old('middle_name', isset($member) ? $member->middle_name : null) }}"
                            autocomplete="off"/>
-                </div>
-
-                <!-- group_id -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="group_id">
-                        {{ __('_field.group') }} {{ @mandatory() }}
-                    </label>
-                    <select class="bk-form__select bk-max-w-300"
-                            id="group_id"
-                            name="group_id"
-                            required>
-                        <option value="" disabled selected>{{ __('_select.group') }}</option>
-                        @foreach($groups as $group)
-                        <option value="{{ $group->id }}"
-                                data-from="{{ $group->age_from }}"
-                                data-till="{{ $group->age_till }}"
-                                @isset($member) @if($member->group_id == $group->id)
-                                selected
-                                @endif @endisset>
-                            {{ $group->title->name }}
-                            {{ $group->category->name }}
-                            {{ $group->age_from . '-' . $group->age_till . ' лет' }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- form_study -->
-                <div class="bk-form__field">
-                    <label class="bk-form__label" for="form_study">
-                        {{ __('_field.study') }} {{ @mandatory() }}
-                    </label>
-                    <select class="bk-form__select bk-max-w-300"
-                            id="form_study"
-                            name="form_study"
-                            required>
-                        <option value="" disabled selected>{{ __('_select.study') }}</option>
-                        @foreach($studies as $index => $study)
-                        <option value="{{ $index }}"
-                                @isset($member) @if($member->form_study == $index)
-                                selected
-                                @endif @endisset>
-                            {{ $study }}
-                        </option>
-                        @endforeach
-                    </select>
                 </div>
 
                 <!-- doc_id -->
@@ -135,7 +130,7 @@
                            id="doc_num"
                            type="text"
                            name="doc_num"
-                           value="{{ isset($member) ? $member->doc_num : null }}"
+                           value="{{ old('doc_num', isset($member) ? $member->doc_num : null) }}"
                            maxlength="10"
                            required
                            autocomplete="off"/>
@@ -150,7 +145,7 @@
                            id="doc_date"
                            type="date"
                            name="doc_date"
-                           value="{{ isset($member) ? $member->doc_date : null }}"
+                           value="{{ old('doc_date', isset($member) ? $member->doc_date : null) }}"
                            required/>
                 </div>
 
@@ -214,7 +209,7 @@
                            id="birthday"
                            type="date"
                            name="birthday"
-                           value="{{ isset($member) ? $member->birthday : null }}"
+                           value="{{ old('birthday', isset($member) ? $member->birthday : null) }}"
                            required/>
                 </div>
 
@@ -229,7 +224,7 @@
                            id="phone"
                            type="tel"
                            name="phone"
-                           value="{{ isset($member) ? $member->phone : null }}"
+                           value="{{ old('phone', isset($member) ? $member->phone : null) }}"
                            pattern="[+]7 [0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}"
                            maxlength="16"
                            required
@@ -246,7 +241,7 @@
                            id="email"
                            type="email"
                            name="email"
-                           value="{{ isset($member) ? $member->email : null }}"
+                           value="{{ old('email', isset($member) ? $member->email : null) }}"
                            autocomplete="off"/>
                 </div>
 
@@ -301,7 +296,7 @@
                            id="address_fact"
                            type="text"
                            name="address_fact"
-                           value="{{ isset($member) ? $member->address_fact : null }}"/>
+                           value="{{ old('address_fact', isset($member) ? $member->address_fact : null) }}"/>
                 </div>
 
                 <!-- address_doc -->
@@ -330,7 +325,7 @@
                            id="activity"
                            type="text"
                            name="activity"
-                           value="{{ isset($member) ? $member->activity : null }}"/>
+                           value="{{ old('activity', isset($member) ? $member->activity : null) }}"/>
                 </div>
 
                 <div class="mt-1 mb-0 form-group">

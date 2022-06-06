@@ -24,56 +24,41 @@ class MemberController extends Controller
         return view('admin.pages.members.index', compact('groups', 'blanks'));
     }
 
-    public function create(Request $request)
+    public function create(Request $request, Group $group)
     {
-        if (is_null($this->worker())) {
-            $request->session()->flash('warning', __('_dialog.group_null'));
-            $groups = [];
-        } else {
-            $groups = $this->worker()->groups;
+        $docs            = Doc::get();
+        $discounts       = Discount::get();
+        $basicSeatsLimit = $group->basic_seats;
+        $extraSeatsLimit = $group->extra_seats;
+        $basicSeatsExist = $group->members->where('form_study', 0)->count();
+        $extraSeatsExist = $group->members->where('form_study', 1)->count();
+
+        // access to free seats
+        if ($basicSeatsExist < $basicSeatsLimit) {
+            $form_study = config('constants.form_education')[0];
         }
 
-        $studies    = config('constants.form_education');
-        $docs       = Doc::get();
-        $discounts  = Discount::get();
+        // access to paid seats
+        elseif ($basicSeatsExist >= $basicSeatsLimit AND $extraSeatsExist < $extraSeatsLimit) {
+            $form_study = config('constants.form_education')[1];
+        }
 
-        return view(
-            'admin.pages.members.form',
-            compact('groups', 'studies', 'docs', 'discounts')
-        );
+        // group is full
+        else {
+            $request->session()->flash('warning', __('_dialog.group_full'));
+            return redirect()->back();
+        }
+
+        return view('admin.pages.members.form', compact('group', 'docs', 'discounts', 'form_study'));
     }
 
     public function store(Request $request)
     {
         $default_password = config('constants.password');
-        $basic_seats      = Group::where('id', $request['group_id'])->first()->basic_seats;
-        $extra_seats      = Group::where('id', $request['group_id'])->first()->extra_seats;
-        $population       = Member::where([
-            'group_id'   => $request['group_id'],
-            'form_study' => $request['form_study']
-        ])->count();
 
         if (Auth::user()->role_id != 3) {
             $request->session()->flash('warning', __('_dialog.just_head'));
             return redirect()->back();
-        }
-
-        if ($request['form_study'] == 0)
-        {
-            if ($population >= $basic_seats)
-            {
-                $request->session()->flash('warning', __('_dialog.free_full'));
-                return redirect()->back();
-            }
-        }
-
-        if ($request['form_study'] == 1)
-        {
-            if ($population >= $extra_seats)
-            {
-                $request->session()->flash('warning', __('_dialog.paid_full'));
-                return redirect()->back();
-            }
         }
 
         $doc_file           = $request->file('doc_file');
@@ -149,50 +134,14 @@ class MemberController extends Controller
 
     public function edit(Request $request, Member $member)
     {
-        if (is_null($this->worker())) {
-            $request->session()->flash('warning', __('_dialog.group_null'));
-            $groups = [];
-        } else {
-            $groups = $this->worker()->groups;
-        }
+        $docs      = Doc::get();
+        $discounts = Discount::get();
 
-        $studies    = config('constants.form_education');
-        $docs       = Doc::get();
-        $discounts  = Discount::get();
-
-        return view(
-            'admin.pages.members.form',
-            compact('member', 'groups', 'studies', 'docs', 'discounts')
-        );
+        return view('admin.pages.members.form', compact('member', 'docs', 'discounts'));
     }
 
     public function update(Request $request, Member $member)
     {
-        $basic_seats = Group::where('id', $request['group_id'])->first()->basic_seats;
-        $extra_seats = Group::where('id', $request['group_id'])->first()->extra_seats;
-        $condition   = $member->group_id == $request['group_id'] && $member->form_study == $request['form_study'];
-        $population  = $condition
-            ? Member::where(['group_id'   => $request['group_id'], 'form_study' => $request['form_study']])->count() - 1
-            : Member::where(['group_id'   => $request['group_id'], 'form_study' => $request['form_study']])->count();
-
-        if ($request['form_study'] == 0)
-        {
-            if ($population >= $basic_seats)
-            {
-                $request->session()->flash('warning', __('_dialog.free_full'));
-                return redirect()->back();
-            }
-        }
-
-        if ($request['form_study'] == 1)
-        {
-            if ($population >= $extra_seats)
-            {
-                $request->session()->flash('warning', __('_dialog.paid_full'));
-                return redirect()->back();
-            }
-        }
-
         $doc_file_name = $member->doc_note;
         $doc_file_path = $member->doc_file;
 
@@ -247,8 +196,6 @@ class MemberController extends Controller
             'last_name'     => ucfirst($request['last_name']),
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
-            'group_id'      => $request['group_id'],
-            'form_study'    => $request['form_study'],
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
