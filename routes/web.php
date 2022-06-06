@@ -275,5 +275,7 @@ Route::group([
             ->name('reports.ages');
         Route::get('reports/awards', [ReportController::class, 'awards'])
             ->name('reports.awards');
+        Route::get('reports/sales', [ReportController::class, 'sales'])
+            ->name('reports.sales');
     });
 });

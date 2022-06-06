@@ -315,4 +315,65 @@ class ReportController extends Controller
 
         return response()->download($filename . '.docx')->deleteFileAfterSend(true);
     }
+
+    public function sales()
+    {
+        // get list of age categories of club members
+        $passes = DB::table('passes')
+            ->join('groups', 'passes.group_id', '=', 'groups.id')
+            ->join('titles', 'groups.title_id', '=', 'titles.id')
+            ->select([
+                'titles.id as title_id',
+                'titles.name as title_name',
+                DB::raw('COUNT(passes.id) as tickets'),
+                DB::raw('SUM(passes.cost) as money')
+            ])
+            ->whereIn('group_id', $this->groups())
+            ->groupBy('titles.id')
+            ->get();
+
+        // set filename
+        $filename = config('constants.reports')[6]['name'];
+
+        // create empty template
+        $word = new TemplateProcessor('reports/sales.docx');
+
+        // set title of report
+        $word->setValue('title', $filename);
+
+        // create table
+        $table    = new Table(['borderColor' => '000000', 'borderSize' => 6]);
+        $fontText = ['bold' => true];
+        $borderR  = ['borderRightColor' =>'FFFFFF', 'borderRightSize' => 6,];
+        $borderL  = ['borderLeftColor'  =>'FFFFFF', 'borderLeftSize'  => 6,];
+
+        $table->addRow();
+
+        foreach ($passes as $index => $pass)
+        {
+            $table->addCell(1500, $borderR)->addText($pass->title_name, $fontText);
+            $table->addCell(1500, $borderL)->addText('', $fontText);
+        }
+
+        $table->addRow();
+
+        foreach ($passes as $index => $pass)
+        {
+            $table->addCell(1500)->addText('Общее количество всех проданных абонементов', $fontText);
+            $table->addCell(1500)->addText('Итоговая стоимость оплаты за все приобретенные абонементы', $fontText);
+        }
+
+        $table->addRow();
+
+        foreach ($passes as $index => $pass)
+        {
+            $table->addCell(1500)->addText($pass->tickets, $fontText);
+            $table->addCell(1500)->addText($pass->money . ' ₽', $fontText);
+        }
+
+        $word->setComplexBlock('table', $table);
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
 }
