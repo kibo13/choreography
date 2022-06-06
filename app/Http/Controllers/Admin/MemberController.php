@@ -16,29 +16,9 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class MemberController extends Controller
 {
-    private function worker()
+    public function index()
     {
-        return Auth::user()->worker;
-    }
-
-    public function index(Request $request)
-    {
-        switch (Auth::user()->role_id) {
-            case 1:
-            case 2:
-                $groups = Group::get();
-                break;
-
-            case 3:
-                $groups = $this->worker()->groups;
-                break;
-
-            default:
-                $groups = [];
-                $request->session()->flash('warning', __('_dialog.group_null'));
-                break;
-        }
-
+        $groups = @getGroupsByRole();
         $blanks = config('constants.blanks');
 
         return view('admin.pages.members.index', compact('groups', 'blanks'));

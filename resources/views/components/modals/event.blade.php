@@ -102,7 +102,7 @@
                     </label>
                     <select class="form-control form-control-sm" name="group_id" required>
                         <option value="" disabled selected>{{ __('_select.group') }}</option>
-                        @foreach(@getGroupsByDirector() as $group)
+                        @foreach(@getGroupsByRole() as $group)
                         <option value="{{ $group->id }}">
                             {{ $group->title->name }}
                             {{ $group->category_id == 4 ? null : ' / ' .  $group->category->name }}

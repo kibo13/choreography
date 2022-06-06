@@ -50,21 +50,6 @@ function diplom($achievement, $member)
     return Diplom::where(['achievement_id' => $achievement->id, 'member_id' => $member->id])->first();
 }
 
-function getGroupsByDirector()
-{
-    switch (Auth::user()->role_id) {
-        case 3:
-            $groups = Auth::user()->worker->groups;
-            break;
-
-        default:
-            $groups = [];
-            break;
-    }
-
-    return $groups;
-}
-
 function getAllRooms()
 {
     return Room::get();
