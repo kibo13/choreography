@@ -21,7 +21,7 @@
                 <strong>{{ $member->group->title->name }}</strong>
                 {{ @tip($member->group->category->name) }}
             </td>
-            <td>{{ $member->form_study ? __('_field.paid') : __('_field.free') }}</td>
+            <td>{{ $member->form_study == 1 ? __('_field.paid') : __('_field.free') }}</td>
             <td>
                 <ul class="bk-btn-info">
                     <li>

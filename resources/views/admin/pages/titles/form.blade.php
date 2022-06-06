@@ -55,12 +55,12 @@
                             name="is_paid"
                             required>
                         <option value="" disabled selected>{{ __('_select.study') }}</option>
-                        @foreach($studies as $index => $study)
-                        <option value="{{ $index }}"
-                                @isset($title) @if($title->is_paid == $index)
+                        @foreach($studies as $study)
+                        <option value="{{ $study['id'] }}"
+                                @isset($title) @if($title->is_paid == $study['id'])
                                 selected
                                 @endif @endisset>
-                            {{ $study }}
+                            {{ $study['name'] }}
                         </option>
                         @endforeach
                     </select>

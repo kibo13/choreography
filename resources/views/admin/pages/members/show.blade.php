@@ -42,7 +42,7 @@
                         {{ __('_field.study') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $member->form_study ? __('_field.paid') : __('_field.free') }}
+                        {{ $member->form_study == 1 ? __('_field.paid') : __('_field.free') }}
                     </div>
                 </div>
 

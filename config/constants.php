@@ -6,8 +6,14 @@ return [
 
     // form education
     'form_education' => [
-        0 => 'Бюджетная',
-        1 => 'Платная',
+        [
+            'id'        => 0,
+            'name'  => 'Бюджетная'
+        ],
+        [
+            'id'        => 1,
+            'name'  => 'Платная'
+        ]
     ],
 
     // payments
