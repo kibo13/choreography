@@ -14,7 +14,7 @@ class WorkerController extends Controller
 {
     public function index()
     {
-        $workers = Worker::orderBy('created_at', 'desc')->get();
+        $workers = Worker::orderBy('position')->get();
         $titles  = Title::get();
 
         return view('admin.pages.workers.index', compact('workers', 'titles'));
@@ -69,6 +69,7 @@ class WorkerController extends Controller
             'last_name'     => ucfirst($request['last_name']),
             'first_name'    => ucfirst($request['first_name']),
             'middle_name'   => ucfirst($request['middle_name']),
+            'position'      => $user->role->slug,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
             'phone'         => $request['phone'],
