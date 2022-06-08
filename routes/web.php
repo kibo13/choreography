@@ -175,6 +175,10 @@ Route::group([
     Route::group(['middleware' => 'permission:pass_read'], function () {
         Route::get('passes', [PassController::class, 'index'])
             ->name('passes.index');
+        Route::get('passes/{pass}', [PassController::class, 'show'])
+            ->name('passes.show');
+        Route::get('passes/bill/{pass}', [PassController::class, 'bill'])
+            ->name('passes.bill');
     });
 
     // orgkomitets

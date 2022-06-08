@@ -227,4 +227,29 @@ class PassController extends Controller
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.passes.index');
     }
+
+    public function bill(Pass $pass)
+    {
+        // set filename
+        $filename = 'Квитацния об оплате абонемента №' . $pass->id;
+
+        // create empty template
+        $word = new TemplateProcessor('reports/bill.docx');
+
+        $word->setValues([
+            'id'         => $pass->id,
+            'pay_date'   => $pass->pay_date ? @getDMY($pass->pay_date) . 'г.' : '-',
+            'member'     => @getFIO('member', $pass->member->id),
+            'group'      => $pass->member->group->title->name . ' ' . $pass->member->group->category->name,
+            'phone'      => $pass->member->phone,
+            'from'       => @getDMY($pass->from) . 'г.',
+            'till'       => @getDMY($pass->till) . 'г.',
+            'total'      => $pass->cost . ' ₽',
+            'lessons'    => $pass->lessons,
+        ]);
+
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
 }

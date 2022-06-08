@@ -31,9 +31,7 @@
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.status') }}</th>
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.pay_date') }}</th>
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.pay_file') }}</th>
-                    @if(@is_access('pass_full'))
                     <th class="align-top no-sort">{{ __('_action.this') }}</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -72,12 +70,15 @@
                         -
                         @endif
                     </td>
-                    @if(@is_access('pass_full'))
                     <td>
                         <div class="bk-btn-actions">
+                            <a class="bk-btn-action bk-btn-action--bill btn btn-primary"
+                               href="{{ route('admin.passes.bill', $pass) }}"
+                               data-tip="{{ __('_field.check') }}" ></a>
                             <a class="bk-btn-action bk-btn-action--agree btn btn-primary"
                                href="{{ route('admin.passes.show', $pass) }}"
-                               data-tip="{{ __('_action.print') }}" ></a>
+                               data-tip="{{ __('_field.pass') }}" ></a>
+                            @if(@is_access('pass_full'))
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.passes.edit', $pass) }}"
                                data-tip="{{ __('_action.edit') }}" ></a>
@@ -87,9 +88,9 @@
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}" ></a>
+                            @endif
                         </div>
                     </td>
-                    @endif
                 </tr>
             @endforeach
             </tbody>
