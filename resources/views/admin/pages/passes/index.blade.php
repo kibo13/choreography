@@ -29,6 +29,7 @@
                     <th class="align-top w-25 bk-min-w-150 no-sort">{{ __('_field.cost') }}</th>
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.lessons') }}</th>
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.status') }}</th>
+                    <th class="align-top bk-min-w-150 no-sort">{{ __('_field.pay_date') }}</th>
                     <th class="align-top bk-min-w-150 no-sort">{{ __('_field.pay_file') }}</th>
                     @if(@is_access('pass_full'))
                     <th class="align-top no-sort">{{ __('_action.this') }}</th>
@@ -59,6 +60,7 @@
                     <td>{{ @double($pass->cost, 0) . ' ₽' }}</td>
                     <td>{{ $pass->lessons }}</td>
                     <td>{{ @is_pay($pass->status) }}</td>
+                    <td>{{ $pass->pay_date ? @getDMY($pass->pay_date) : '-' }}</td>
                     <td>
                         @if($pass->pay_file)
                         <a class="text-primary"
