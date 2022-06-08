@@ -180,5 +180,17 @@ return [
             'href'  => 'sales',
             'type'  => null
         ],
+        [
+            'id'    => 8,
+            'name'  => 'Отчет по сформированным группам',
+            'href'  => 'collectives',
+            'type'  => null
+        ],
+        [
+            'id'    => 9,
+            'name'  => 'Отчет по руководителю клубного формирования',
+            'href'  => 'teachers',
+            'type'  => null
+        ],
     ]
 ];

@@ -277,5 +277,9 @@ Route::group([
             ->name('reports.awards');
         Route::get('reports/sales', [ReportController::class, 'sales'])
             ->name('reports.sales');
+        Route::get('reports/collectives', [ReportController::class, 'collectives'])
+            ->name('reports.collectives');
+        Route::get('reports/teachers', [ReportController::class, 'teachers'])
+            ->name('reports.teachers');
     });
 });

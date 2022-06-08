@@ -7,12 +7,12 @@ use App\Models\Award;
 use App\Models\Group;
 use App\Models\Member;
 use App\Models\Pass;
+use App\Models\Worker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -38,7 +38,6 @@ class ReportController extends Controller
         return view('admin.pages.reports.index', compact('reports'));
     }
 
-    // Отчет по гражданам (льготникам), которым положена скидка за абонемент
     public function privileges()
     {
         // get list of members
@@ -274,7 +273,7 @@ class ReportController extends Controller
             return redirect()->back();
         }
 
-        // get list of age categories of club members
+        // get awards
         $awards = Award::whereIn('group_id', $this->groups())->get();
 
         // set filename
@@ -318,7 +317,7 @@ class ReportController extends Controller
 
     public function sales()
     {
-        // get list of age categories of club members
+        // get passes
         $passes = DB::table('passes')
             ->join('groups', 'passes.group_id', '=', 'groups.id')
             ->join('titles', 'groups.title_id', '=', 'titles.id')
@@ -369,6 +368,174 @@ class ReportController extends Controller
         {
             $table->addCell(1500)->addText($pass->tickets, $fontText);
             $table->addCell(1500)->addText($pass->money . ' ₽', $fontText);
+        }
+
+        $word->setComplexBlock('table', $table);
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
+
+    public function collectives()
+    {
+        // get groups
+        $groups = DB::table('groups')
+            ->join('titles', 'groups.title_id', '=', 'titles.id')
+            ->join('specialties', 'titles.specialty_id', '=', 'specialties.id')
+            ->join('categories', 'groups.category_id', '=', 'categories.id')
+            ->select([
+                'titles.name as title',
+                'specialties.name as specialty',
+                DB::raw('SUM(groups.basic_seats + groups.extra_seats) as seats'),
+                DB::raw('SUM(groups.workload) as workload'),
+                DB::raw('SUM(CASE categories.id when 1 then groups.age_from end) as sm_from'),
+                DB::raw('SUM(CASE categories.id when 1 then groups.age_till end) as sm_till'),
+                DB::raw('SUM(CASE categories.id when 2 then groups.age_from end) as md_from'),
+                DB::raw('SUM(CASE categories.id when 2 then groups.age_till end) as md_till'),
+                DB::raw('SUM(CASE categories.id when 3 then groups.age_from end) as lg_from'),
+                DB::raw('SUM(CASE categories.id when 3 then groups.age_till end) as lg_till'),
+                DB::raw('SUM(CASE categories.id when 4 then groups.age_from end) as nn_from'),
+                DB::raw('SUM(CASE categories.id when 4 then groups.age_till end) as nn_till')
+            ])
+            ->whereIn('groups.id', $this->groups())
+            ->groupBy('title', 'specialty')
+            ->get();
+
+        // set filename
+        $filename = config('constants.reports')[7]['name'];
+
+        // create empty template
+        $word = new TemplateProcessor('reports/collectives.docx');
+
+        // set title of report
+        $word->setValue('title', $filename);
+
+        // styles for tables
+        $cellRowSpan     = ['vMerge' => 'restart'];
+        $cellRowContinue = ['vMerge' => 'continue'];
+        $cellHCentered   = ['align' => 'center'];
+        $borderDark      = ['borderColor' => '000000', 'borderSize' => 6];
+
+        // create table
+        $table = new Table($borderDark);
+
+        foreach ($groups as $group)
+        {
+            $table->addRow();
+            $table->addCell(null, ['gridSpan' => 12])->addText($group->title);
+
+            $table->addRow();
+            $table->addCell(null, $cellRowSpan)->addText('Специализация');
+            $table->addCell(null, $cellRowSpan)->addText('Кол-во <w:br/>человек <w:br/>в группе');
+            $table->addCell(null, $cellRowSpan)->addText('Вид <w:br/>занятия');
+            $table->addCell(null, $cellRowSpan)->addText('Кол-во <w:br/>занятий <w:br/>в неделю');
+            $table->addCell(null, ['gridSpan' => 8])->addText('Категория группы', null, $cellHCentered);
+
+            $table->addRow();
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, ['gridSpan' => 2])->addText('Младшая', null, $cellHCentered);
+            $table->addCell(null, ['gridSpan' => 2])->addText('Средняя', null, $cellHCentered);
+            $table->addCell(null, ['gridSpan' => 2])->addText('Старшая', null, $cellHCentered);
+            $table->addCell(null, ['gridSpan' => 2])->addText('-', null, $cellHCentered);
+
+            $table->addRow();
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell(null, $cellRowContinue);
+            $table->addCell()->addText('От', null, $cellHCentered);
+            $table->addCell()->addText('До', null, $cellHCentered);
+            $table->addCell()->addText('От', null, $cellHCentered);
+            $table->addCell()->addText('До', null, $cellHCentered);
+            $table->addCell()->addText('От', null, $cellHCentered);
+            $table->addCell()->addText('До', null, $cellHCentered);
+            $table->addCell()->addText('От', null, $cellHCentered);
+            $table->addCell()->addText('До', null, $cellHCentered);
+
+            $table->addRow();
+            $table->addCell()->addText($group->specialty);
+            $table->addCell()->addText($group->seats, null, $cellHCentered);
+            $table->addCell()->addText();
+            $table->addCell()->addText($group->workload / 4 . ' ч', null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->sm_from) ? '-' : $group->sm_from, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->sm_till) ? '-' : $group->sm_till, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->md_from) ? '-' : $group->md_from, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->md_till) ? '-' : $group->md_till, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->lg_from) ? '-' : $group->lg_from, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->lg_till) ? '-' : $group->lg_till, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->nn_from) ? '-' : $group->nn_from, null, $cellHCentered);
+            $table->addCell(1000)->addText(is_null($group->nn_till) ? '-' : $group->nn_till, null, $cellHCentered);
+
+            $table->addRow();
+            $table->addCell(null, ['gridSpan' => 12, 'borderColor' => 'FFFFFF', 'borderSize' => 6])->addText();
+        }
+
+        $word->setComplexBlock('table', $table);
+        $word->saveAs($filename . '.docx');
+
+        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
+
+    public function teachers()
+    {
+        // get groups
+        $teachers = Worker::where('position', 'head')->get();
+
+        // set filename
+        $filename = config('constants.reports')[8]['name'];
+
+        // create empty template
+        $word = new TemplateProcessor('reports/teachers.docx');
+
+        // set title of report
+        $word->setValue('title', $filename);
+
+        // create table
+        $table = new Table(['borderColor' => '000000', 'borderSize' => 6]);
+
+        $table->addRow();
+        foreach ($teachers as $teacher) {
+            $table->addCell(null, ['gridSpan' => 3])->addText(@command_master($teacher));
+        }
+
+        $table->addRow();
+        foreach ($teachers as $teacher) {
+            $table->addCell()->addText('Название группы');
+            $table->addCell()->addText('Категория группы');
+            $table->addCell()->addText('Кол-во занятий в неделю');
+        }
+
+        $table->addRow();
+        foreach ($teachers as $teacher)
+        {
+            // group has categories
+            if ($teacher->groups->count() > 1) {
+
+                $group_name = '';
+                $category   = '';
+                $workload   = '';
+
+                foreach ($teacher->groups as $index => $group)
+                {
+                    $group_name = $group->title->name;
+                    $category  .= $group->category->name . '<w:br/>';
+                    $workload  .= $group->workload / 4 . ' ч <w:br/>';
+                }
+
+                $table->addCell()->addText($group_name);
+                $table->addCell(2000)->addText($category);
+                $table->addCell()->addText($workload);
+            }
+
+            // group does not have categories
+            else {
+                $table->addCell()->addText($teacher->groups[0]->title->name);
+                $table->addCell()->addText($teacher->groups[0]->category->name);
+                $table->addCell()->addText($teacher->groups[0]->workload / 4 . ' ч');
+            }
         }
 
         $word->setComplexBlock('table', $table);
