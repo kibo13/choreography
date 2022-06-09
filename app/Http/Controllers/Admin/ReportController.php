@@ -371,9 +371,9 @@ class ReportController extends Controller
         }
 
         $word->setComplexBlock('table', $table);
-        $word->saveAs($filename . '.docx');
+        $word->saveAs('Отчет по количеству проданных абонементов.docx');
 
-        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+        return response()->download('Отчет по количеству проданных абонементов.docx')->deleteFileAfterSend(true);
     }
 
     public function collectives()
