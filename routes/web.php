@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\AwardController;
 use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
 use App\Http\Controllers\Admin\LoadController;
+use App\Http\Controllers\Admin\MethodologyController;
 use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\Admin\ReportController;
 
@@ -206,8 +207,8 @@ Route::group([
 
     // timetable
     Route::group(['middleware' => 'permission:timetable_full'], function () {
-        Route::get('timetable/create', [TimetableController::class, 'create'])
-            ->name('timetable.create');
+        Route::get('timetable/generate', [TimetableController::class, 'generate'])
+            ->name('timetable.generate');
         Route::post('timetable/edit', [TimetableController::class, 'edit'])
             ->name('timetable.edit');
     });

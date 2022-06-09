@@ -38,12 +38,6 @@ if (timetable_index) {
             list:     'Список'
         },
 
-        validRange(today) {
-            return {
-                start: moment().startOf('week').format('YYYY-MM-DD')
-            }
-        },
-
         eventDidMount(info) {
             const data = {
                 title: info.event.title,

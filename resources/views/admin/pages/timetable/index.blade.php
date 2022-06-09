@@ -4,14 +4,6 @@
     <section id="timetable-index" class="overflow-auto">
         <h3>{{ __('_section.timetable') }}</h3>
 
-        @if(@is_access('timetable_full') && $is_director)
-        <div class="my-2 btn-group">
-            <a class="btn btn-primary" href="{{ route('admin.timetable.create') }}">
-                {{ __('_action.generate') }}
-            </a>
-        </div>
-        @endif
-
         <div class="mt-1 mb-2 bk-callout">
             <h5>Цветовые обозначения групп</h5>
             <hr>
@@ -28,6 +20,28 @@
             @endforeach
             </div>
         </div>
+
+        @if(@is_access('timetable_full') && $is_director)
+        <form class="my-2 bk-form"
+              action="{{ route('admin.timetable.generate') }}"
+              method="GET">
+            <div class="bk-form__wrapper">
+                <div class="bk-grid bk-grid--gtc-150">
+                    <select class="form-control" name="month_id" required>
+                        <option value="" disabled selected>{{ __('_select.month') }}</option>
+                        @foreach($months as $month)
+                        <option value="{{ $month['id'] }}" @if($month['id'] < $nowMonthID) disabled @endif>
+                            {{ $month['fullname'] }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <button class="btn btn-sm btn-primary">
+                        {{ __('_action.generate') }}
+                    </button>
+                </div>
+            </div>
+        </form>
+        @endif
 
         @if(session()->has('success'))
         <div class="my-2 alert alert-success" role="alert">

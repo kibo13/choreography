@@ -15,15 +15,17 @@ class TimetableController extends Controller
     public function index()
     {
         $is_director = Auth::user()->role_id == 3 ? 1 : null;
+        $months      = config('constants.months');
+        $nowMonthID  = Carbon::now()->format('m');
         $titles      = Title::get();
 
         return view(
             'admin.pages.timetable.index',
-            compact('is_director', 'titles')
+            compact('is_director', 'months', 'nowMonthID', 'titles')
         );
     }
 
-    public function create(Request $request)
+    public function generate(Request $request)
     {
         $user = Auth::user();
 
@@ -33,30 +35,11 @@ class TimetableController extends Controller
             return redirect()->route('admin.timetable.index');
         }
 
-        // loads
-        $groups = $user->worker->groups->pluck('id');
-        $loads  = Load::whereIn('group_id', $groups)->get();
-
-        // now
-        $nowYear               = Carbon::now()->format('Y');
-        $numberNowMonth        = Carbon::now()->format('m');
-        $numberNowDay          = Carbon::now()->format('d');
-        $numberDaysInMonth     = Carbon::now()->daysInMonth;
-
-        // next
-        $nextYear              = Carbon::now()->addYear()->format('Y');
-        // TODO: need change condition
-        $numberNextMonth       = Carbon::now()->addDays(30)->format('m');
-        $numberNextDay         = Carbon::now()->addDay()->format('d');
-        $numberDaysInNextMonth = Carbon::now()->addMonth()->daysInMonth;
-
-        // init values
-        $beforeDays            = 5;
-        $diff                  = $numberDaysInMonth - $numberNowDay;
-        $year                  = $diff < $beforeDays && $numberNowMonth == 12 ? $nextYear : $nowYear;
-        $month                 = $diff < $beforeDays ? $numberNextMonth : $numberNowMonth;
-        $start                 = $diff < $beforeDays ? 1 : $numberNextDay;
-        $end                   = $diff < $beforeDays ? $numberDaysInNextMonth : $numberDaysInMonth;
+        // settings
+        $month             = $request['month_id'];
+        $year              = Carbon::now()->format('Y');
+        $numberDaysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $loads             = getLoadsByRole();
 
         // create empty array monthByDayOfWeek
         $monthByDayOfWeek = [
@@ -70,26 +53,30 @@ class TimetableController extends Controller
         ];
 
         // fill array monthByDayOfWeek
-        for ($day = $start; $day <= $end; $day++)
+        for ($day = 1; $day <= $numberDaysInMonth; $day++)
         {
+            $limit           = 4;
             $date            = $year . '-' . $month . '-' . $day;
             $numberDayOfWeek = date('w', strtotime($date));
-            array_push($monthByDayOfWeek[$numberDayOfWeek], $date);
+
+            if (count($monthByDayOfWeek[$numberDayOfWeek]) < $limit)
+            {
+                array_push($monthByDayOfWeek[$numberDayOfWeek], $date);
+            }
         }
 
-        // create timetable
         foreach ($loads as $load)
         {
             foreach ($monthByDayOfWeek[$load->day_of_week] as $date)
             {
                 for ($lesson = 1; $lesson <= $load->duration; $lesson++)
                 {
-                    $from      = $date . ' ' . @plusMinutes($load->start, 60 * ($lesson - 1));
-                    $till      = $date . ' ' . @plusMinutes($load->start, 45 + 60 * ($lesson - 1));
-                    $code      = @bk_code($load->group_id, $date, @plusMinutes($load->start, 60 * ($lesson - 1)));
-                    $condition = Timetable::where('code', $code)->exists();
+                    $from = $date . ' ' . @plusMinutes($load->start, 60 * ($lesson - 1));
+                    $till = $date . ' ' . @plusMinutes($load->start, 45 + 60 * ($lesson - 1));
+                    $code = @bk_code($load->group_id, $date, @plusMinutes($load->start, 60 * ($lesson - 1)));
 
-                    if (!$condition) {
+                    if (Timetable::where('code', $code)->exists() == false)
+                    {
                         Timetable::create([
                             'code'       => $code,
                             'group_id'   => $load->group_id,
@@ -117,10 +104,5 @@ class TimetableController extends Controller
 
         $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.timetable.index');
-    }
-
-    public function destroy(Timetable $timetable)
-    {
-        //
     }
 }

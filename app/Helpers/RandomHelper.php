@@ -30,13 +30,11 @@ function bk_rand($type, $param = null, $length = 13)
 
 function bk_code($group, $date, $time)
 {
-    $formattedDate = str_replace('-', '', $date);
     $formattedTime = str_replace(':', '', $time);
+    $formattedDate = explode('-', $date);
+    $year          = $formattedDate[0];
+    $month         = strlen($formattedDate[1]) == 1 ? '0' . $formattedDate[1] : $formattedDate[1];
+    $day           = strlen($formattedDate[2]) == 1 ? '0' . $formattedDate[2] : $formattedDate[2];
 
-    if (iconv_strlen($formattedDate) == 7)
-    {
-        $formattedDate = substr_replace($formattedDate, '0', 6, 0);
-    }
-
-    return $group . $formattedDate . $formattedTime;
+    return $group . $year . $month . $day . $formattedTime;
 }
