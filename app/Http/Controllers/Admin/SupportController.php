@@ -39,13 +39,9 @@ class SupportController extends Controller
 
     public function store(SupportRequest $request)
     {
-        unset($request['file']);
-
-        if ($request->has('file')) {
-            $file       = $request->file('file');
-            $file_name  = $file->getClientOriginalName();
-            $file_path  = $file->store('applications');
-        }
+        $file      = $request->file('file');
+        $file_name = is_null($file) ? null : $file->getClientOriginalName();
+        $file_path = is_null($file) ? null : $file->store('applications');
 
         Application::create([
             'num'       => @bk_rand('number', null, 10),
@@ -53,8 +49,8 @@ class SupportController extends Controller
             'group_id'  => Auth::user()->member->group_id,
             'topic'     => $request['topic'],
             'desc'      => $request['desc'],
-            'file'      => $file_path ?? null ? $file_path : null,
-            'note'      => $file_name ?? null ? $file_name : null
+            'file'      => $file_path,
+            'note'      => $file_name
         ]);
 
         $request->session()->flash('success', __('_record.added'));
