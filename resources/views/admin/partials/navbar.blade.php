@@ -63,6 +63,11 @@
                             {{ __('_section.loads') }}
                         </a>
                         @endif
+                        @if(@is_access('method_read'))
+                        <a class="dropdown-item" href="{{ route('admin.methods.index') }}">
+                            {{ __('_section.methods') }}
+                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif

@@ -52,7 +52,8 @@ class WorkerController extends Controller
                 29, 30,
                 31, 32,
                 33,
-                34, 35
+                34, 35,
+                38, 39
             ]);
         }
 

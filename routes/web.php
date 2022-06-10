@@ -25,8 +25,8 @@ use App\Http\Controllers\Admin\AwardController;
 use App\Http\Controllers\Admin\DiplomController;
 use App\Http\Controllers\Admin\OrgkomitetController;
 use App\Http\Controllers\Admin\LoadController;
-use App\Http\Controllers\Admin\MethodologyController;
 use App\Http\Controllers\Admin\TimetableController;
+use App\Http\Controllers\Admin\MethodController;
 use App\Http\Controllers\Admin\ReportController;
 
 // auth
@@ -203,6 +203,16 @@ Route::group([
     Route::group(['middleware' => 'permission:load_read'], function () {
         Route::get('loads', [LoadController::class, 'index'])
             ->name('loads.index');
+    });
+
+    // methods
+    Route::group(['middleware' => 'permission:method_full'], function () {
+        Route::resource('methods', MethodController::class);
+    });
+
+    Route::group(['middleware' => 'permission:method_read'], function () {
+        Route::get('methods', [MethodController::class, 'index'])
+            ->name('methods.index');
     });
 
     // timetable

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use App\Models\Group;
 use App\Models\Load;
+use App\Models\Method;
 
 function getGroupsByRole()
 {
@@ -22,6 +23,27 @@ function getGroupsByRole()
     }
 
     return $groups;
+}
+
+function getMethodsByRole()
+{
+    switch (Auth::user()->role_id) {
+        case 1:
+        case 2:
+            $methods = Method::get();
+            break;
+
+        case 3:
+            $groups  = Auth::user()->worker->groups->pluck('id');
+            $methods = Method::whereIn('group_id', $groups)->get();
+            break;
+
+        default:
+            $methods = [];
+            break;
+    }
+
+    return $methods;
 }
 
 function getLoadsByRole()

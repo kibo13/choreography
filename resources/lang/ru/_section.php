@@ -16,6 +16,7 @@ return [
     'lessons'               => 'Занятия',
     'loads'                 => 'Нагрузки',
     'members'               => 'Участники',
+    'methods'               => 'Методики',
     'orgkomitets'           => 'Оргкомитеты',
     'passes'                => 'Абонементы',
     'places'                => 'Места',

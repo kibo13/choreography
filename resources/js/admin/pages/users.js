@@ -44,6 +44,8 @@ if (users_form) {
                 $('.orgkomitet_full').prop('checked', true)
                 $('.load_read').prop('checked', true)
                 $('.load_full').prop('checked', true)
+                $('.method_read').prop('checked', true)
+                $('.method_full').prop('checked', true)
                 $('.timetable_read').prop('checked', true)
                 $('.timetable_full').prop('checked', true)
                 $('.report_read').prop('checked', true)
