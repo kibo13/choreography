@@ -30,7 +30,9 @@
                     <select class="form-control" name="month_id" required>
                         <option value="" disabled selected>{{ __('_select.month') }}</option>
                         @foreach($months as $month)
-                        <option value="{{ $month['id'] }}" @if($month['id'] < $nowMonthID) disabled @endif>
+                        <option class="{{ $month['id'] < $nowMonthID ? 'text-secondary' : 'text-primary' }}"
+                                value="{{ $month['id'] }}"
+                                @if($month['id'] < $nowMonthID) disabled @endif>
                             {{ $month['fullname'] }}
                         </option>
                         @endforeach
