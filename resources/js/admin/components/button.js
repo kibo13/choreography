@@ -1,4 +1,4 @@
-$('.bk-btn-info').on('click', function (event) {
+$(document).on('click', '.bk-btn-info', function (event) {
     $(this).toggleClass('bk-btn-info--active')
 
     // search child element - icon
