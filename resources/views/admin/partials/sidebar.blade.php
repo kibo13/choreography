@@ -57,6 +57,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('visit_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.visit*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.visits.index', @getGroupsByRole()[0]) }}"
+               title="{{ __('_section.visits') }}">
+                {{ @fa('fa-book sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                {{ __('_section.visits') }}
+            </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('event_read'))
         <li class="sidebar-list__item {{ @is_active('admin.event*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"

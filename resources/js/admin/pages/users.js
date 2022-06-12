@@ -48,6 +48,8 @@ if (users_form) {
                 $('.method_full').prop('checked', true)
                 $('.timetable_read').prop('checked', true)
                 $('.timetable_full').prop('checked', true)
+                $('.visit_read').prop('checked', true)
+                $('.visit_full').prop('checked', true)
                 $('.report_read').prop('checked', true)
                 break
 

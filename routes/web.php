@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\LoadController;
 use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\Admin\MethodController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\VisitController;
 
 // auth
 Auth::routes([
@@ -226,6 +227,19 @@ Route::group([
     Route::group(['middleware' => 'permission:timetable_read'], function () {
         Route::get('timetable', [TimetableController::class, 'index'])
             ->name('timetable.index');
+    });
+
+    // visits
+    Route::group(['middleware' => 'permission:visit_full'], function () {
+        Route::post('visits/topic', [VisitController::class, 'topic_update'])
+            ->name('visits.topic');
+        Route::post('visits/control', [VisitController::class, 'visit_control'])
+            ->name('visits.control');
+    });
+
+    Route::group(['middleware' => 'permission:visit_read'], function () {
+        Route::get('visits/{group}', [VisitController::class, 'index'])
+            ->name('visits.index');
     });
 
     // events

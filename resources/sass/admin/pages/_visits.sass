@@ -1,0 +1,33 @@
+.bk-visits
+
+    &-list
+        margin: 5px 0
+        display: grid
+        grid-gap: 5px
+        grid-template-columns: repeat(auto-fill, minmax(90px, auto))
+
+        &__item
+            display: grid
+            border: $border-gray
+
+        &__link
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            text-align: center
+            transition: .3s
+
+            &:hover
+                color: $white
+                background-color: $dark
+
+    &--active
+        color: $white
+        background-color: $dark
+
+    &-journal
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+        grid-gap: 5px
+

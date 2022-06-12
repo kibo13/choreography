@@ -31,4 +31,6 @@
     @include('components.modals.event')
     @include('components.modals.load')
     @include('components.modals.timetable')
+    @include('components.modals.topic')
+    @include('components.modals.visit')
 @endsection

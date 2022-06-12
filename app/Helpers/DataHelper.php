@@ -5,7 +5,10 @@ use App\Models\Diplom;
 use App\Models\Room;
 use App\Models\Orgkomitet;
 use App\Models\Load;
+use App\Models\Method;
+use App\Models\Visit;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 function sections()
 {
@@ -55,6 +58,26 @@ function getAllRooms()
     return Room::get();
 }
 
+function getMethodsByParams($group, $month)
+{
+    $month = is_null($month) ? Carbon::now()->month : $month;
+
+    return Method::where('group_id', $group->id)->where('month_id', $month)->get();
+}
+
+function getTopicByMethod($method)
+{
+    return Method::where('id', $method)->first();
+}
+
+function getYearsFromTimetables()
+{
+    return DB::table('timetables')
+        ->selectRaw('YEAR(timetables.from) as year')
+        ->groupBy('year')
+        ->get();
+}
+
 function getTeachers()
 {
     return DB::table('workers')
@@ -69,6 +92,11 @@ function getTeachers()
         ])
         ->where('users.role_id', 3)
         ->get();
+}
+
+function checkVisit($member, $lesson)
+{
+    return Visit::where('member_id', $member->id)->where('timetable_id', $lesson->id)->first();
 }
 
 function getAllOrgcomitets()
