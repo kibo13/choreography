@@ -17,7 +17,19 @@ class Timetable extends Model
         'worker_id',
         'room_id',
         'is_replace',
+        'method_id',
+        'note',
     ];
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class);
+    }
+
+    public function method()
+    {
+        return $this->belongsTo(Method::class);
+    }
 
     public function room()
     {
