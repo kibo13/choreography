@@ -57,12 +57,13 @@ class ReportController extends Controller
         $fontText = ['bold' => true];
 
         $table->addRow();
-        $table->addCell(500)->addText('№', $fontText);
-        $table->addCell(3000)->addText('ФИО льготника', $fontText);
-        $table->addCell(3000)->addText('Категория <w:br/>льготника', $fontText);
-        $table->addCell(3000)->addText('Размер скидки', $fontText);
-        $table->addCell(3000)->addText('Название документа <w:br/>подтверждающего скидку', $fontText);
-        $table->addCell(3000)->addText('Стоимость абонемента <w:br/>со скидкой', $fontText);
+        $table->addCell()->addText('№', $fontText);
+        $table->addCell()->addText('ФИО льготника', $fontText);
+        $table->addCell()->addText('Категория <w:br/>льготника', $fontText);
+        $table->addCell()->addText('Размер скидки', $fontText);
+        $table->addCell()->addText('Название документа <w:br/>подтверждающего скидку', $fontText);
+        $table->addCell()->addText('Стоимость абонемента', $fontText);
+        $table->addCell()->addText('Стоимость абонемента <w:br/>со скидкой', $fontText);
 
         foreach ($members as $index => $member) {
             $document = $member->discount_note ? $member->discount_note : __('_record.no');
@@ -76,6 +77,7 @@ class ReportController extends Controller
             $table->addCell()->addText($member->discount->name);
             $table->addCell()->addText($discount . '%');
             $table->addCell()->addText($document);
+            $table->addCell()->addText($price . ' ₽');
             $table->addCell()->addText($cost . ' ₽');
         }
 
@@ -238,26 +240,29 @@ class ReportController extends Controller
         // create empty template
         $word = new TemplateProcessor('reports/ages.docx');
 
+        // set title of report
+        $word->setValues([
+            'title'   => $filename,
+            'teacher' => @getFIO('worker', Auth::user()->worker->id),
+            'group'   => Auth::user()->worker->groups[0]->title->name,
+        ]);
+
         // create table
         $table    = new Table(['borderColor' => '000000', 'borderSize' => 6]);
         $fontText = ['bold' => true];
 
         $table->addRow();
-        $table->addCell(500)->addText('№', $fontText);
-        $table->addCell(3000)->addText('ФИО участника', $fontText);
-        $table->addCell(2000)->addText('Возраст', $fontText);
-        $table->addCell(3000)->addText('Название группы', $fontText);
-        $table->addCell(3000)->addText('Категория группы', $fontText);
-        $table->addCell(3000)->addText('ФИО руководителя', $fontText);
+        $table->addCell()->addText('№', $fontText);
+        $table->addCell(7000)->addText('ФИО участника', $fontText);
+        $table->addCell()->addText('Возраст', $fontText);
+        $table->addCell()->addText('Категория', $fontText);
 
         foreach ($members as $index => $member) {
             $table->addRow();
             $table->addCell()->addText(++$index);
             $table->addCell()->addText(@getFIO('member', $member->id));
             $table->addCell()->addText($member->age);
-            $table->addCell()->addText($member->group->title->name);
             $table->addCell()->addText($member->group->category->name);
-            $table->addCell()->addText(@getFIO('worker', Auth::user()->worker->id));
         }
 
         $word->setComplexBlock('table', $table);
@@ -422,7 +427,10 @@ class ReportController extends Controller
         foreach ($groups as $group)
         {
             $table->addRow();
-            $table->addCell(null, ['gridSpan' => 12])->addText($group->title);
+            $table->addCell(null, ['gridSpan' => 12])->addText('Название группы', null, $cellHCentered);
+
+            $table->addRow();
+            $table->addCell(null, ['gridSpan' => 12])->addText($group->title, null, $cellHCentered);
 
             $table->addRow();
             $table->addCell(null, $cellRowSpan)->addText('Специализация');
@@ -497,20 +505,16 @@ class ReportController extends Controller
         $table = new Table(['borderColor' => '000000', 'borderSize' => 6]);
 
         $table->addRow();
-        foreach ($teachers as $teacher) {
-            $table->addCell(null, ['gridSpan' => 3])->addText(@command_master($teacher));
-        }
+        $table->addCell()->addText('Руководитель', ['bold' => true]);
+        $table->addCell()->addText('Коллектив', ['bold' => true]);
+        $table->addCell()->addText('Категории', ['bold' => true]);
+        $table->addCell()->addText('Кол-во занятий', ['bold' => true], ['align' => 'center']);
 
-        $table->addRow();
-        foreach ($teachers as $teacher) {
-            $table->addCell()->addText('Название группы');
-            $table->addCell()->addText('Категория группы');
-            $table->addCell()->addText('Кол-во занятий в неделю');
-        }
-
-        $table->addRow();
         foreach ($teachers as $teacher)
         {
+            $table->addRow();
+            $table->addCell(3000)->addText(@command_master($teacher));
+
             // group has categories
             if ($teacher->groups->count() > 1) {
 
@@ -525,16 +529,16 @@ class ReportController extends Controller
                     $workload  .= $group->workload / 4 . ' ч <w:br/>';
                 }
 
-                $table->addCell()->addText($group_name);
+                $table->addCell(3000)->addText($group_name);
                 $table->addCell(2000)->addText($category);
-                $table->addCell()->addText($workload);
+                $table->addCell(2000)->addText($workload, null, ['align' => 'center']);
             }
 
             // group does not have categories
             else {
                 $table->addCell()->addText($teacher->groups[0]->title->name);
                 $table->addCell()->addText($teacher->groups[0]->category->name);
-                $table->addCell()->addText($teacher->groups[0]->workload / 4 . ' ч');
+                $table->addCell()->addText($teacher->groups[0]->workload / 4 . ' ч', null, ['align' => 'center']);
             }
         }
 
