@@ -32,6 +32,11 @@ class Worker extends Model
         return $this->hasMany(Event::class);
     }
 
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -14,4 +14,9 @@ class Specialty extends Model
         'sign',
         'note'
     ];
+
+    public function workers()
+    {
+        return $this->belongsToMany(Worker::class);
+    }
 }

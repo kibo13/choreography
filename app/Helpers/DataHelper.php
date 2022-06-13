@@ -58,6 +58,28 @@ function getAllRooms()
     return Room::get();
 }
 
+function oneGroupByTeacher($categories, $position)
+{
+    switch ($position) {
+        case 'head':
+            $query = DB::table('groups')
+                ->join('titles', 'titles.id', '=', 'groups.title_id')
+                ->select('titles.name')
+                ->whereIn('groups.id', $categories)
+                ->groupBy('titles.name')
+                ->get()
+                ->count();
+            $result = $query > 1 ? 'error' : 'success';
+            break;
+
+        case 'manager':
+            $result = 'error';
+            break;
+    }
+
+    return $result;
+}
+
 function getMethodsByParams($group, $month)
 {
     $month = is_null($month) ? Carbon::now()->month : $month;

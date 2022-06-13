@@ -3,6 +3,13 @@
 @section('content-admin')
     <section id="workers-form" class="overflow-auto is-validation">
         <h3>{{ @form_title($worker) }}</h3>
+
+        @if(session()->has('warning'))
+        <div class="my-2 alert alert-warning" role="alert">
+            {{ session()->get('warning') }}
+        </div>
+        @endif
+
         <form class="bk-form"
               action="{{ @is_update($worker, 'admin.workers') }}"
               method="POST">
@@ -19,7 +26,7 @@
                            id="last_name"
                            type="text"
                            name="last_name"
-                           value="{{ isset($worker) ? $worker->last_name : null }}"
+                           value="{{ old('last_name', isset($worker) ? $worker->last_name : null) }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -33,7 +40,7 @@
                            id="first_name"
                            type="text"
                            name="first_name"
-                           value="{{ isset($worker) ? $worker->first_name : null }}"
+                           value="{{ old('first_name', isset($worker) ? $worker->first_name : null) }}"
                            required
                            autocomplete="off"/>
                 </div>
@@ -47,7 +54,7 @@
                            id="middle_name"
                            type="text"
                            name="middle_name"
-                           value="{{ isset($worker) ? $worker->middle_name : null }}"
+                           value="{{ old('middle_name', isset($worker) ? $worker->middle_name : null) }}"
                            autocomplete="off"/>
                 </div>
 
@@ -75,6 +82,30 @@
                     @endisset
                 </div>
 
+                <!-- specialty_id -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="">
+                        {{ __('_field.specialty') }}
+                    </label>
+                    <ul>
+                        @foreach($specialties as $index => $specialty)
+                        <li class="d-flex align-items-center" style="grid-gap: 5px;">
+                            <input class="bk-form__list-checkbox"
+                                   id="{{ 'specialty-' . $specialty->id }}"
+                                   type="checkbox"
+                                   name="specialties[]"
+                                   value="{{ $specialty->id }}"
+                                   @isset($worker) @if($worker->specialties->where('id', $specialty->id)->count())
+                                   checked
+                                   @endif @endisset>
+                            <label class="bk-form__list-label" for="{{ 'specialty-' . $specialty->id }}">
+                                {{ $specialty->name }}
+                            </label>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+
                 <!-- groups -->
                 <div class="bk-form__field">
                     <label class="bk-form__label" for="">
@@ -84,14 +115,14 @@
                         @foreach($groups as $index => $group)
                         <div class="bk-form__list-item">
                             <input class="bk-form__list-checkbox"
-                                   id="{{ $group->id }}"
+                                   id="{{ 'group-' . $group->id }}"
                                    type="checkbox"
                                    name="groups[]"
                                    value="{{ $group->id }}"
                                    @isset($worker) @if($worker->groups->where('id', $group->id)->count())
                                    checked
                                    @endif @endisset>
-                            <label class="bk-form__list-label" for="{{ $group->id }}">
+                            <label class="bk-form__list-label" for="{{ 'group-' . $group->id }}">
                                 {{ $group->title->name }}
                                 {{ $group->category_id == 4 ? null : @tip($group->category->name) }}
                             </label>

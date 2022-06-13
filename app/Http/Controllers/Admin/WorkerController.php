@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialty;
 use App\Models\Worker;
 use App\Models\Title;
 use App\Models\User;
@@ -22,10 +23,15 @@ class WorkerController extends Controller
 
     public function create()
     {
-        $roles  = Role::whereIn('slug', ['head', 'manager'])->get();
-        $groups = Group::get();
+        $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
+        $specialties = Specialty::get();
+        $groups      = Group::get();
 
-        return view('admin.pages.workers.form', compact('roles', 'groups'));
+        return view('admin.pages.workers.form', [
+            'roles'       => $roles,
+            'specialties' => $specialties,
+            'groups'      => $groups,
+        ]);
     }
 
     public function store(Request $request)
@@ -80,7 +86,22 @@ class WorkerController extends Controller
         ]);
 
         if ($request->input('groups')) {
-            $worker->groups()->attach($request->input('groups'));
+
+            $check = @oneGroupByTeacher($request->input('groups'), $worker->position);
+
+            if ($check == 'error')
+            {
+                $request->session()->flash('warning', __('_dialog.one_group'));
+                return redirect()->back();
+            }
+            else
+            {
+                $worker->groups()->attach($request->input('groups'));
+            }
+        }
+
+        if ($request->input('specialties')) {
+            $worker->specialties()->attach($request->input('specialties'));
         }
 
         $request->session()->flash('success', __('_record.added'));
@@ -94,10 +115,16 @@ class WorkerController extends Controller
 
     public function edit(Worker $worker)
     {
-        $roles  = Role::whereIn('slug', ['head', 'manager'])->get();
-        $groups = Group::get();
+        $roles       = Role::whereIn('slug', ['head', 'manager'])->get();
+        $specialties = Specialty::get();
+        $groups      = Group::get();
 
-        return view('admin.pages.workers.form', compact('worker', 'groups', 'roles'));
+        return view('admin.pages.workers.form', [
+            'worker'      => $worker,
+            'roles'       => $roles,
+            'specialties' => $specialties,
+            'groups'      => $groups,
+        ]);
     }
 
     public function update(Request $request, Worker $worker)
@@ -114,9 +141,25 @@ class WorkerController extends Controller
         ]);
 
         $worker->groups()->detach();
+        $worker->specialties()->detach();
 
         if ($request->input('groups')) {
-            $worker->groups()->attach($request->input('groups'));
+
+            $check = @oneGroupByTeacher($request->input('groups'), $worker->position);
+
+            if ($check == 'error')
+            {
+                $request->session()->flash('warning', __('_dialog.one_group'));
+                return redirect()->back();
+            }
+            else
+            {
+                $worker->groups()->attach($request->input('groups'));
+            }
+        }
+
+        if ($request->input('specialties')) {
+            $worker->specialties()->attach($request->input('specialties'));
         }
 
         $worker->save();

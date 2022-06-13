@@ -23,10 +23,10 @@
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.username') }}</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.fio') }}</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.position') }}</th>
-                    <th class="w-25 bk-min-w-300 no-sort">{{ __('_field.groups') }}</th>
+                    <th class="w-25 bk-min-w-250 no-sort">{{ __('_field.specialty') }}</th>
+                    <th class="w-25 bk-min-w-250 no-sort">{{ __('_field.groups') }}</th>
                     @if(@is_access('worker_full'))
                     <th class="no-sort">{{ __('_action.this') }}</th>
                     @endif
@@ -36,9 +36,18 @@
             @foreach($workers as $index => $worker)
                 <tr>
                     <td>{{ ++$index }}</td>
-                    <td>{{ $worker->user->username }}</td>
                     <td>{{ @full_fio('worker', $worker->id) }}</td>
                     <td>{{ $worker->user->role->name }}</td>
+                    <td>
+                        <ul class="bk-btn-info">
+                            @foreach($worker->specialties as $specialty)
+                            <li>
+                                {{ $specialty->name }}
+                            </li>
+                            @endforeach
+                            {{ $worker->specialties->count() > 1 ? @fa('fa fa-eye bk-btn-info--fa') : null }}
+                        </ul>
+                    </td>
                     <td>
                         <ul class="bk-btn-info">
                             @foreach($titles as $title)
@@ -55,7 +64,6 @@
                                 @endforeach
                             </li>
                             @endforeach
-                            {{ $worker->groups->count() ? @fa('fa fa-eye bk-btn-info--fa') : null }}
                         </ul>
                     </td>
                     @if(@is_access('worker_full'))
