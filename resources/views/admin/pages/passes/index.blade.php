@@ -39,7 +39,10 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>
-                        <ul>
+                        <ul class="bk-btn-info">
+                            <li>
+                                {{ __('_field.pass') . ' №' . $pass->id }}
+                            </li>
                             <li>
                                 {{ @full_fio('member', $pass->member->id) }}
                             </li>
@@ -51,6 +54,7 @@
                             <li>
                                 {{ $pass->member->group->category->name . ' группа' }}
                             </li>
+                            {{ @fa('fa fa-eye bk-btn-info--fa') }}
                         </ul>
                     </td>
                     <td>{{ @getDMY($pass->from) }}</td>
