@@ -59,39 +59,38 @@
             </div>
         </form>
 
-{{--        <div class="bk-tabs">--}}
-{{--            <input class="bk-tabs__input bk-tab-1"--}}
-{{--                   id="tab-1"--}}
-{{--                   type="radio"--}}
-{{--                   name="tab"--}}
-{{--                   checked>--}}
-{{--            <label class="bk-tabs__label" for="tab-1">--}}
-{{--                Журнал занятий коллектива--}}
-{{--            </label>--}}
-{{--            <input class="bk-tabs__input bk-tab-2"--}}
-{{--                   id="tab-2"--}}
-{{--                   type="radio"--}}
-{{--                   name="tab">--}}
-{{--            <label class="bk-tabs__label" for="tab-2">--}}
-{{--                Журнал учёта посещений--}}
-{{--            </label>--}}
-{{--            <div class="bk-tabs__content bk-tab-content-1">--}}
-{{--                @include('admin.pages.visits.lessons')--}}
-{{--            </div>--}}
-{{--            <div class="bk-tabs__content bk-tab-content-2">--}}
-{{--                @include('admin.pages.visits.attendance')--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-
-        <div class="bk-visits-journal">
-            <div class="bk-visits-journal__left">
-                @include('admin.pages.visits.attendance')
-            </div>
-            <div class="bk-visits-journal__right">
+        <div class="bk-tabs">
+            <input class="bk-tabs__input bk-tab-1"
+                   id="tab-1"
+                   type="radio"
+                   name="tab"
+                   checked>
+            <label class="bk-tabs__label" for="tab-1">
+                Журнал занятий коллектива
+            </label>
+            <input class="bk-tabs__input bk-tab-2"
+                   id="tab-2"
+                   type="radio"
+                   name="tab">
+            <label class="bk-tabs__label" for="tab-2">
+                Журнал учёта посещений
+            </label>
+            <input class="bk-tabs__input bk-tab-3"
+                   id="tab-3"
+                   type="radio"
+                   name="tab">
+            <label class="bk-tabs__label" for="tab-3">
+                Журнал учёта пропусков
+            </label>
+            <div class="bk-tabs__content bk-tab-content-1">
                 @include('admin.pages.visits.lessons')
             </div>
+            <div class="bk-tabs__content bk-tab-content-2">
+                @include('admin.pages.visits.attendance')
+            </div>
+            <div class="bk-tabs__content bk-tab-content-3">
+                @include('admin.pages.visits.misses')
+            </div>
         </div>
-
     </section>
 @endsection

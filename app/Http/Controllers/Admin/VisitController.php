@@ -100,6 +100,7 @@ class VisitController extends Controller
             'months'      => $months,
             'nameMonth'   => $nameMonth,
             'numMonth'    => $month,
+            'year'        => $year,
             'lessons'     => $lessons,
             'lessonDays'  => $lessonDays,
             'lessonCount' => $lessonDays->count(),

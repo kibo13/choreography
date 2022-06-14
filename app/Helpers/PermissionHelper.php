@@ -5,6 +5,22 @@ use App\Models\Group;
 use App\Models\Load;
 use App\Models\Method;
 
+function getMissesByMember($member, $month, $year)
+{
+    return DB::table('visits')
+        ->join('timetables', 'visits.timetable_id', 'timetables.id')
+        ->selectRaw('COUNT(visits.member_id) as count_misses')
+        ->where([
+            ['visits.status', 0],
+            ['visits.member_id', $member],
+            [DB::raw('MONTH(timetables.from)'), $month],
+            [DB::raw('YEAR(timetables.from)'), $year],
+        ])
+        ->groupBy('visits.member_id')
+        ->first()
+        ->count_misses;
+}
+
 function getGroupsByRole()
 {
     switch (Auth::user()->role_id) {

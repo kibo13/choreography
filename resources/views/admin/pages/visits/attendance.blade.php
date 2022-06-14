@@ -6,17 +6,26 @@
         </tr>
         <tr>
             <th>#</th>
-            <th class="w-100 bk-min-w-250">{{ __('_field.member') }}</th>
+            <th class="w-100 bk-min-w-200">{{ __('_field.member') }}</th>
             @foreach($lessonDays as $day)
-            <th class="text-center">{{ $day->day_lesson }}</th>
+            <th class="text-center bk-min-w-100">{{ $day->day_lesson }}</th>
             @endforeach
         </tr>
     </thead>
     <tbody>
-    @foreach($group->members as $index => $member)
+        @foreach($group->members as $index => $member)
         <tr>
             <td>{{ ++$index }}</td>
-            <td>{{ @full_fio('member', $member->id) }}</td>
+            <td>
+                <strong class="{{ $member->form_study ? 'text-info' : null }}">
+                    {{ @full_fio('member', $member->id) }}
+                    @if($member->form_study)
+                    <span title="{{ __('_field.paid_form') }}">
+                        {{ @fa('fa-info-circle') }}
+                    </span>
+                    @endif
+                </strong>
+            </td>
             @foreach($lessonDays as $day)
             <td class="text-center">
                 <ul>
@@ -45,6 +54,7 @@
                     @else
                     <li>
                         <input type="checkbox"
+                               style="width: 16px; height: 16px; cursor: pointer;"
                                data-type="visit"
                                data-action="create"
                                data-id="{{ $lesson->id }}"
@@ -77,6 +87,6 @@
             </td>
             @endforeach
         </tr>
-    @endforeach
+        @endforeach
     </tbody>
 </table>
