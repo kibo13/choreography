@@ -25,6 +25,33 @@ function getGroupsByRole()
     return $groups;
 }
 
+function getTeachersByRole()
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+            $teachers = DB::table('specialty_worker')
+                ->join('specialties', 'specialty_worker.specialty_id', 'specialties.id')
+                ->join('workers', 'specialty_worker.worker_id', 'workers.id')
+                ->select([
+                    'workers.id',
+                    'workers.last_name',
+                    'workers.first_name',
+                    'workers.middle_name',
+                    'workers.phone',
+                    'workers.address',
+                ])
+                ->whereIn('specialties.id', Auth::user()->worker->specialties)
+                ->get();
+            break;
+
+        default:
+            $teachers = [];
+            break;
+    }
+
+    return $teachers;
+}
+
 function getMethodsByRole()
 {
     switch (Auth::user()->role_id) {

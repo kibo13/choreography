@@ -100,22 +100,6 @@ function getYearsFromTimetables()
         ->get();
 }
 
-function getTeachers()
-{
-    return DB::table('workers')
-        ->join('users', 'workers.user_id', '=', 'users.id')
-        ->select([
-            'workers.id',
-            'workers.last_name',
-            'workers.first_name',
-            'workers.middle_name',
-            'workers.phone',
-            'workers.address',
-        ])
-        ->where('users.role_id', 3)
-        ->get();
-}
-
 function checkVisit($member, $lesson)
 {
     return Visit::where('member_id', $member->id)->where('timetable_id', $lesson->id)->first();

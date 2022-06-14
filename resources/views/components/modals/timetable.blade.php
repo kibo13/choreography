@@ -71,7 +71,7 @@
                             name="worker_id"
                             required>
                         <option value="" disabled selected>{{ __('_select.teacher') }}</option>
-                        @foreach(@getTeachers() as $teacher)
+                        @foreach(@getTeachersByRole() as $teacher)
                         <option value="{{ $teacher->id }}">
                             {{ @command_master($teacher) }}
                         </option>
