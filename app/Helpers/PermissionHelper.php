@@ -56,7 +56,7 @@ function getTeachersByRole()
                     'workers.phone',
                     'workers.address',
                 ])
-                ->whereIn('specialties.id', Auth::user()->worker->specialties)
+                ->whereIn('specialties.id', Auth::user()->worker->specialties->pluck('id'))
                 ->get();
             break;
 
