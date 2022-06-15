@@ -41,7 +41,7 @@ function getGroupsByRole()
     return $groups;
 }
 
-function getTeachersByRole()
+function getTeachersBySpec()
 {
     switch (Auth::user()->role_id) {
         case 3:
@@ -68,7 +68,7 @@ function getTeachersByRole()
     return $teachers;
 }
 
-function getMethodsByRole()
+function getMethodsByGroup()
 {
     switch (Auth::user()->role_id) {
         case 1:

@@ -41,12 +41,6 @@ if (home_index) {
             list:     'Список'
         },
 
-        validRange(today) {
-            return {
-                start: today
-            }
-        },
-
         eventDidMount(info) {
             const data = {
                 title: info.event.title,

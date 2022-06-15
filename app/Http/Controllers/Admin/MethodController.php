@@ -11,7 +11,7 @@ class MethodController extends Controller
 {
     public function index()
     {
-        $methods   = @getMethodsByRole();
+        $methods   = @getMethodsByGroup();
         $nameMonth = config('constants.month_names');
         $programs  = config('constants.programs');
 

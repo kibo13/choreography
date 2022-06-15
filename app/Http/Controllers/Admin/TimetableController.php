@@ -5,24 +5,71 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Timetable;
 use App\Models\Title;
-use App\Models\Load;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class TimetableController extends Controller
 {
+    private function getLessonsLimit($groups)
+    {
+        return DB::table('loads')
+            ->selectRaw('SUM(loads.duration) as lessons')
+            ->whereIn('group_id', $groups)
+            ->first()
+            ->lessons;
+    }
+
+    private function getLessonsExist($groups, $month, $year)
+    {
+        return DB::table('timetables')
+            ->selectRaw('COUNT(timetables.id) as lessons')
+            ->whereIn('group_id', $groups)
+            ->where(DB::raw('MONTH(timetables.from)'), $month)
+            ->where(DB::raw('YEAR(timetables.from)'), $year)
+            ->first()
+            ->lessons;
+    }
+
+    private function getSubteachers($groups, $month, $year)
+    {
+        return DB::table('timetables')
+            ->whereIn('timetables.group_id', $groups)
+            ->where(DB::raw('MONTH(timetables.from)'), $month)
+            ->where(DB::raw('YEAR(timetables.from)'), $year)
+            ->where(DB::raw('timetables.worker_id - timetables.is_replace'), '<>', 0)
+            ->get();
+    }
+
     public function index()
     {
         $is_director = Auth::user()->role_id == 3 ? 1 : null;
         $months      = config('constants.months');
+        $month_names = config('constants.month_names');
         $nowMonthID  = Carbon::now()->format('m');
+        $nowYear     = Carbon::now()->format('Y');
         $titles      = Title::get();
 
-        return view(
-            'admin.pages.timetable.index',
-            compact('is_director', 'months', 'nowMonthID', 'titles')
-        );
+        switch (Auth::user()->role_id) {
+            case 3:
+                $groups      = Auth::user()->worker->groups->pluck('id');
+                $subteachers = $this->getSubteachers($groups, $nowMonthID, $nowYear);
+                break;
+
+            default:
+                $subteachers = [];
+                break;
+        }
+
+        return view('admin.pages.timetable.index', [
+            'is_director' => $is_director,
+            'months'      => $months,
+            'nowMonthID'  => $nowMonthID,
+            'titles'      => $titles,
+            'monthName'   => $month_names[$nowMonthID - 1],
+            'subteachers' => $subteachers
+        ]);
     }
 
     public function generate(Request $request)
@@ -40,6 +87,16 @@ class TimetableController extends Controller
         $year              = Carbon::now()->format('Y');
         $numberDaysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $loads             = getLoadsByRole();
+        $groups            = Auth::user()->worker->groups->pluck('id');
+        $existLessons      = $this->getLessonsExist($groups, $month, $year);
+        $limitLessons      = $this->getLessonsLimit($groups) * 4;
+        $month_names       = config('constants.month_names');
+
+        if ($existLessons == $limitLessons)
+        {
+            $request->session()->flash('success', 'Расписание за ' . $month_names[$month - 1] . ' месяц уже сформировано');
+            return redirect()->route('admin.timetable.index');
+        }
 
         // create empty array monthByDayOfWeek
         $monthByDayOfWeek = [

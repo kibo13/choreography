@@ -2,7 +2,6 @@ import { Calendar } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import listPlugin from '@fullcalendar/list'
 import { tag } from '../components/tooltip'
 
 const timetable_index = document.getElementById('timetable-index')
@@ -20,14 +19,13 @@ if (timetable_index) {
         plugins: [
             interactionPlugin,
             dayGridPlugin,
-            timeGridPlugin,
-            listPlugin
+            timeGridPlugin
         ],
 
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek',
+            right: 'dayGridMonth,timeGridWeek',
         },
 
         buttonText: {
@@ -36,6 +34,13 @@ if (timetable_index) {
             week:     'Неделя',
             day:      'День',
             list:     'Список'
+        },
+
+        eventClassNames(arg) {
+            let teacher    = arg.event.extendedProps.worker_id
+            let subteacher = arg.event.extendedProps.is_replace
+
+            if (teacher != subteacher) return ['bk-timetables--replace']
         },
 
         eventDidMount(info) {
