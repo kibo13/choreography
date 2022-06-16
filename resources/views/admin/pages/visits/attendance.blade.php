@@ -14,6 +14,26 @@
     </thead>
     <tbody>
         @foreach($group->members as $index => $member)
+        @if($member->form_study == 1 && @checkPass($member) >= @getActivePass($member)->lessons)
+        <tr>
+            <td>{{ ++$index }}</td>
+            <td>
+                <strong class="{{ $member->form_study ? 'text-info' : null }}">
+                    {{ @full_fio('member', $member->id) }}
+                    @if($member->form_study)
+                        <span title="{{ __('_field.paid_form') }}">
+                        {{ @fa('fa-info-circle') }}
+                    </span>
+                    @endif
+                </strong>
+            </td>
+            <td colspan="{{ $lessonDays->count() }}">
+                <span class="text-info">
+                    Участнику необходимо создать / продлить абонемент
+                </span>
+            </td>
+        </tr>
+        @else
         <tr>
             <td>{{ ++$index }}</td>
             <td>
@@ -87,6 +107,7 @@
             </td>
             @endforeach
         </tr>
+        @endif
         @endforeach
     </tbody>
 </table>

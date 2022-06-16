@@ -30,9 +30,7 @@
             @endforeach
         </ul>
 
-        <form class="my-2 bk-form"
-              action="{{ route('admin.visits.index', $group) }}"
-              method="GET">
+        <form class="my-2 bk-form" action="{{ route('admin.visits.index', $group) }}" method="GET">
             <div class="bk-form__wrapper">
                 <div class="bk-grid bk-grid--gtc-150">
                     <input type="hidden" name="period" value="1">
@@ -66,21 +64,21 @@
                    name="tab"
                    checked>
             <label class="bk-tabs__label" for="tab-1">
-                Журнал занятий коллектива
+                Занятия
             </label>
             <input class="bk-tabs__input bk-tab-2"
                    id="tab-2"
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-2">
-                Журнал учёта посещений
+                Посещения
             </label>
             <input class="bk-tabs__input bk-tab-3"
                    id="tab-3"
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-3">
-                Журнал учёта пропусков
+                Пропуски
             </label>
             <div class="bk-tabs__content bk-tab-content-1">
                 @include('admin.pages.visits.lessons')
