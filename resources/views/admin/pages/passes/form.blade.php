@@ -62,7 +62,7 @@
                         {{ __('_field.discount') }}
                     </label>
                     <div class="bk-form__text">
-                        {{ $pass->member->discount->size > 0 ? $pass->member->discount->size . '%' : '-' }}
+                        {{ $pass->member->discount ? $pass->member->discount->size . '%' : '-' }}
                     </div>
                 </div>
                 @endif

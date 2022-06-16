@@ -1,4 +1,4 @@
-<table id="is-datatable" class="dataTables table table-bordered table-hover table-responsive">
+<table class="dataTables table table-bordered table-hover table-responsive">
     <thead class="thead-light">
         <tr>
             <th class="align-top">#</th>
