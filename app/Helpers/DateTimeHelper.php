@@ -27,6 +27,11 @@ function getHI($time)
     return date('H:i', strtotime($time));
 }
 
+function diffDays($date)
+{
+    return Carbon::now()->diffInDays($date);
+}
+
 function plusMinutes($time, $minutes)
 {
     return date('H:i', strtotime('+' . $minutes . ' minutes', strtotime($time)));
