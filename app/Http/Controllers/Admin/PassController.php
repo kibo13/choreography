@@ -23,63 +23,35 @@ class PassController extends Controller
 
     public function index()
     {
-        switch (Auth::user()->role_id) {
-            case 1:
-            case 2:
-                $passes = Pass::get();
-                break;
+        $today   = Carbon::now();
+        $members = @getPaidMembersByGroup();
+        $passes  = @getDeactivePassesByGroup();
 
-            case 3:
-                $groups = $this->worker()->groups->pluck('id');
-                $passes = Pass::whereIn('group_id', $groups)->get();
-                break;
-
-            case 4:
-            case 5:
-                $passes = [];
-                break;
-        }
-
-        return view('admin.pages.passes.index', compact('passes'));
+        return view('admin.pages.passes.index', [
+            'today'   => $today,
+            'members' => $members,
+            'passes'  => $passes
+        ]);
     }
 
     public function create(Request $request)
     {
-        if (is_null($this->worker())) {
-            $request->session()->flash('warning', __('_dialog.group_null'));
-            $groups = [];
-        } else {
-            $groups = $this->worker()->groups->pluck('id');
-        }
-
-        $members  = Member::whereIn('group_id', $groups)->where('form_study', 1)->get();
-        $payments = config('constants.payments');
-
-        return view(
-            'admin.pages.passes.form',
-            compact('members', 'payments')
-        );
-    }
-
-    public function store(Request $request)
-    {
-        $is_pass  = Pass::where('member_id', $request['member_id'])->first();
-        $today    = Carbon::now()->addHour(5);
-
-        // check to exist pass by member
-        if ($is_pass && $today <= $is_pass->till)
-        {
-            $request->session()->flash('warning', __('_dialog.pass_active'));
-            return redirect()->back();
-        }
-
-        // output message about just teacher can work with passes
-        if (Auth::user()->role_id != 3)
-        {
+        if (Auth::user()->role_id != 3) {
             $request->session()->flash('warning', __('_dialog.just_head'));
             return redirect()->back();
         }
 
+        $member   = $request['member_id'];
+        $payments = config('constants.payments');
+
+        return view('admin.pages.passes.form', [
+            'member'   => $member,
+            'payments' => $payments,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
         $member        = Member::where('id', $request['member_id'])->first();
         $discount      = $member->discount;
         $group         = $member->group->id;
@@ -188,10 +160,10 @@ class PassController extends Controller
     {
         $payments = config('constants.payments');
 
-        return view(
-            'admin.pages.passes.form',
-            compact('pass', 'payments')
-        );
+        return view('admin.pages.passes.form', [
+            'pass'     => $pass,
+            'payments' => $payments,
+        ]);
     }
 
     public function update(Request $request, Pass $pass)
@@ -251,5 +223,24 @@ class PassController extends Controller
         $word->saveAs($filename . '.docx');
 
         return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+    }
+
+    public function prolong(Request $request, Pass $pass)
+    {
+        $pass->update(['is_active' => 0]);
+
+        Pass::create([
+            'member_id' => $pass->member_id,
+            'group_id'  => $pass->group_id,
+            'worker_id' => $this->worker()->id,
+            'from'      => date('Y-m-d', strtotime($pass->till . ' +1 days')),
+            'till'      => date('Y-m-d', strtotime($pass->till . ' +14 days')),
+            'cost'      => $pass->cost,
+            'lessons'   => $pass->lessons,
+            'is_active' => 1
+        ]);
+
+        $request->session()->flash('success', __('_record.updated'));
+        return redirect()->route('admin.passes.index');
     }
 }

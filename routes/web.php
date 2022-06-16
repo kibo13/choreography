@@ -172,6 +172,8 @@ Route::group([
     // passes
     Route::group(['middleware' => 'permission:pass_full'], function () {
         Route::resource('passes', PassController::class);
+        Route::get('passes/prolong/{pass}', [PassController::class, 'prolong'])
+            ->name('passes.prolong');
     });
 
     Route::group(['middleware' => 'permission:pass_read'], function () {

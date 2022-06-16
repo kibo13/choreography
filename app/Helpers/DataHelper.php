@@ -100,6 +100,61 @@ function getYearsFromTimetables()
         ->get();
 }
 
+function checkPass($member)
+{
+    $countAttendLessons = DB::table('visits')
+        ->join('timetables', 'visits.timetable_id', 'timetables.id')
+        ->selectRaw('COUNT(visits.id) as count_attend_lessons')
+        ->where('visits.member_id', $member->id)
+        ->where('visits.status', 1)
+        ->first()
+        ->count_attend_lessons;
+
+    $passes = DB::table('passes')
+        ->select([
+            DB::raw('SUM(passes.lessons) as count_exists_lessons'),
+            DB::raw('COUNT(passes.id) as count_exists_records'),
+        ])
+        ->where('passes.member_id', $member->id)
+        ->first();
+
+    $diff = $countAttendLessons - $passes->count_exists_lessons;
+    $coef = $passes->count_exists_records > 1 ? $passes->count_exists_lessons / $passes->count_exists_records : 0;
+    $res  = $diff < 0 ? $countAttendLessons - $coef : $countAttendLessons;
+
+    return $res;
+}
+
+function getLessonsAttend($type, $member)
+{
+    switch ($type) {
+        case 'number':
+           $query = DB::table('visits')
+                ->join('timetables', 'visits.timetable_id', 'timetables.id')
+                ->selectRaw('COUNT(visits.id) as count_lesson')
+                ->where('visits.member_id', $member->id)
+                ->where('visits.status', 1)
+                ->first()
+                ->count_lesson;
+            break;
+
+        case 'list':
+            $query = DB::table('visits')
+                ->join('timetables', 'visits.timetable_id', 'timetables.id')
+                ->select([
+                    DB::raw('DATE(timetables.from) as date_lesson'),
+                    DB::raw('COUNT(visits.id) as count_lesson')
+                ])
+                ->where('visits.member_id', $member->id)
+                ->where('visits.status', 1)
+                ->groupBy('date_lesson')
+                ->get();
+            break;
+    }
+
+    return $query;
+}
+
 function checkVisit($member, $lesson)
 {
     return Visit::where('member_id', $member->id)->where('timetable_id', $lesson->id)->first();

@@ -35,13 +35,6 @@ function status($param)
         : '<strong class="text-success">' . __('_action.completed') .'</strong>';
 }
 
-function is_pay($param)
-{
-    echo $param
-        ? '<strong class="text-success">' . __('_field.pay_yep') .'</strong>'
-        : '<strong class="text-danger">' . __('_field.pay_no') .'</strong>';
-}
-
 function short_fio($type, $id)
 {
     switch ($type)

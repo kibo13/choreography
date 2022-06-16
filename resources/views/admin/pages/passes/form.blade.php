@@ -23,27 +23,10 @@
                     <label class="bk-form__label" for="member_id">
                         {{ __('_field.member') }} {{ @mandatory() }}
                     </label>
-                    @isset($pass)
                     <div class="bk-form__text">
-                        {{ @full_fio('member', $pass->member->id) }}
+                        {{ @full_fio('member', isset($pass) ? $pass->member->id : $member) }}
+                        <input type="hidden" name="member_id" value="{{ isset($pass) ? null : $member }}">
                     </div>
-                    @else
-                    <select class="bk-form__select bk-max-w-300"
-                            id="member_id"
-                            name="member_id"
-                            required>
-                        <option value="" disabled selected>{{ __('_select.member') }}</option>
-                        @foreach($members as $member)
-                        <option value="{{ $member->id }}">
-                            {{ @full_fio('member', $member->id) }}
-                            @if($member->discount)
-                            / скидка
-                            {{ $member->discount->size . '%' }}
-                            @endif
-                        </option>
-                        @endforeach
-                    </select>
-                    @endisset
                 </div>
 
                 <!-- from -->

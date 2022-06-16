@@ -44,6 +44,11 @@ class Member extends Model
         return $this->belongsTo(Doc::class);
     }
 
+    public function passes()
+    {
+        return $this->hasMany(Pass::class);
+    }
+
     public function group()
     {
         return $this->belongsTo(Group::class);

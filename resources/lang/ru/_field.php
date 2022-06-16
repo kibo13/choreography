@@ -126,6 +126,7 @@ return [
     'date_till'             => 'Дата окончания',
     'action_from'           => 'Дата начала действия',
     'action_till'           => 'Дата окончания действия',
+    'payment'               => 'Оплата',
     'pay_status'            => 'Статус оплаты',
     'pay_date'              => 'Дата оплаты',
     'pay_file'              => 'Квитанция',
@@ -136,6 +137,7 @@ return [
     // events
     'date_event'            => 'Дата проведения',
     'period_event'          => 'Период проведения',
+    'period_action'         => 'Период действия',
     'local'                 => 'Локальное',
     'town'                  => 'Городское',
     'international'         => 'Международное',
