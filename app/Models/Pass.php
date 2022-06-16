@@ -10,6 +10,7 @@ class Pass extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_active',
         'member_id',
         'group_id',
         'worker_id',
