@@ -44,7 +44,7 @@ class WorkerController extends Controller
             'role_id'       => $request['role_id'],
         ]);
 
-        // TODO: head
+        // head
         if ($user->role_id == 3) {
             $user->permissions()->attach([
                 3, 4,
@@ -64,11 +64,12 @@ class WorkerController extends Controller
             ]);
         }
 
-        // TODO: manager
+        // manager
         if ($user->role_id == 4) {
             $user->permissions()->attach([
                 15, 16,
-                31
+                31,
+                36, 37
             ]);
         }
 

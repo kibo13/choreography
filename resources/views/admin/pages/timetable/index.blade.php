@@ -21,9 +21,7 @@
             </div>
         </div>
 
-        @if(Auth::user()->role_id == 5)
-        @include('admin.pages.timetable.schedule')
-        @else
+        @if($is_director)
         <div class="bk-tabs">
             <input class="bk-tabs__input bk-tab-1"
                    id="tab-1"
@@ -47,6 +45,8 @@
                 @include('admin.pages.timetable.replace')
             </div>
         </div>
+        @else
+        @include('admin.pages.timetable.schedule')
         @endif
     </section>
 @endsection

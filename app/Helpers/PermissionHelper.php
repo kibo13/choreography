@@ -5,6 +5,7 @@ use App\Models\Group;
 use App\Models\Load;
 use App\Models\Method;
 use App\Models\Member;
+use App\Models\Timetable;
 use Illuminate\Support\Facades\Auth;
 
 function getMissesByMember($member, $month, $year)
@@ -50,6 +51,7 @@ function getGroupsByRole()
     switch (Auth::user()->role_id) {
         case 1:
         case 2:
+        case 4:
             $groups = Group::get();
             break;
 
@@ -63,6 +65,22 @@ function getGroupsByRole()
     }
 
     return $groups;
+}
+
+function getSubteachers()
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+            $groups      = Auth::user()->worker->groups->pluck('id');
+            $subteachers = Timetable::whereIn('group_id', $groups)->get();
+            break;
+
+        default:
+            $subteachers = [];
+            break;
+    }
+
+    return $subteachers;
 }
 
 function getTeachersBySpec()

@@ -57,6 +57,8 @@ if (users_form) {
                 $('.room_read').prop('checked', true)
                 $('.room_full').prop('checked', true)
                 $('.timetable_read').prop('checked', true)
+                $('.visit_read').prop('checked', true)
+                $('.visit_full').prop('checked', true)
                 break
 
             case 'client':

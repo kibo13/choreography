@@ -8,7 +8,6 @@ use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class TimetableController extends Controller
 {
@@ -32,42 +31,16 @@ class TimetableController extends Controller
             ->lessons;
     }
 
-    private function getSubteachers($groups, $month, $year)
-    {
-        return DB::table('timetables')
-            ->whereIn('timetables.group_id', $groups)
-            ->where(DB::raw('MONTH(timetables.from)'), $month)
-            ->where(DB::raw('YEAR(timetables.from)'), $year)
-            ->get();
-    }
-
     public function index()
     {
         $is_director = Auth::user()->role_id == 3 ? 1 : null;
-        $months      = config('constants.months');
-        $month_names = config('constants.month_names');
-        $nowMonthID  = Carbon::now()->format('m');
-        $nowYear     = Carbon::now()->format('Y');
         $titles      = Title::get();
+        $subteachers = @getSubteachers();
         $k           = 0;
-
-        switch (Auth::user()->role_id) {
-            case 3:
-                $groups      = Auth::user()->worker->groups->pluck('id');
-                $subteachers = $this->getSubteachers($groups, $nowMonthID, $nowYear);
-                break;
-
-            default:
-                $subteachers = [];
-                break;
-        }
 
         return view('admin.pages.timetable.index', [
             'is_director' => $is_director,
-            'months'      => $months,
-            'nowMonthID'  => $nowMonthID,
             'titles'      => $titles,
-            'monthName'   => $month_names[$nowMonthID - 1],
             'subteachers' => $subteachers,
             'k'           => $k
         ]);
@@ -83,9 +56,15 @@ class TimetableController extends Controller
             return redirect()->route('admin.timetable.index');
         }
 
-        // settings
-        $month             = $request['month_id'];
-        $year              = Carbon::now()->format('Y');
+        $year  = explode('-', $request['month'])[0];
+        $month = explode('-', $request['month'])[1];
+
+        if ($month == 7 || $month == 8)
+        {
+            $request->session()->flash('warning', 'Расписание не может быть сформировано за Июль-Август месяцы');
+            return redirect()->route('admin.timetable.index');
+        }
+
         $numberDaysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $loads             = getLoadsByRole();
         $groups            = Auth::user()->worker->groups->pluck('id');

@@ -1,8 +1,5 @@
 <div class="mt-1 mb-2 bk-callout">
-    <h5 class="m-0">
-        Контроль замен
-        <span class="text-info align-text-top">{{ $monthName }}</span>
-    </h5>
+    <h5 class="m-0">Контроль замен</h5>
 </div>
 
 <table id="is-datatable" class="dataTables table table-bordered table-responsive">
