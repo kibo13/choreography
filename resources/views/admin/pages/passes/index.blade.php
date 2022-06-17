@@ -20,11 +20,21 @@
             <label class="bk-tabs__label" for="tab-2">
                 Неактивные
             </label>
+            <input class="bk-tabs__input bk-tab-3"
+                   id="tab-3"
+                   type="radio"
+                   name="tab">
+            <label class="bk-tabs__label" for="tab-3">
+                Бланки
+            </label>
             <div class="bk-tabs__content bk-tab-content-1">
                 @include('admin.pages.passes.active')
             </div>
             <div class="bk-tabs__content bk-tab-content-2">
                 @include('admin.pages.passes.deactive')
+            </div>
+            <div class="bk-tabs__content bk-tab-content-3">
+                @include('admin.pages.passes.blanks')
             </div>
         </div>
     </section>

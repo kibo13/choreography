@@ -1,13 +1,13 @@
 <div class="my-2 bk-callout">
     <h5 class="m-0">
-        Бланки документов для регистрации участников
+        Бланки заявлений на возврат денежных средств
     </h5>
 </div>
 
 <div class="bk-form">
     <div class="bk-form__wrapper">
         @foreach($blanks as $blank)
-        @if($blank['type'] == 'general')
+        @if($blank['type'] == 'special')
         <div class="bk-form__field">
             <label class="bk-form__label">
                 {{ $blank['name'] }}
