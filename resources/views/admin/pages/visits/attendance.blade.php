@@ -14,44 +14,28 @@
     </thead>
     <tbody>
         @foreach($group->members as $index => $member)
-        @if($member->form_study == 1 && @checkPass($member) >= @getActivePass($member)->lessons)
         <tr>
             <td>{{ ++$index }}</td>
             <td>
-                <strong class="{{ $member->form_study ? 'text-info' : null }}">
+                <strong class="{{ $member->form_study ? 'text-info' : null }}"
+                        title="{{ $member->form_study ? __('_field.paid_form') : __('_field.free_form') }}">
                     {{ @full_fio('member', $member->id) }}
-                    @if($member->form_study)
-                        <span title="{{ __('_field.paid_form') }}">
-                        {{ @fa('fa-info-circle') }}
-                    </span>
-                    @endif
+                    {{ $member->form_study ? @fa('fa-info-circle') : null }}
                 </strong>
             </td>
-            <td colspan="{{ $lessonDays->count() }}">
+            @if($member->form_study == 1 && @checkPass($member) >= @getActivePass($member)->lessons)
+            <td colspan="{{ $lessonCount }}">
                 <span class="text-info">
                     Участнику необходимо создать / продлить абонемент
                 </span>
             </td>
-        </tr>
-        @else
-        <tr>
-            <td>{{ ++$index }}</td>
-            <td>
-                <strong class="{{ $member->form_study ? 'text-info' : null }}">
-                    {{ @full_fio('member', $member->id) }}
-                    @if($member->form_study)
-                    <span title="{{ __('_field.paid_form') }}">
-                        {{ @fa('fa-info-circle') }}
-                    </span>
-                    @endif
-                </strong>
-            </td>
+            @else
             @foreach($lessonDays as $day)
             <td class="text-center">
                 <ul>
                     @foreach($lessons as $lesson)
                     @if($lesson->day_lesson == $day->day_lesson)
-                    @if(@is_access('visit_full'))
+                    @if(@is_access('visit_full') && Auth::user()->role_id == 3)
                     @if(@checkVisit($member, $lesson))
                     <li>
                         <button data-type="visit"
@@ -96,9 +80,7 @@
                         @endif
                     </li>
                     @else
-                    <li>
-                        -
-                    </li>
+                    <li>-</li>
                     @endif
                     @endif
                     @endif
@@ -106,8 +88,8 @@
                 </ul>
             </td>
             @endforeach
+            @endif
         </tr>
-        @endif
         @endforeach
     </tbody>
 </table>
