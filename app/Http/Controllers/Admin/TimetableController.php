@@ -38,7 +38,6 @@ class TimetableController extends Controller
             ->whereIn('timetables.group_id', $groups)
             ->where(DB::raw('MONTH(timetables.from)'), $month)
             ->where(DB::raw('YEAR(timetables.from)'), $year)
-            ->where(DB::raw('timetables.worker_id - timetables.is_replace'), '<>', 0)
             ->get();
     }
 
@@ -50,6 +49,7 @@ class TimetableController extends Controller
         $nowMonthID  = Carbon::now()->format('m');
         $nowYear     = Carbon::now()->format('Y');
         $titles      = Title::get();
+        $k           = 0;
 
         switch (Auth::user()->role_id) {
             case 3:
@@ -68,7 +68,8 @@ class TimetableController extends Controller
             'nowMonthID'  => $nowMonthID,
             'titles'      => $titles,
             'monthName'   => $month_names[$nowMonthID - 1],
-            'subteachers' => $subteachers
+            'subteachers' => $subteachers,
+            'k'           => $k
         ]);
     }
 

@@ -12,18 +12,20 @@
             <th class="w-25 bk-min-w-150">{{ __('_field.date') }}</th>
             <th class="w-25 bk-min-w-150">{{ __('_field.time_lesson') }}</th>
             <th class="w-25 bk-min-w-150">{{ __('_field.teacher') }}</th>
-            <th class="w-25 bk-min-w-150">{{ __('_field.note') }}</th>
+            <th class="w-50 bk-min-w-150">{{ __('_field.note') }}</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($subteachers as $index => $subteacher)
+        @foreach($subteachers as $subteacher)
+        @if($subteacher->worker_id <> $subteacher->is_replace)
         <tr>
-            <td>{{ ++$index }}</td>
+            <td>{{ ++$k }}</td>
             <td>{{ @getDMY($subteacher->from) }}</td>
             <td>{{ @getHI($subteacher->from) . ' - ' . @getHI($subteacher->till) }}</td>
             <td>{{ @full_fio('worker', $subteacher->worker_id) }}</td>
             <td>{{ $subteacher->note }}</td>
         </tr>
+        @endif
         @endforeach
     </tbody>
 </table>
