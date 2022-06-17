@@ -63,6 +63,7 @@ if (users_form) {
                 $('.help_read').prop('checked', true)
                 $('.help_full').prop('checked', true)
                 $('.timetable_read').prop('checked', true)
+                $('.pass_read').prop('checked', true)
                 break
         }
     })

@@ -26,11 +26,27 @@ class PassController extends Controller
         $today   = Carbon::now();
         $members = @getPaidMembersByGroup();
         $passes  = @getDeactivePassesByGroup();
+        $blanks  = config('constants.blanks');
+
+        if (Auth::user()->role_id == 5)
+        {
+            $member         = Auth::user()->member;
+            $activePass     = Pass::where('member_id', $member->id)->where('is_active', 1)->first();
+            $deactivePasses = Pass::where('member_id', $member->id)->where('is_active', 0)->get();
+
+            return view('admin.pages.passes.client', [
+                'member'         => $member,
+                'activePass'     => $activePass,
+                'deactivePasses' => $deactivePasses,
+                'blanks'         => $blanks,
+            ]);
+        }
 
         return view('admin.pages.passes.index', [
             'today'   => $today,
             'members' => $members,
-            'passes'  => $passes
+            'passes'  => $passes,
+            'blanks'  => $blanks,
         ]);
     }
 

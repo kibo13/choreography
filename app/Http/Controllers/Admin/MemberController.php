@@ -87,11 +87,23 @@ class MemberController extends Controller
             'role_id'       => 5,
         ]);
 
-        // TODO: client
-        $user->permissions()->attach([
-            19, 20,
-            31
-        ]);
+        // paid client
+        if($request['form_study'] == 1)
+        {
+            $user->permissions()->attach([
+                19, 20,
+                21,
+                31
+            ]);
+        }
+        // free client
+        else
+        {
+            $user->permissions()->attach([
+                19, 20,
+                31
+            ]);
+        }
 
         Member::create([
             'user_id'       => $user->id,

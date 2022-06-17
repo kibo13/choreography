@@ -7,6 +7,7 @@ return [
     'age'                   => 'Возраст',
     'area'                  => 'Площадь',
     'attachment'            => 'Вложение',
+    'attendance'            => 'Посещения',
     'author'                => 'Автор',
     'birthday'              => 'Дата рождения',
     'blanks'                => 'Бланки',
