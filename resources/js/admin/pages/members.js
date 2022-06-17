@@ -16,7 +16,7 @@ if (members_form) {
         let till    = $('#group_id').data('till')
         let fullAge = calc.age($('#birthday').val())
 
-        if (fullAge > from && fullAge < till) {
+        if (fullAge < from || fullAge > till) {
             event.preventDefault()
             alert('Участник не подходит по возрастной категории')
         }
