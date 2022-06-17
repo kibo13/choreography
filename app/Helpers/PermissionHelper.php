@@ -1,11 +1,11 @@
 <?php
 
 use App\Models\Pass;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Group;
 use App\Models\Load;
 use App\Models\Method;
 use App\Models\Member;
+use Illuminate\Support\Facades\Auth;
 
 function getMissesByMember($member, $month, $year)
 {
@@ -21,6 +21,28 @@ function getMissesByMember($member, $month, $year)
         ->groupBy('visits.member_id')
         ->first()
         ->count_misses;
+}
+
+function getUsernameByRole()
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+        case 4:
+            $worker   = Auth::user()->worker;
+            $username = $worker->first_name . ' ' . $worker->last_name;
+            break;
+
+        case 5:
+            $member   = Auth::user()->member;
+            $username = $member->first_name . ' ' . $member->last_name;
+            break;
+
+        default:
+            $username = Auth::user()->username;
+            break;
+    }
+
+    return $username;
 }
 
 function getGroupsByRole()
