@@ -61,7 +61,8 @@
                         data-action="update"
                         data-group="{{ $group->id }}"
                         data-dow="{{ $day['id'] }}"
-                        data-room="{{ @load($group, $day['id'], 'room_id') }}"
+                        data-room-id="{{ $group->room_id }}"
+                        data-room-num="{{ $group->room->num }}"
                         data-start="{{ @load($group, $day['id'], 'start') }}"
                         data-duration="{{ @load($group, $day['id'], 'duration') }}"
                         title="{{ __('_action.edit') }}">
@@ -81,7 +82,8 @@
                         data-action="create"
                         data-group="{{ $group->id }}"
                         data-dow="{{ $day['id'] }}"
-                        data-room="{{ $group->room_id }}">
+                        data-room-id="{{ $group->room_id }}"
+                        data-room-num="{{ $group->room->num }}">
                     {{ __('_action.set') }}
                 </button>
                 @endif

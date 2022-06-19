@@ -9,14 +9,16 @@ if (loads_index) {
         let action      = this.dataset.action
         let group_id    = this.dataset.group
         let day_of_week = this.dataset.dow
-        let room        = this.dataset.room
+        let room_id     = this.dataset.roomId
+        let room_num    = this.dataset.roomNum
         let start       = this.dataset.start
         let duration    = this.dataset.duration
 
         $('#action').val(action)
         $('#group_id').val(group_id)
         $('#day_of_week').val(day_of_week)
-        $('#room_id option[value=' + room + ']').prop('selected', true)
+        $('#room-id').val(room_id)
+        $('#room-name').val(`Кабинет №${room_num}`)
         $('#start').val(start)
         $('#duration').val(duration)
 

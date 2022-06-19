@@ -8,6 +8,7 @@ use App\Models\Load;
 use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoadController extends Controller
 {
@@ -35,6 +36,28 @@ class LoadController extends Controller
 
     public function create_or_update(Request $request)
     {
+        $query = DB::table('loads')
+            ->where('day_of_week', $request['day_of_week'])
+            ->where('room_id', $request['room_id'])
+            ->where('group_id', '<>', $request['group_id'])
+            ->first();
+
+        if (!is_null($query)) {
+            $minTime = date('H:i', strtotime($query->start));
+            $maxTime = date('H:i', strtotime('+' . $query->duration - 1 . ' hour', strtotime($query->start)));
+
+            for ($lesson = 1; $lesson <= $request['duration']; $lesson++)
+            {
+                $lessonTime = date('H:i', strtotime('+' . 1 * ($lesson - 1) . ' hour', strtotime($request['start'])));
+
+                if ($lessonTime >= $minTime && $lessonTime <= $maxTime)
+                {
+                    $request->session()->flash('warning', __('_dialog.room_busy'));
+                    return redirect()->back();
+                }
+            }
+        }
+
         $group             = Group::where('id', $request['group_id'])->first();
         $limitHoursByGroup = $group->workload / 4;
         $existHoursByGroup = $group->getTotalHours();

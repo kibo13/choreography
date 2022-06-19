@@ -19,19 +19,15 @@
                 <!-- room_id -->
                 <div class="mb-2">
                     <label class="m-0 font-weight-bold" for="room_id">
-                        {{ __('_field.room') }} {{ @mandatory() }}
+                        {{ __('_field.room') }}
                     </label>
-                    <select class="form-control form-control-sm"
-                            id="room_id"
-                            name="room_id"
-                            required>
-                        <option value="" disabled selected>{{ __('_select.room') }}</option>
-                        @foreach(@getAllRooms() as $room)
-                        <option value="{{ $room->id }}">
-                            {{ __('_field.room') . ' ' . $room->num }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <div class="bk-form__text">
+                        <input class="form-control form-control-sm"
+                               id="room-name"
+                               type="text"
+                               disabled>
+                        <input type="hidden" id="room-id" name="room_id">
+                    </div>
                 </div>
 
                 <!-- start -->
