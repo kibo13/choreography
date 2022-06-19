@@ -24,6 +24,7 @@ return [
     'privileges'            => 'Льготники',
     'profile'               => 'Профиль',
     'reports'               => 'Отчеты',
+    'reps'                  => 'Родители',
     'rooms'                 => 'Кабинеты',
     'schedule'              => 'Расписание',
     'sections'              => 'Разделы',

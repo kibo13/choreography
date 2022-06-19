@@ -68,6 +68,11 @@
                             {{ __('_section.methods') }}
                         </a>
                         @endif
+                        @if(@is_access('rep_read'))
+                        <a class="dropdown-item" href="{{ route('admin.reps.index') }}">
+                            {{ __('_section.reps') }}
+                        </a>
+                        @endif
                     </div>
                 </li>
                 @endif

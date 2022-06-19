@@ -60,7 +60,8 @@ class WorkerController extends Controller
                 33,
                 34, 35,
                 36, 37,
-                38, 39
+                38, 39,
+                40, 41
             ]);
         }
 
@@ -69,7 +70,8 @@ class WorkerController extends Controller
             $user->permissions()->attach([
                 15, 16,
                 31,
-                36, 37
+                36, 37,
+                40
             ]);
         }
 

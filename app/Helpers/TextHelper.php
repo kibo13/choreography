@@ -3,6 +3,7 @@
 use App\Models\Member;
 use App\Models\Worker;
 use App\Models\User;
+use App\Models\Rep;
 
 function form_title($param)
 {
@@ -64,6 +65,10 @@ function full_fio($type, $id)
     {
         case 'member':
             $result = Member::where('id', $id)->first();
+            break;
+
+        case 'rep':
+            $result = Rep::where('id', $id)->first();
             break;
 
         case 'worker':

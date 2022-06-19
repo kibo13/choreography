@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\Admin\MethodController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\VisitController;
+use App\Http\Controllers\Admin\RepController;
 
 // auth
 Auth::routes([
@@ -104,6 +105,16 @@ Route::group([
     Route::group(['middleware' => 'permission:room_read'], function () {
         Route::get('rooms', [RoomController::class, 'index'])
             ->name('rooms.index');
+    });
+
+    // reps
+    Route::group(['middleware' => 'permission:rep_full'], function () {
+        Route::resource('reps', RepController::class);
+    });
+
+    Route::group(['middleware' => 'permission:rep_read'], function () {
+        Route::get('reps', [RepController::class, 'index'])
+            ->name('reps.index');
     });
 
     // specialties
