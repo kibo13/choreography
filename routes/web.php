@@ -74,8 +74,6 @@ Route::group([
     // members
     Route::group(['middleware' => 'permission:member_full'], function () {
         Route::resource('members', MemberController::class)->except('create');
-        Route::get('members/create/{group}', [MemberController::class, 'create'])
-            ->name('members.create');
     });
 
     Route::group(['middleware' => 'permission:member_read'], function () {

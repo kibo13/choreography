@@ -23,10 +23,29 @@
 
 @foreach($groups as $group)
 <h5 class="bk-places-group">
-    @if(@is_access('member_full'))
-    <a class="text-primary" href="{{ route('admin.members.create', $group) }}">
+    @if(@is_access('member_full') && Auth::user()->role_id == 3)
+    <button class="text-primary" data-toggle="dropdown">
         [Добавить участника]
-    </a>
+    </button>
+    <div class="p-0 dropdown-menu">
+        @foreach($modals as $modal)
+        <button class="py-1 px-2 dropdown-item"
+                data-group-id="{{ $group->id }}"
+                data-group-name="{{ $group->title->name }}"
+                data-group-category="{{ $group->category->name }}"
+                data-age-from="{{ $group->age_from }}"
+                data-age-till="{{ $group->age_till }}"
+                data-basic-places-limit="{{ $group->basic_seats }}"
+                data-basic-places-exist="{{ $group->members->where('form_study', 0)->count() }}"
+                data-extra-places-limit="{{ $group->extra_seats }}"
+                data-extra-places-exist="{{ $group->members->where('form_study', 1)->count() }}"
+                data-total-extra-places-exist="{{ @getTotalExtraPlacesByTitle($group->title->id) }}"
+                data-modal="legal"
+                data-legal="{{ $modal['code'] }}">
+            {{ $modal['name'] }}
+        </button>
+        @endforeach
+    </div>
     @endif
     {{ $group->title->name }}
     {{ @tip($group->category->name) }}

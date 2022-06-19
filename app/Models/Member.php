@@ -11,14 +11,21 @@ class Member extends Model
 
     protected $fillable = [
         'user_id',
+        'rep_id',
         'group_id',
         'form_study',
-        'discount_id',
-        'discount_doc',
-        'discount_note',
         'first_name',
         'last_name',
         'middle_name',
+        'birthday',
+        'age',
+        'phone',
+        'email',
+        'master',
+
+        'discount_id',
+        'discount_doc',
+        'discount_note',
         'doc_id',
         'doc_num',
         'doc_date',
@@ -28,20 +35,20 @@ class Member extends Model
         'app_note',
         'consent_file',
         'consent_note',
-        'birthday',
-        'age',
         'address_doc',
         'address_note',
         'address_fact',
         'activity',
-        'phone',
-        'email',
-        'master',
     ];
 
     public function doc()
     {
         return $this->belongsTo(Doc::class);
+    }
+
+    public function rep()
+    {
+        return $this->belongsTo(Rep::class);
     }
 
     public function passes()

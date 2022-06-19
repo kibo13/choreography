@@ -5,7 +5,9 @@ use App\Models\Diplom;
 use App\Models\Room;
 use App\Models\Orgkomitet;
 use App\Models\Load;
+use App\Models\Member;
 use App\Models\Method;
+use App\Models\Title;
 use App\Models\Visit;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -13,6 +15,13 @@ use Carbon\Carbon;
 function sections()
 {
     return DB::table('permissions')->select('name')->groupBy('name')->get();
+}
+
+function getTotalExtraPlacesByTitle($title)
+{
+    $groups = Title::where('id', $title)->first()->groups->pluck('id');
+
+    return Member::where('form_study', 1)->whereIn('group_id', $groups)->count();
 }
 
 function getAchievementsByYears($sort = 'DESC', $worker = null)

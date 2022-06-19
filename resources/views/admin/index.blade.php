@@ -33,4 +33,6 @@
     @include('components.modals.timetable')
     @include('components.modals.topic')
     @include('components.modals.visit')
+    @include('components.modals.adult')
+    @include('components.modals.child')
 @endsection

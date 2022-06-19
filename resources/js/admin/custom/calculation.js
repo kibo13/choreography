@@ -7,5 +7,11 @@ export const calc = {
         let condition = month < 0 || month === 0 && today.getDate() < birthday.getDate()
 
         return condition ? age-- : age
+    },
+
+    fullAge(date) {
+        let ageInMilliseconds = new Date() - new Date(date)
+
+        return Math.floor(ageInMilliseconds/1000/60/60/24/365)
     }
 }

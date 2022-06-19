@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
 use App\Models\Member;
 use App\Models\Discount;
 use App\Models\User;
 use App\Models\Doc;
+use App\Models\Rep;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -19,70 +19,42 @@ class MemberController extends Controller
     public function index()
     {
         $groups = @getGroupsByRole();
+        $modals = config('constants.modals');
         $blanks = config('constants.blanks');
 
-        return view('admin.pages.members.index', compact('groups', 'blanks'));
-    }
-
-    public function create(Request $request, Group $group)
-    {
-        $docs            = Doc::get();
-        $discounts       = Discount::get();
-        $basicSeatsLimit = $group->basic_seats;
-        $extraSeatsLimit = $group->extra_seats;
-        $basicSeatsExist = $group->members->where('form_study', 0)->count();
-        $extraSeatsExist = $group->members->where('form_study', 1)->count();
-
-        // access to free seats
-        if ($basicSeatsExist < $basicSeatsLimit) {
-            $form_study = config('constants.form_education')[0];
-        }
-
-        // access to paid seats
-        elseif ($basicSeatsExist >= $basicSeatsLimit AND $extraSeatsExist < $extraSeatsLimit) {
-            $form_study = config('constants.form_education')[1];
-        }
-
-        // group is full
-        else {
-            $request->session()->flash('warning', __('_dialog.group_full'));
-            return redirect()->back();
-        }
-
-        return view('admin.pages.members.form', compact('group', 'docs', 'discounts', 'form_study'));
+        return view('admin.pages.members.index', [
+            'groups' => $groups,
+            'modals' => $modals,
+            'blanks' => $blanks
+        ]);
     }
 
     public function store(Request $request)
     {
-        $default_password = config('constants.password');
+        $default_password  = config('constants.password');
+        $rep               = null;
+        $app_file          = $request->file('app_file');
+        $app_file_name     = is_null($app_file) ? null : $app_file->getClientOriginalName();
+        $app_file_path     = is_null($app_file) ? null : $app_file->store('documents');
+        $consent_file      = $request->file('consent_file');
+        $consent_file_name = is_null($consent_file) ? null : $consent_file->getClientOriginalName();
+        $consent_file_path = is_null($consent_file) ? null : $consent_file->store('documents');
 
-        if (Auth::user()->role_id != 3) {
-            $request->session()->flash('warning', __('_dialog.just_head'));
-            return redirect()->back();
+        // registration through rep
+        if ($request['legal'] == 'child')
+        {
+            $rep = Rep::create([
+                'first_name'  => $request['rep_first_name'],
+                'last_name'   => $request['rep_last_name'],
+                'middle_name' => $request['rep_middle_name'],
+                'doc_id'      => $request['rep_doc_id'],
+                'doc_num'     => $request['rep_doc_num'],
+                'doc_date'    => $request['rep_doc_date'],
+            ]);
         }
 
-        $doc_file           = $request->file('doc_file');
-        $doc_file_name      = is_null($doc_file) ? null : $doc_file->getClientOriginalName();
-        $doc_file_path      = is_null($doc_file) ? null : $doc_file->store('documents');
-
-        $app_file           = $request->file('app_file');
-        $app_file_name      = is_null($app_file) ? null : $app_file->getClientOriginalName();
-        $app_file_path      = is_null($app_file) ? null : $app_file->store('documents');
-
-        $consent_file       = $request->file('consent_file');
-        $consent_file_name  = is_null($consent_file) ? null : $consent_file->getClientOriginalName();
-        $consent_file_path  = is_null($consent_file) ? null : $consent_file->store('documents');
-
-        $discount_file      = $request->file('discount_doc');
-        $discount_file_name = is_null($discount_file) ? null : $discount_file->getClientOriginalName();
-        $discount_file_path = is_null($discount_file) ? null : $discount_file->store('documents');
-
-        $address_file       = $request->file('address_doc');
-        $address_file_name  = is_null($address_file) ? null : $address_file->getClientOriginalName();
-        $address_file_path  = is_null($address_file) ? null : $address_file->store('documents');
-
         $user = User::create([
-            'username'      => @bk_rand('login', $request['last_name'], 5),
+            'username'      => @bk_rand('login', $request['member_last_name'], 5),
             'password'      => bcrypt($default_password),
             'role_id'       => 5,
         ]);
@@ -107,27 +79,21 @@ class MemberController extends Controller
 
         Member::create([
             'user_id'       => $user->id,
-            'last_name'     => ucfirst($request['last_name']),
-            'first_name'    => ucfirst($request['first_name']),
-            'middle_name'   => ucfirst($request['middle_name']),
+            'rep_id'        => is_null($rep) ? null : $rep->id,
+            'last_name'     => ucfirst($request['member_last_name']),
+            'first_name'    => ucfirst($request['member_first_name']),
+            'middle_name'   => ucfirst($request['member_middle_name']),
             'group_id'      => $request['group_id'],
             'form_study'    => $request['form_study'],
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
-            'doc_file'      => $doc_file_path,
-            'doc_note'      => $doc_file_name,
             'app_file'      => $app_file_path,
             'app_note'      => $app_file_name,
             'consent_file'  => $consent_file_path,
             'consent_note'  => $consent_file_name,
             'birthday'      => $request['birthday'],
             'age'           => @full_age($request['birthday']),
-            'discount_id'   => $request['discount_id'],
-            'discount_doc'  => $discount_file_path,
-            'discount_note' => $discount_file_name,
-            'address_doc'   => $address_file_path,
-            'address_note'  => $address_file_name,
             'address_fact'  => $request['address_fact'],
             'activity'      => $request['activity'],
             'phone'         => $request['phone'],
@@ -149,7 +115,11 @@ class MemberController extends Controller
         $docs      = Doc::get();
         $discounts = Discount::get();
 
-        return view('admin.pages.members.form', compact('member', 'docs', 'discounts'));
+        return view('admin.pages.members.form', [
+            'member'    => $member,
+            'docs'      => $docs,
+            'discounts' => $discounts
+        ]);
     }
 
     public function update(Request $request, Member $member)
