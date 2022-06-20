@@ -68,10 +68,19 @@ class WorkerController extends Controller
         // manager
         if ($user->role_id == 4) {
             $user->permissions()->attach([
+                3,
+                11,
                 15, 16,
+                21,
+                23,
+                25,
+                27,
+                29,
                 31,
+                33,
+                34,
                 36, 37,
-                40
+                40,
             ]);
         }
 
