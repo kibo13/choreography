@@ -5,7 +5,8 @@
         <h3>{{ @form_title($rep) }}</h3>
         <form class="bk-form"
               action="{{ @is_update($rep, 'admin.reps') }}"
-              method="POST">
+              method="POST"
+              enctype="multipart/form-data">
             <div class="bk-form__wrapper">
                 @csrf
                 @isset($rep) @method('PUT') @endisset
@@ -65,7 +66,7 @@
                         <option value="{{ $doc->id }}"
                                 @isset($rep) @if($rep->doc_id == $doc->id)
                                 selected
-                            @endif @endisset>
+                                @endif @endisset>
                             {{ $doc->name }}
                         </option>
                         @endforeach
@@ -98,6 +99,23 @@
                            name="doc_date"
                            value="{{ old('doc_date', isset($rep) ? $rep->doc_date : null) }}"
                            required/>
+                </div>
+
+                <!-- doc_scan -->
+                <div class="bk-form__field position-relative">
+                    <label class="bk-form__label" for="doc_file">
+                        {{ __('_field.doc_scan') }}
+                    </label>
+                    <input class="bk-form__input bk-max-w-300"
+                           type="text"
+                           value="{{ isset($rep->doc_file) ? $rep->doc_note : null }}"
+                           placeholder="{{ __('_field.file_not') }}"
+                           disabled/>
+                    <input class="bk-form__file bk-max-w-300"
+                           data-file="upload"
+                           type="file"
+                           name="doc_file"
+                           accept="image/*"/>
                 </div>
 
                 <!-- note -->

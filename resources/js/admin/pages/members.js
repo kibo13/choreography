@@ -146,6 +146,7 @@ if (members_index) {
             let adult_doc_id       = $('[data-valid=adult-doc-id]').val()
             let adult_doc_num      = $('[data-valid=adult-doc-num]').val()
             let adult_doc_date     = $('[data-valid=adult-doc-date]').val()
+            let adult_doc_file     = $('[data-valid=adult-doc-file]').val()
             let adult_app_file     = $('[data-valid=adult-app-file]').val()
             let adult_consent_file = $('[data-valid=adult-consent-file]').val()
 
@@ -161,6 +162,21 @@ if (members_index) {
 
             if (!adult_doc_date) {
                 alert('Поле Дата выдачи документа обязательно для заполнения')
+                return false
+            }
+
+            if (!adult_doc_file) {
+                alert('Необходимо прикрепить скан документа')
+                return false
+            }
+
+            if (!adult_app_file) {
+                alert('Необходимо прикрепить скан заявления на прием участника')
+                return false
+            }
+
+            if (!adult_consent_file) {
+                alert('Необходимо прикрепить соглашение на сбор и обработку персональных данных')
                 return false
             }
         }
@@ -231,6 +247,7 @@ if (members_index) {
             let rep_doc_id       = $('[data-valid=rep_doc_id]').val()
             let rep_doc_num      = $('[data-valid=rep_doc_num]').val()
             let rep_doc_date     = $('[data-valid=rep_doc_date]').val()
+            let rep_doc_file     = $('[data-valid=rep_doc_file]').val()
             let rep_app_file     = $('[data-valid=rep_app_file]').val()
             let rep_consent_file = $('[data-valid=rep_consent_file]').val()
 
@@ -246,6 +263,21 @@ if (members_index) {
 
             if (!rep_doc_date) {
                 alert('Поле Дата выдачи документа обязательно для заполнения')
+                return false
+            }
+
+            if (!rep_doc_file) {
+                alert('Необходимо прикрепить скан документа')
+                return false
+            }
+
+            if (!rep_app_file) {
+                alert('Необходимо прикрепить скан заявления на прием участника')
+                return false
+            }
+
+            if (!rep_consent_file) {
+                alert('Необходимо прикрепить соглашение на сбор и обработку персональных данных')
                 return false
             }
         }
@@ -291,6 +323,7 @@ if (members_index) {
             let member_doc_id   = $('[data-valid=member_doc_id]').val()
             let member_doc_num  = $('[data-valid=member_doc_num]').val()
             let member_doc_date = $('[data-valid=member_doc_date]').val()
+            let member_doc_file = $('[data-valid=member_doc_file]').val()
 
             if (!member_doc_id) {
                 alert('Поле Тип документа обязательно для заполнения')
@@ -304,6 +337,11 @@ if (members_index) {
 
             if (!member_doc_date) {
                 alert('Поле Дата выдачи документа обязательно для заполнения')
+                return false
+            }
+
+            if (!member_doc_file) {
+                alert('Необходимо прикрепить скан документа')
                 return false
             }
         }

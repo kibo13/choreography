@@ -33,9 +33,19 @@ class MemberController extends Controller
     {
         $default_password  = config('constants.password');
         $rep               = null;
+
+        $rep_file          = $request->file('rep_doc_file');
+        $rep_file_name     = is_null($rep_file) ? null : $rep_file->getClientOriginalName();
+        $rep_file_path     = is_null($rep_file) ? null : $rep_file->store('documents');
+
+        $doc_file          = $request->file('member_doc_file');
+        $doc_file_name     = is_null($doc_file) ? null : $doc_file->getClientOriginalName();
+        $doc_file_path     = is_null($doc_file) ? null : $doc_file->store('documents');
+
         $app_file          = $request->file('app_file');
         $app_file_name     = is_null($app_file) ? null : $app_file->getClientOriginalName();
         $app_file_path     = is_null($app_file) ? null : $app_file->store('documents');
+
         $consent_file      = $request->file('consent_file');
         $consent_file_name = is_null($consent_file) ? null : $consent_file->getClientOriginalName();
         $consent_file_path = is_null($consent_file) ? null : $consent_file->store('documents');
@@ -50,6 +60,8 @@ class MemberController extends Controller
                 'doc_id'      => $request['rep_doc_id'],
                 'doc_num'     => $request['rep_doc_num'],
                 'doc_date'    => $request['rep_doc_date'],
+                'doc_file'    => $rep_file_path,
+                'doc_note'    => $rep_file_name,
             ]);
         }
 
@@ -88,6 +100,8 @@ class MemberController extends Controller
             'doc_id'        => $request['doc_id'],
             'doc_num'       => $request['doc_num'],
             'doc_date'      => $request['doc_date'],
+            'doc_file'      => $doc_file_path,
+            'doc_note'      => $doc_file_name,
             'app_file'      => $app_file_path,
             'app_note'      => $app_file_name,
             'consent_file'  => $consent_file_path,

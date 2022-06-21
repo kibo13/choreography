@@ -28,7 +28,17 @@
                 <tr>
                     <td>{{ ++$index }}</td>
                     <td>{{ @full_fio('rep', $rep->id) }}</td>
-                    <td>{{ $rep->doc->name }}</td>
+                    <td>
+                        @if($rep->doc_file)
+                        <a class="text-primary"
+                           href="{{ $rep->doc_file ? asset('assets/' . $rep->doc_file) : asset('assets/404.png') }}"
+                           target="_blank">
+                            {{ $rep->doc->name }}
+                        </a>
+                        @else
+                        {{ $rep->doc->name }}
+                        @endif
+                    </td>
                     <td>
                         <ul class="bk-btn-info">
                             @foreach($rep->members as $member)
@@ -39,9 +49,7 @@
                             {{ $rep->members->count() > 1 ? @fa('fa fa-eye bk-btn-info--fa') : null }}
                         </ul>
                     </td>
-                    <td>
-                        {{ $rep->note }}
-                    </td>
+                    <td>{{ $rep->note }}</td>
                     @if(@is_access('rep_full'))
                     <td>
                         <div class="bk-btn-actions">

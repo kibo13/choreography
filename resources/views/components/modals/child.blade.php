@@ -107,10 +107,32 @@
                                value="">
                     </div>
 
+                    <!-- doc_file -->
+                    <div class="mb-2 position-relative">
+                        <label class="m-0 font-weight-bold" for="">
+                            <span title="Прикрепите скан документа подтверждающий личность">
+                                Скан документа {{ @fa('fa-info-circle') }} {{ @mandatory() }}
+                            </span>
+                        </label>
+                        <input class="form-control"
+                               type="text"
+                               value=""
+                               placeholder="{{ __('_field.file_not') }}"
+                               disabled/>
+                        <input class="bk-form__file"
+                               type="file"
+                               data-file="upload"
+                               data-valid="rep_doc_file"
+                               name="rep_doc_file"
+                               accept="image/*"/>
+                    </div>
+
                     <!-- app -->
                     <div class="mb-2 position-relative">
                         <label class="m-0 font-weight-bold" for="">
-                            Заявление
+                            <span title="Прикрепите скан заявления на прием участника">
+                                Скан заявления {{ @fa('fa-info-circle') }} {{ @mandatory() }}
+                            </span>
                         </label>
                         <input class="form-control"
                                type="text"
@@ -129,7 +151,7 @@
                     <div class="mb-2 position-relative">
                         <label class="m-0 font-weight-bold" for="">
                             <span title="Соглашение на сбор и обработку персональных данных">
-                                Соглашение {{ @fa('fa-info-circle') }}
+                                Скан соглашения {{ @fa('fa-info-circle') }} {{ @mandatory() }}
                             </span>
                         </label>
                         <input class="form-control"
@@ -268,6 +290,26 @@
                                data-valid="member_doc_date"
                                name="doc_date"
                                value="">
+                    </div>
+
+                    <!-- doc_file -->
+                    <div class="mb-2 position-relative">
+                        <label class="m-0 font-weight-bold" for="">
+                            <span title="Прикрепите скан документа подтверждающий личность">
+                                Скан документа {{ @fa('fa-info-circle') }} {{ @mandatory() }}
+                            </span>
+                        </label>
+                        <input class="form-control"
+                               type="text"
+                               value=""
+                               placeholder="{{ __('_field.file_not') }}"
+                               disabled/>
+                        <input class="bk-form__file"
+                               type="file"
+                               data-file="upload"
+                               data-valid="member_doc_file"
+                               name="member_doc_file"
+                               accept="image/*"/>
                     </div>
                 </div>
                 <!-- panel-5 -->
