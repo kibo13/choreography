@@ -13,35 +13,38 @@ class SupportController extends Controller
 {
     public function index()
     {
-        switch (Auth::user()->role_id)
-        {
-            case 1:
-            case 2:
-                $applications = Application::get();
-                break;
+        $apps   = @getAppsByRole();
+        $tops   = config('constants.topics');
+        $states = config('constants.states');
 
-            case 5:
-                $applications = Application::where('member_id', Auth::user()->member->id)->get();
-                break;
 
-            default:
-                $applications = [];
-                break;
-        }
-
-        return view('admin.pages.support.index', compact('applications'));
+        return view('admin.pages.support.index', [
+            'applications' => $apps,
+            'tops'         => $tops,
+            'states'       => $states,
+        ]);
     }
 
     public function create()
     {
-        return view('admin.pages.support.form');
+        $tops = config('constants.topics');
+
+        return view('admin.pages.support.form', compact('tops'));
     }
 
-    public function store(SupportRequest $request)
+    public function store(Request $request)
     {
-        $file      = $request->file('file');
-        $file_name = is_null($file) ? null : $file->getClientOriginalName();
-        $file_path = is_null($file) ? null : $file->store('applications');
+        if ($request->hasFile('files'))
+        {
+            foreach ($request->file('files') as $index => $file)
+            {
+                $name = $file->getClientOriginalName();
+                $path = $file->store('applications');
+
+                $insert[$index]['name'] = $name;
+                $insert[$index]['path'] = $path;
+            }
+        }
 
         Application::create([
             'num'       => @bk_rand('number', null, 10),
@@ -49,42 +52,51 @@ class SupportController extends Controller
             'group_id'  => Auth::user()->member->group_id,
             'topic'     => $request['topic'],
             'desc'      => $request['desc'],
-            'file'      => $file_path,
-            'note'      => $file_name
+            'files'     => isset($insert) ? $insert : null
         ]);
 
         $request->session()->flash('success', __('_record.added'));
         return redirect()->route('admin.support.index');
     }
 
-    public function show(Application $application)
-    {
-        return view('admin.pages.support.show', compact('application'));
-    }
-
     public function edit(Application $application)
     {
-        return view('admin.pages.support.form', compact('application'));
+        $tops = config('constants.topics');
+
+        return view('admin.pages.support.form', [
+            'application' => $application,
+            'tops'        => $tops
+        ]);
     }
 
-    public function update(SupportRequest $request, Application $application)
+    public function update(Request $request, Application $application)
     {
-        $file_name = $application->note;
-        $file_path = $application->file;
+        $insert = $application->files;
 
-        if ($request->has('file')) {
-            Storage::delete($application->file);
-            $file       = $request->file('file');
-            $file_name  = $file->getClientOriginalName();
-            $file_path  = $file->store('applications');
+        if ($request->hasFile('files'))
+        {
+            if ($insert)
+            {
+                foreach ($application->files as $file)
+                {
+                    Storage::delete($file['path']);
+                }
+            }
+
+            foreach ($request->file('files') as $index => $file)
+            {
+                $name = $file->getClientOriginalName();
+                $path = $file->store('applications');
+
+                $insert[$index]['name'] = $name;
+                $insert[$index]['path'] = $path;
+            }
         }
 
         $application->update([
             'group_id'  => Auth::user()->member->group_id,
-            'topic'     => $request['topic'],
             'desc'      => $request['desc'],
-            'file'      => $file_path,
-            'note'      => $file_name
+            'files'     => $insert,
         ]);
 
         $request->session()->flash('success', __('_record.updated'));
@@ -94,7 +106,14 @@ class SupportController extends Controller
     public function destroy(Request $request, Application $application)
     {
         $application->delete();
-        Storage::delete($application->file);
+
+        if ($application->files)
+        {
+            foreach ($application->files as $file)
+            {
+                Storage::delete($file['path']);
+            }
+        }
 
         $request->session()->flash('success', __('_record.deleted'));
         return redirect()->route('admin.support.index');

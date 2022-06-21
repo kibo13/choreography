@@ -4,6 +4,23 @@ return [
     // default password
     'password'       => '123456',
 
+    'topics'         => [
+        'Возврат денежных средств',
+        'Другое'
+    ],
+
+    // payments
+    'payments'       => [
+        'Не оплачено',
+        'Оплачено',
+    ],
+
+    'states'         => [
+        'В обработке',  // info
+        'Выполнено',    // success
+        'Отклонено',    // danger
+    ],
+
     'type_rep'       => [
         [
             'id'    => 0,
@@ -39,12 +56,6 @@ return [
             'id'        => 1,
             'name'  => 'Платная'
         ]
-    ],
-
-    // payments
-    'payments'       => [
-        0 => 'Не оплачено',
-        1 => 'Оплачено',
     ],
 
     // types

@@ -26,24 +26,41 @@
                     <th class="w-25 bk-min-w-200">{{ __('_field.topic') }}</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.created_at') }}</th>
                     <th class="w-25 bk-min-w-150">{{ __('_field.num') }}</th>
-                    <th class="w-25 bk-min-w-150">{{ __('_field.status') }}</th>
+                    <th class="w-25 bk-min-w-150 no-sort">{{ __('_field.comment') }}</th>
+                    <th class="w-00 bk-min-w-150">{{ __('_field.status') }}</th>
+                    @if(@is_access('help_full'))
                     <th class="no-sort">{{ __('_action.this') }}</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
             @foreach($applications as $index => $application)
                 <tr>
                     <td>{{ ++$index }}</td>
-                    <td>{{ $application->topic }}</td>
+                    <td>{{ $tops[$application->topic] }}</td>
                     <td>{{ @getDMY($application->created_at) }}</td>
                     <td>{{ $application->num }}</td>
-                    <td>{{ @status($application->status) }}</td>
+                    <td>
+                        @if($application->note)
+                        <div class="bk-btn-info" title="{{ $application->note }}">
+                            {{ $application->note }}
+                        </div>
+                        @else
+                        -
+                        @endif
+                    </td>
+                    <td>
+                        @if($application->status == 0)
+                        <strong class="text-info">{{ $states[$application->status] }}</strong>
+                        @elseif($application->status == 1)
+                        <strong class="text-success">{{ $states[$application->status] }}</strong>
+                        @else
+                        <strong class="text-danger">{{ $states[$application->status] }}</strong>
+                        @endif
+                    </td>
+                    @if(@is_access('help_full') && $application->status == 0)
                     <td>
                         <div class="bk-btn-actions">
-                            <a class="bk-btn-action bk-btn-action--info btn btn-info"
-                               href="{{ route('admin.support.show', $application) }}"
-                               data-tip="{{ __('_action.show') }}" ></a>
-                            @if(@is_access('help_full') && $application->status == 0)
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.support.edit', $application) }}"
                                data-tip="{{ __('_action.edit') }}"></a>
@@ -53,9 +70,9 @@
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}"></a>
-                            @endif
                         </div>
                     </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>

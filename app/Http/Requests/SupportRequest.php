@@ -14,14 +14,14 @@ class SupportRequest extends FormRequest
     public function rules()
     {
         return [
-            'file'      => 'nullable|file|max:5120',
+            'files'      => 'nullable|file|max:5120',
         ];
     }
 
     public function messages()
     {
         return [
-            'file.max'  => 'Размер файла не должен превышать 5MБ',
+            'files.max'  => 'Размер файла не должен превышать 5MБ',
         ];
     }
 }

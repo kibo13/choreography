@@ -16,8 +16,12 @@ class Application extends Model
         'worker_id',
         'topic',
         'desc',
-        'file',
+        'files',
         'note',
         'status',
+    ];
+
+    protected $casts = [
+        'files' => 'array',
     ];
 }

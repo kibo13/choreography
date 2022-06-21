@@ -36,5 +36,6 @@ return [
     'cancel'                => 'Отмена',
 
     'completed'             => 'Выполнено',
+    'declined'              => 'Отклонено',
     'pending'               => 'В обработке',
 ];

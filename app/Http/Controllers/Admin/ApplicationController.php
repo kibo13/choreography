@@ -11,71 +11,42 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        switch (Auth::user()->role_id)
-        {
-            case 1:
-            case 2:
-                $applications = Application::get();
-                $total        = Application::count();
-                $pending      = Application::where('status', 0)->count();
-                $complete     = Application::where('status', 1)->count();
-                break;
+        $apps   = @getAppsByRole();
+        $tops   = config('constants.topics');
+        $states = config('constants.states');
 
-            case 3:
-                $groups       = Auth::user()->worker->groups->pluck('id');
-                $applications = Application::whereIn('group_id', $groups)->orderBy('status')->get();
-                $total        = Application::whereIn('group_id', $groups)->count();
-                $pending      = Application::whereIn('group_id', $groups)->where('status', 0)->count();
-                $complete     = Application::whereIn('group_id', $groups)->where('status', 1)->count();
-                break;
-
-            default:
-                $applications = [];
-                $total        = 0;
-                $pending      = 0;
-                $complete     = 0;
-                break;
-        }
-
-        return view(
-            'admin.pages.applications.index',
-            compact('applications', 'total', 'pending', 'complete')
-        );
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(Application $application)
-    {
-        return view('admin.pages.applications.show', compact('application'));
+        return view('admin.pages.applications.index', [
+            'applications' => $apps,
+            'total'        => $apps->count(),
+            'pending'      => $apps->where('status', 0)->count(),
+            'complete'     => $apps->where('status', 1)->count(),
+            'decline'      => $apps->where('status', 2)->count(),
+            'tops'         => $tops,
+            'states'       => $states
+        ]);
     }
 
     public function edit(Application $application)
     {
-        //
+        $tops   = config('constants.topics');
+        $states = config('constants.states');
+
+        return view('admin.pages.applications.form', [
+            'application' => $application,
+            'tops'        => $tops,
+            'states'      => $states
+        ]);
     }
 
     public function update(Request $request, Application $application)
     {
         $application->update([
             'worker_id' => Auth::user()->worker->id,
-            'status'    => 1
+            'status'    => $request['status'],
+            'note'      => $request['note']
         ]);
 
         $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.applications.index');
-    }
-
-    public function destroy(Application $application)
-    {
-        //
     }
 }

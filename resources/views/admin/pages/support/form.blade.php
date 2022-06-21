@@ -1,5 +1,5 @@
 @extends('admin.index')
-@section('title-admin', __('_section.customers'))
+@section('title-admin', __('_section.support'))
 @section('content-admin')
     <section id="support-form" class="overflow-auto">
         <h3>{{ @form_title($application) }}</h3>
@@ -16,13 +16,18 @@
                     <label class="bk-form__label" for="topic">
                         {{ __('_field.topic') }} {{ @mandatory() }}
                     </label>
-                    <input class="bk-form__input"
-                           id="topic"
-                           type="text"
-                           name="topic"
-                           value="{{ isset($application) ? $application->topic : null }}"
-                           required
-                           autocomplete="off"/>
+                    @isset($application)
+                    <div class="bk-form__text">
+                        {{ $tops[$application->topic] }}
+                    </div>
+                    @else
+                    <select class="bk-form__select bk-max-w-300" id="topic" name="topic" required>
+                        <option value="" disabled selected>{{ __('_select.topic') }}</option>
+                        @foreach($tops as $index => $top)
+                        <option value="{{ $index }}">{{ $top }}</option>
+                        @endforeach
+                    </select>
+                    @endif
                 </div>
 
                 <!-- description -->
@@ -36,26 +41,28 @@
                               required>{{ isset($application) ? $application->desc : null }}</textarea>
                 </div>
 
-                <!-- file -->
-                <div class="bk-form__field position-relative">
-                    <label class="bk-form__label" for="file">
-                        {{ __('_field.attachment') }}
-                    </label>
-                    <input class="bk-form__input bk-max-w-300 @error('file') border border-danger @enderror"
-                           type="text"
-                           value="{{ isset($application->file) ? $application->note : null }}"
-                           placeholder="{{ __('_field.file_not') }}"
-                           disabled/>
-                    <input class="bk-form__file bk-max-w-300"
-                           data-file="upload"
-                           type="file"
-                           name="file"
-                           accept="image/*"/>
-                    @error('file')
-                    <div class="bk-validation">
-                        {{ $message }}
+                <!-- files -->
+                <div class="bk-form__field">
+                    <label class="bk-form__label" for="file">Вложения</label>
+                    @isset($application)
+                    @if($application->files)
+                    <ul>
+                        @foreach($application->files as $file)
+                        <li>
+                            <a class="text-primary" href="{{ asset('assets/' . $file['path'] ) }}" target="_blank">
+                                {{ $file['name'] }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @else
+                    <div class="bk-form__text">
+                        Вложения отсутствуют
                     </div>
-                    @enderror
+                    @endif
+                    <hr class="my-1">
+                    @endisset
+                    <input type="file" name="files[]" multiple>
                 </div>
 
                 <div class="mt-1 mb-0 form-group">

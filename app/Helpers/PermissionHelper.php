@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Application;
 use App\Models\Pass;
 use App\Models\Group;
 use App\Models\Load;
 use App\Models\Method;
 use App\Models\Member;
 use App\Models\Timetable;
-use Illuminate\Support\Facades\Auth;
 
 function getMissesByMember($member, $month, $year)
 {
@@ -136,6 +137,28 @@ function getDeactivePassesByGroup()
     }
 
     return $passes;
+}
+
+function getAppsByRole()
+{
+    switch (Auth::user()->role_id) {
+        case 1:
+        case 2:
+        case 4:
+            $apps = Application::get();
+            break;
+
+        case 3:
+            $groups = Auth::user()->worker->groups->pluck('id');
+            $apps   = Application::whereIn('group_id', $groups)->orderBy('status')->get();
+            break;
+
+        case 5:
+            $apps = Application::where('member_id', Auth::user()->member->id)->get();
+            break;
+    }
+
+    return $apps;
 }
 
 function getPaidMembersByGroup()
