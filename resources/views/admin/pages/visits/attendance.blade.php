@@ -23,11 +23,11 @@
                     {{ $member->form_study ? @fa('fa-info-circle') : null }}
                 </strong>
             </td>
-            @if($member->form_study == 1 && @checkPass($member) >= @getActivePass($member)->lessons)
+            @if($member->form_study == 1 && @getPass($member, $numMonth, $year)->status == 0)
             <td colspan="{{ $lessonCount }}">
-                <span class="text-info">
-                    Участнику необходимо создать / продлить абонемент
-                </span>
+                <strong class="text-danger">
+                    У участника отсутствует (не оплачен) абонемент за {{ $nameMonth }} месяц
+                </strong>
             </td>
             @else
             @foreach($lessonDays as $day)
@@ -35,7 +35,7 @@
                 <ul>
                     @foreach($lessons as $lesson)
                     @if($lesson->day_lesson == $day->day_lesson)
-                    @if(@is_access('visit_full') && Auth::user()->role_id == 3)
+                    @if(@is_access('visit_full') && Auth::user()->role_id == 3 && @getPass($member, $numMonth, $year)->is_active != 2)
                     @if(@checkVisit($member, $lesson))
                     <li>
                         <button data-type="visit"

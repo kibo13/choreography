@@ -8,6 +8,7 @@ use App\Models\Pass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Element\Table;
@@ -16,37 +17,37 @@ use PhpOffice\PhpWord\Style\Cell;
 
 class PassController extends Controller
 {
-    private function worker()
+    private function  getTimetableForMonth($group, $month, $year)
     {
-        return Auth::user()->worker;
+        return DB::table('timetables')
+            ->select([
+                DB::raw('MONTH(timetables.from) as month'),
+                DB::raw('YEAR(timetables.from) as year'),
+                DB::raw('COUNT(timetables.id) as lessons'),
+                DB::raw('MIN(timetables.from) as start'),
+                DB::raw('MAX(timetables.from) as end'),
+            ])
+            ->where('group_id', $group)
+            ->where(DB::raw('MONTH(timetables.from)'), $month)
+            ->where(DB::raw('YEAR(timetables.from)'), $year)
+            ->groupBy('month', 'year')
+            ->first();
     }
 
     public function index()
     {
-        $today   = Carbon::now();
-        $members = @getPaidMembersByGroup();
-        $passes  = @getDeactivePassesByGroup();
-        $blanks  = config('constants.blanks');
-
         if (Auth::user()->role_id == 5)
         {
-            $member         = Auth::user()->member;
-            $activePass     = Pass::where('member_id', $member->id)->where('is_active', 1)->first();
-            $deactivePasses = Pass::where('member_id', $member->id)->where('is_active', 0)->get();
-
             return view('admin.pages.passes.client', [
-                'member'         => $member,
-                'activePass'     => $activePass,
-                'deactivePasses' => $deactivePasses,
-                'blanks'         => $blanks,
+                'member' => Auth::user()->member,
+                'passes' => @getPassesByRole(),
+                'blanks' => config('constants.blanks'),
             ]);
         }
 
         return view('admin.pages.passes.index', [
-            'today'   => $today,
-            'members' => $members,
-            'passes'  => $passes,
-            'blanks'  => $blanks,
+            'passes' => @getPassesByRole(),
+            'blanks' => config('constants.blanks'),
         ]);
     }
 
@@ -57,43 +58,56 @@ class PassController extends Controller
             return redirect()->back();
         }
 
-        $member   = $request['member_id'];
-        $payments = config('constants.payments');
-
-        return view('admin.pages.passes.form', [
-            'member'   => $member,
-            'payments' => $payments,
+        return view('admin.pages.passes.create', [
+            'members' => @getPaidMembersByGroup()
         ]);
     }
 
     public function store(Request $request)
     {
-        $member        = Member::where('id', $request['member_id'])->first();
-        $discount      = $member->discount;
-        $group         = $member->group->id;
-        $price         = $member->group->price;
-        $cost          = $discount ? $price - $price * $discount->size / 100 : $price;
-        $lessons       = $member->group->lessons;
-        $pay_file      = $request->file('pay_file');
-        $pay_file_name = is_null($pay_file) ? null : $pay_file->getClientOriginalName();
-        $pay_file_path = is_null($pay_file) ? null : $pay_file->store('payments');
+        $member  = Member::where('id', $request['member_id'])->first();
+        $year    = explode('-', $request['month'])[0];
+        $month   = explode('-', $request['month'])[1];
+        $code    = $member->id . '-' . $year . '-' . $month;
+        $is_pass = Pass::where('code', $code)->first();
 
-        Pass::create([
+        if ($is_pass)
+        {
+            $request->session()->flash('warning', 'Абонемент за выбранный месяц уже существует');
+            return redirect()->back();
+        }
+
+        $group  = $member->group->id;
+        $query  = $this->getTimetableForMonth($group, $month, $year);
+
+        if (is_null($query))
+        {
+            $request->session()->flash('warning', __('_dialog.timetable_no'));
+            return redirect()->back();
+        }
+
+        $price    = 250;
+        $discount = $member->discount;
+        $lessons  = $query->lessons;
+        $cost     = $price * $lessons;
+        $total    = $discount ? $cost - $cost * $discount->size / 100 : $cost;
+
+        $pass = Pass::create([
+            'code'      => $code,
+            'year'      => $year,
+            'month'     => $month,
             'member_id' => $request['member_id'],
             'group_id'  => $group,
-            'worker_id' => $this->worker()->id,
-            'from'      => $request['from'],
-            'till'      => $request['till'],
-            'cost'      => $cost,
+            'worker_id' => Auth::user()->worker->id,
+            'from'      => $query->start,
+            'till'      => $query->end,
+            'cost'      => $total,
             'lessons'   => $lessons,
-            'status'    => $request['status'],
-            'pay_date'  => $request['pay_date'],
-            'pay_file'  => $pay_file_path,
-            'pay_note'  => $pay_file_name
+            'is_active' => 0,
         ]);
 
         $request->session()->flash('success', __('_record.added'));
-        return redirect()->route('admin.passes.index');
+        return redirect()->route('admin.passes.edit', $pass);
     }
 
     public function show(Pass $pass)
@@ -176,7 +190,7 @@ class PassController extends Controller
     {
         $payments = config('constants.payments');
 
-        return view('admin.pages.passes.form', [
+        return view('admin.pages.passes.edit', [
             'pass'     => $pass,
             'payments' => $payments,
         ]);
@@ -195,12 +209,11 @@ class PassController extends Controller
         }
 
         $pass->update([
-            'from'      => $request['from'],
-            'till'      => $request['till'],
-            'status'    => $request['status'],
-            'pay_date'  => $request['pay_date'],
+            'status'    => $pass->status ? $pass->status : $request['status'],
+            'pay_date'  => $pass->pay_date ? $pass->pay_date : $request['pay_date'],
             'pay_file'  => $pay_file_path,
-            'pay_note'  => $pay_file_name
+            'pay_note'  => $pay_file_name,
+            'is_active' => $request['status'] == 1 ? 1 : 0
         ]);
 
         $request->session()->flash('success', __('_record.updated'));
@@ -241,22 +254,13 @@ class PassController extends Controller
         return response()->download($filename . '.docx')->deleteFileAfterSend(true);
     }
 
-    public function prolong(Request $request, Pass $pass)
+    public function archive(Request $request, Pass $pass)
     {
-        $pass->update(['is_active' => 0]);
-
-        Pass::create([
-            'member_id' => $pass->member_id,
-            'group_id'  => $pass->group_id,
-            'worker_id' => $this->worker()->id,
-            'from'      => date('Y-m-d', strtotime($pass->till . ' +1 days')),
-            'till'      => date('Y-m-d', strtotime($pass->till . ' +14 days')),
-            'cost'      => $pass->cost,
-            'lessons'   => $pass->lessons,
-            'is_active' => 1
+        $pass->update([
+            'is_active' => 2
         ]);
 
-        $request->session()->flash('success', __('_record.updated'));
+        $request->session()->flash('success', 'Абонемент перенесен в архив');
         return redirect()->route('admin.passes.index');
     }
 }

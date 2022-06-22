@@ -4,6 +4,14 @@
     <section id="passes-index" class="overflow-auto">
         <h3>{{ __('_section.passes') }}</h3>
 
+        @if(@is_access('pass_full'))
+        <div class="my-2 btn-group">
+            <a class="btn btn-primary" href="{{ route('admin.passes.create') }}">
+                {{ __('_record.new') }}
+            </a>
+        </div>
+        @endif
+
         <div class="bk-tabs">
             <input class="bk-tabs__input bk-tab-1"
                    id="tab-1"
@@ -11,14 +19,14 @@
                    name="tab"
                    checked>
             <label class="bk-tabs__label" for="tab-1">
-                Активные
+                Все
             </label>
             <input class="bk-tabs__input bk-tab-2"
                    id="tab-2"
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-2">
-                Неактивные
+                Архив
             </label>
             <input class="bk-tabs__input bk-tab-3"
                    id="tab-3"

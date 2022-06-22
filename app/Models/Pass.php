@@ -10,6 +10,9 @@ class Pass extends Model
     use HasFactory;
 
     protected $fillable = [
+        'code',
+        'year',
+        'month',
         'is_active',
         'member_id',
         'group_id',

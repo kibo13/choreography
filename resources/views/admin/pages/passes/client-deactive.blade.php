@@ -1,4 +1,4 @@
-<table id="is-datatable" class="dataTables table table-bordered table-hover table-responsive">
+<table class="dataTables table table-bordered table-hover table-responsive">
     <thead class="thead-light">
         <tr>
             <th>#</th>
@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($deactivePasses as $index => $pass)
+        @foreach($passes->where('is_active', 2) as $index => $pass)
         <tr>
             <td>{{ ++$index }}</td>
             <td>{{ __('_field.pass') . ' №' . $pass->id }}</td>

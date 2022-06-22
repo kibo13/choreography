@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupportRequest;
 use App\Models\Application;
+use App\Models\Pass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -25,8 +26,19 @@ class SupportController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->has('pass'))
+        {
+            $app = Application::where('pass_id', $request['pass'])->first();
+
+            if ($app)
+            {
+                $request->session()->flash('warning', 'Заявка по данному абонементу уже создана');
+                return redirect()->back();
+            }
+        }
+
         $tops = config('constants.topics');
 
         return view('admin.pages.support.form', compact('tops'));
@@ -46,7 +58,14 @@ class SupportController extends Controller
             }
         }
 
+        if (!$request->has('pass_id') && $request['topic'] == 0)
+        {
+            $request->session()->flash('warning', __('_dialog.pass_need'));
+            return redirect()->back();
+        }
+
         Application::create([
+            'pass_id'   => $request->has('pass_id') ? $request['pass_id'] : null,
             'num'       => @bk_rand('number', null, 10),
             'member_id' => Auth::user()->member->id,
             'group_id'  => Auth::user()->member->group_id,

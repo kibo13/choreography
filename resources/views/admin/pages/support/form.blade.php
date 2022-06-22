@@ -3,6 +3,13 @@
 @section('content-admin')
     <section id="support-form" class="overflow-auto">
         <h3>{{ @form_title($application) }}</h3>
+
+        @if(session()->has('warning'))
+        <div class="my-2 alert alert-warning alert-limit" role="alert">
+            {{ session()->get('warning') }}
+        </div>
+        @endif
+
         <form class="bk-form"
               action="{{ @is_update($application, 'admin.support') }}"
               method="POST"
@@ -10,6 +17,9 @@
             <div class="bk-form__wrapper">
                 @csrf
                 @isset($application) @method('PUT') @endisset
+
+                <!-- pass_id -->
+                <input type="hidden" id="pass_id" name="pass_id">
 
                 <!-- topic -->
                 <div class="bk-form__field">

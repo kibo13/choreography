@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($passes as $index => $pass)
+    @foreach($passes->where('is_active', 2) as $index => $pass)
         <tr>
             <td>{{ ++$index }}</td>
             <td>{{ __('_field.pass') . ' №' . $pass->id }}</td>

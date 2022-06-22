@@ -11,14 +11,14 @@
                    name="tab"
                    checked>
             <label class="bk-tabs__label" for="tab-1">
-                Активный
+                Все
             </label>
             <input class="bk-tabs__input bk-tab-2"
                    id="tab-2"
                    type="radio"
                    name="tab">
             <label class="bk-tabs__label" for="tab-2">
-                Старые
+                Архив
             </label>
             <input class="bk-tabs__input bk-tab-3"
                    id="tab-3"

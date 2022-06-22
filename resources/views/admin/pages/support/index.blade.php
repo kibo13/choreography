@@ -58,9 +58,10 @@
                         <strong class="text-danger">{{ $states[$application->status] }}</strong>
                         @endif
                     </td>
-                    @if(@is_access('help_full') && $application->status == 0)
+                    @if(@is_access('help_full'))
                     <td>
                         <div class="bk-btn-actions">
+                            @if($application->status == 0)
                             <a class="bk-btn-action bk-btn-action--edit btn btn-warning"
                                href="{{ route('admin.support.edit', $application) }}"
                                data-tip="{{ __('_action.edit') }}"></a>
@@ -70,6 +71,12 @@
                                data-toggle="modal"
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}"></a>
+                            @endif
+                            @if($application->status == 1)
+                            <a class="bk-btn-action bk-btn-action--bill btn btn-primary"
+                               href="{{ asset('orders/' . $application->voucher) }}"
+                               title="Расходный кассовый ордер"></a>
+                            @endif
                         </div>
                     </td>
                     @endif

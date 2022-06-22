@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class ApplicationController extends Controller
 {
@@ -40,11 +41,44 @@ class ApplicationController extends Controller
 
     public function update(Request $request, Application $application)
     {
-        $application->update([
-            'worker_id' => Auth::user()->worker->id,
-            'status'    => $request['status'],
-            'note'      => $request['note']
-        ]);
+        if ($request['status'] == 1)
+        {
+            $cost         = $application->pass->cost;
+            $pricePass    = 30;
+            $lessonsLimit = $application->pass->lessons;
+            $lessonsExist = @getVisitsByType($application->member, $application->pass->month, $application->pass->year, [0, 1]);
+            $priceLesson  = $cost / $lessonsLimit;
+            $cashback     = ($lessonsLimit - $lessonsExist) * $priceLesson - $pricePass;
+
+            $filename = 'cash-voucher-' . $application->num . '.docx';
+            $word     = new TemplateProcessor('reports/order.docx');
+
+            $word->setValues([
+                'group'      => $application->group->title->name . $application->group->category->name,
+                'id'         => $application->num,
+                'created_at' => getDMY($application->updated_at),
+                'member'     => getFIO('member', $application->member->id),
+                'money'      => $cashback . ' ₽',
+            ]);
+
+            $word->saveAs('orders/' . $filename);
+
+            $application->update([
+                'worker_id' => Auth::user()->worker->id,
+                'status'    => $request['status'],
+                'note'      => $request['note'],
+                'voucher'   => $filename
+            ]);
+        }
+
+        else
+        {
+            $application->update([
+                'worker_id' => Auth::user()->worker->id,
+                'status'    => $request['status'],
+                'note'      => $request['note']
+            ]);
+        }
 
         $request->session()->flash('success', __('_record.updated'));
         return redirect()->route('admin.applications.index');
