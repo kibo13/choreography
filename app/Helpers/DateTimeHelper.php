@@ -36,3 +36,19 @@ function plusMinutes($time, $minutes)
 {
     return date('H:i', strtotime('+' . $minutes . ' minutes', strtotime($time)));
 }
+
+function full_age($birthday)
+{
+    $diff = date( 'Ymd' ) - date( 'Ymd', strtotime($birthday) );
+
+    return substr( $diff, 0, -4 );
+}
+
+function fillHours($hour, $load, $duration)
+{
+    $formatHour = date('H', strtotime($hour));
+    $formatLoad = date('H', strtotime($load));
+    $diff       = $formatHour - $formatLoad;
+
+    return $formatHour >= $formatLoad && $diff < $duration ? true : false;
+}
