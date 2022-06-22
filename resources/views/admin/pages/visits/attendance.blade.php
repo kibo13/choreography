@@ -44,13 +44,17 @@
                                 data-member="{{ @checkVisit($member, $lesson)->member_id }}"
                                 data-status="{{ @checkVisit($member, $lesson)->status }}"
                                 data-reason="{{ @checkVisit($member, $lesson)->reason }}">
-                            @if(@checkVisit($member, $lesson)->status > 0)
+                            @if(@checkVisit($member, $lesson)->status == 0)
+                            <span class="text-danger" title="{{ __('_action.miss') }}">
+                                {{ @fa('fa-times') }}
+                            </span>
+                            @elseif(@checkVisit($member, $lesson)->status == 1)
                             <span class="text-success" title="{{ __('_action.present') }}">
                                 {{ @fa('fa-check') }}
                             </span>
                             @else
-                            <span class="text-danger" title="{{ __('_action.miss') }}">
-                                {{ @fa('fa-times') }}
+                            <span class="text-warning" title="{{ __('_action.reason') }}">
+                                {{ @fa('fa-circle-o') }}
                             </span>
                             @endif
                         </button>
@@ -69,13 +73,17 @@
                     @else
                     @if(@checkVisit($member, $lesson))
                     <li>
-                        @if(@checkVisit($member, $lesson)->status > 0)
+                        @if(@checkVisit($member, $lesson)->status == 0)
+                        <span class="text-danger" title="{{ __('_action.miss') }}">
+                            {{ @fa('fa-times') }}
+                        </span>
+                        @elseif(@checkVisit($member, $lesson)->status == 1)
                         <span class="text-success" title="{{ __('_action.present') }}">
                             {{ @fa('fa-check') }}
                         </span>
                         @else
-                        <span class="text-danger" title="{{ __('_action.miss') }}">
-                            {{ @fa('fa-times') }}
+                        <span class="text-warning" title="{{ __('_action.reason') }}">
+                            {{ @fa('fa-circle-o') }}
                         </span>
                         @endif
                     </li>

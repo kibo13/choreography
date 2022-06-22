@@ -28,6 +28,7 @@
                         <option value="" disabled selected>{{ __('_select.check') }}</option>
                         <option value="0">{{ __('_action.miss') }}</option>
                         <option value="1">{{ __('_action.present') }}</option>
+                        <option value="2">{{ __('_action.reason') }}</option>
                     </select>
                 </div>
 
