@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Pass;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -112,11 +111,33 @@ class PassController extends Controller
 
     public function show(Pass $pass)
     {
-        $word = new TemplateProcessor('reports/pass.docx');
+        $lessons = DB::table('visits')
+            ->join('timetables', 'visits.timetable_id', 'timetables.id')
+            ->select([
+                DB::raw('DATE(timetables.from) as date_lesson'),
+                'visits.status'
+            ])
+            ->where('visits.member_id', $pass->member_id)
+            ->where(DB::raw('MONTH(timetables.from)'), $pass->month)
+            ->where(DB::raw('YEAR(timetables.from)'), $pass->year)
+            ->get();
+
+        $days = DB::table('visits')
+            ->join('timetables', 'visits.timetable_id', 'timetables.id')
+            ->selectRaw('DATE(timetables.from) as date_lesson')
+            ->where('visits.member_id', $pass->member_id)
+            ->where(DB::raw('MONTH(timetables.from)'), $pass->month)
+            ->where(DB::raw('YEAR(timetables.from)'), $pass->year)
+            ->groupBy('date_lesson')
+            ->get();
+
+        $months   = config('constants.month_names');
+        $filename = __('_field.pass') . ' №' . $pass->id . '.docx';
+        $word     = new TemplateProcessor('reports/pass.docx');
 
         $word->setValues([
             'id'         => $pass->id,
-            'date_issue' => getDMY(Carbon::now()) . 'г.',
+            'date_issue' => $pass->pay_date ? getDMY($pass->pay_date) . 'г.' : '-',
             'member'     => @getFIO('member', $pass->member->id),
             'birthday'   => @getDMY($pass->member->birthday) . 'г.',
             'address'    => $pass->member->address_fact,
@@ -127,63 +148,59 @@ class PassController extends Controller
             'worker'     => @getFIO('worker', $pass->worker->id),
             'cost'       => $pass->cost,
             'lessons'    => $pass->lessons,
+            'month'      => $months[$pass->month - 1]
         ]);
 
         $table     = new Table(['borderColor' => '000000', 'borderSize' => 6]);
         $bgCell    = ['bgColor' => 'e0e0e0'];
         $fontText  = ['bold' => true];
         $alignText = ['alignment' => Jc::CENTER, 'align' => Cell::VALIGN_CENTER];
+        $fields    = [__('_field.date'), __('_field.attendance')];
 
-        for ($i = 1; $i <= floor($pass->lessons / 4); $i++)
+
+        foreach ($fields as $index => $field)
         {
             $table->addRow();
-            $table->addCell(2000);
+            $table->addCell()->addText($field, $fontText);
 
-            switch ($i) {
-                case 1:
-                    $start = 1;
-                    $end   = 4;
-                    break;
-
-                case 2:
-                    $start = 5;
-                    $end   = 8;
-                    break;
-
-                case 3:
-                    $start = 9;
-                    $end   = 12;
-                    break;
+            if ($index == 0)
+            {
+                foreach ($days as $day)
+                {
+                    $table->addCell(null, $bgCell)->addText(@getDM($day->date_lesson), [], $alignText);
+                }
             }
 
-            for ($j = $start; $j <= $end; $j++)
+            else
             {
-                $table->addCell(1000, $bgCell)->addText($j, [], $alignText);
-            }
+                foreach ($days as $day)
+                {
+                    $visits = '';
 
-            $table->addRow();
-            $table->addCell(2000)->addText(__('_field.date'), $fontText);
+                    foreach ($lessons as $lesson)
+                    {
+                        if ($day->date_lesson == $lesson->date_lesson)
+                        {
+                            if ($lesson->status == 0) {
+                                $visits .= '✖ <w:br/>';
+                            }
+                            elseif ($lesson->status == 1) {
+                                $visits .= '✔ <w:br/>';
+                            } else {
+                                $visits .= 'O <w:br/>';
+                            }
+                        }
+                    }
 
-            for ($j = $start; $j <= $end; $j++)
-            {
-                $table->addCell(1000);
-            }
-
-            $table->addRow();
-            $table->addCell(2000)->addText(__('_field.sign_head'), $fontText);
-
-            for ($j = $start; $j <= $end; $j++)
-            {
-                $table->addCell(1000);
+                    $table->addCell()->addText($visits, [], $alignText);
+                }
             }
         }
 
         $word->setComplexBlock('table', $table);
+        $word->saveAs($filename);
 
-        $filename = __('_field.pass') . ' №' . $pass->id;
-        $word->saveAs($filename . '.docx');
-
-        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+        return response()->download($filename)->deleteFileAfterSend(true);
     }
 
     public function edit(Pass $pass)
