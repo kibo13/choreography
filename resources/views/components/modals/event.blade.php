@@ -29,7 +29,7 @@
                     </label>
                     <select class="form-control form-control-sm" name="orgkomitet_id" required>
                         <option value="" disabled selected>{{ __('_select.orgkomitet') }}</option>
-                        @foreach(@getAllOrgcomitets() as $orgkomitet)
+                        @foreach(@getOrgcomitets() as $orgkomitet)
                         <option value="{{ $orgkomitet->id }}">
                             {{ $orgkomitet->name }}
                         </option>

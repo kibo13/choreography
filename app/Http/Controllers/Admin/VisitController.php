@@ -6,11 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Timetable;
 use App\Models\Visit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class VisitController extends Controller
 {
+    private function getExpelledMember($member, $month, $year)
+    {
+        return DB::table('members')
+            ->join('groups', 'members.group_id', 'groups.id')
+            ->join('timetables', 'groups.id', 'timetables.group_id')
+            ->join('titles', 'groups.title_id', 'titles.id')
+            ->join('categories', 'groups.category_id', 'categories.id')
+            ->select([
+                'members.id as member_id',
+                'members.birthday',
+                'members.form_study',
+                'titles.name as group',
+                'categories.name as category',
+                DB::raw('MIN(timetables.from) as start'),
+                DB::raw('MAX(timetables.from) as end'),
+            ])
+            ->where('members.id', $member)
+            ->where(DB::raw('MONTH(timetables.from)'), $month)
+            ->where(DB::raw('YEAR(timetables.from)'), $year)
+            ->groupBy('member_id')
+            ->first();
+    }
+
     private function lessons($group, $month, $year)
     {
         return DB::table('timetables')
@@ -151,4 +177,44 @@ class VisitController extends Controller
         return redirect()->back();
     }
 
+    public function expulsion(Request $request)
+    {
+        $query    = $this->getExpelledMember($request['member'], $request['month'], $request['year']);
+        $paid     = 'reports/expulsion_paid.docx';
+        $free     = 'reports/expulsion_free.docx';
+        $today    = @getDMY(Carbon::now()) . ' г.';
+        $filename = __('_field.command') . ' №' . $query->member_id . ' от ' . $today . '.docx';
+        $word     = new TemplateProcessor($query->form_study == 1 ? $paid : $free);
+
+        $word->setValues([
+            'num'         => $query->member_id,
+            'date_create' => $today,
+            'miss_date'   => @getDMY($query->start) . ' г.',
+            'drop_date'   => @getDMY($query->end) . ' г.',
+        ]);
+
+        $table     = new Table(['borderColor' => '000000', 'borderSize' => 6]);
+        $fontStyle = ['bold' => true];
+
+        $table->addRow();
+        $table->addCell(1000)->addText('№ <w:br/>п/п', $fontStyle);
+        $table->addCell(3000)->addText('Ф.И.О. <w:br/>участника', $fontStyle);
+        $table->addCell(3000)->addText('Дата рождения', $fontStyle);
+        $table->addCell(3000)->addText('Категория <w:br/>группы', $fontStyle);
+        $table->addCell(3000)->addText('Название <w:br/>группы', $fontStyle);
+        $table->addCell(3000)->addText('Форма <w:br/>обучения', $fontStyle);
+
+        $table->addRow();
+        $table->addCell(1000)->addText(1);
+        $table->addCell(3000)->addText(@getFIO('member', $query->member_id));
+        $table->addCell(3000)->addText(@getDMY($query->birthday));
+        $table->addCell(3000)->addText($query->category);
+        $table->addCell(3000)->addText($query->group);
+        $table->addCell(3000)->addText($query->form_study == 1 ? __('_field.paid') : __('_field.free'));
+
+        $word->setComplexBlock('table', $table);
+        $word->saveAs($filename);
+
+        return response()->download($filename)->deleteFileAfterSend(true);
+    }
 }

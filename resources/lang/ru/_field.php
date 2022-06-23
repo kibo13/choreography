@@ -29,6 +29,7 @@ return [
     'email'                 => 'E-mail',
     'event'                 => 'Мероприятие',
     'executor'              => 'Исполнитель',
+    'expulsion'             => 'Отчисление',
     'file'                  => 'Файл',
     'file_not'              => 'Файл не выбран',
     'floor'                 => 'Этаж',

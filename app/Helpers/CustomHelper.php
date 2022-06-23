@@ -1,13 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Worker;
 use App\Models\Member;
 use App\Models\Rep;
 use App\Models\Visit;
-use App\Models\Pass;
 
 function bk_rand($type, $param = null, $length = 13)
 {

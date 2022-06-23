@@ -251,6 +251,8 @@ Route::group([
     Route::group(['middleware' => 'permission:visit_read'], function () {
         Route::get('visits/{group}', [VisitController::class, 'index'])
             ->name('visits.index');
+        Route::get('visits-expulsion', [VisitController::class, 'expulsion'])
+            ->name('visits.expulsion');
     });
 
     // events

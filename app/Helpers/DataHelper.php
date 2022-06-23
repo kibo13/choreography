@@ -16,179 +16,89 @@ use App\Models\Timetable;
 use App\Models\Worker;
 use App\Models\User;
 
-function sections()
-{
-    return DB::table('permissions')->select('name')->groupBy('name')->get();
-}
-
-function getTotalExtraPlacesByTitle($title)
-{
-    $groups = Title::where('id', $title)->first()->groups->pluck('id');
-
-    return Member::where('form_study', 1)->whereIn('group_id', $groups)->count();
-}
-
-function getAchievementsByYears($sort = 'DESC', $worker = null)
-{
-    return DB::table('events')
-                ->join('achievements', 'events.id', '=', 'achievements.event_id')
-                ->select(DB::raw('YEAR(events.from) as year'), DB::raw('COUNT(events.id) as total'))
-                ->where('events.worker_id', $worker)
-                ->groupBy('year')
-                ->orderBy('year', $sort)
-                ->get();
-}
-
-function getAchievementsByMonths($year = '2020', $worker = null)
-{
-    $query = DB::table('events')
-        ->join('achievements', 'events.id', '=', 'achievements.event_id')
-        ->select(DB::raw('MONTH(events.from) as month'), DB::raw('COUNT(events.id) as total'))
-        ->where(DB::raw('YEAR(events.from)'), $year)
-        ->where('events.worker_id', $worker)
-        ->groupBy('month')
-        ->get();
-
-    for ($month = 1; $month <= 12; $month++)
-    {
-        if ($query->where('month', $month)->first()->total) {
-            $result .= $month . ',' . $query->where('month', $month)->first()->total . ',';
-        } else {
-            $result .= $month . ',' . 0 . ',';
-        }
-    }
-
-    return $result;
-}
-
-function diplom($achievement, $member)
-{
-    return Diplom::where(['achievement_id' => $achievement->id, 'member_id' => $member->id])->first();
-}
-
-function oneGroupByTeacher($categories, $position)
-{
-    switch ($position) {
-        case 'head':
-            $query = DB::table('groups')
-                ->join('titles', 'titles.id', '=', 'groups.title_id')
-                ->select('titles.name')
-                ->whereIn('groups.id', $categories)
-                ->groupBy('titles.name')
-                ->get()
-                ->count();
-            $result = $query > 1 ? 'error' : 'success';
-            break;
-
-        case 'manager':
-            $result = 'error';
-            break;
-    }
-
-    return $result;
-}
-
-function getMethodsByParams($group, $month)
-{
-    $month = is_null($month) ? Carbon::now()->month : $month;
-
-    return Method::where('group_id', $group->id)->where('month_id', $month)->get();
-}
-
-function getTopicByMethod($method)
-{
-    return Method::where('id', $method)->first();
-}
-
-function getYearsFromTimetables()
-{
-    return DB::table('timetables')
-        ->selectRaw('YEAR(timetables.from) as year')
-        ->groupBy('year')
-        ->get();
-}
-
-function getLessonsAttend($type, $member)
-{
-    switch ($type) {
-        case 'number':
-            $query = DB::table('visits')
-                ->join('timetables', 'visits.timetable_id', 'timetables.id')
-                ->selectRaw('COUNT(visits.id) as count_lesson')
-                ->where('visits.member_id', $member->id)
-                ->where('visits.status', 1)
-                ->first()
-                ->count_lesson;
-            break;
-
-        case 'list':
-            $query = DB::table('visits')
-                ->join('timetables', 'visits.timetable_id', 'timetables.id')
-                ->select([
-                    DB::raw('DATE(timetables.from) as date_lesson'),
-                    DB::raw('COUNT(visits.id) as count_lesson')
-                ])
-                ->where('visits.member_id', $member->id)
-                ->where('visits.status', 1)
-                ->groupBy('date_lesson')
-                ->get();
-            break;
-    }
-
-    return $query;
-}
-
-function getAllOrgcomitets()
-{
-    return Orgkomitet::get();
-}
-
-function getLoadsByDayOfWeek($day_of_week)
+// general
+function getGroupsByRole()
 {
     switch (Auth::user()->role_id) {
+        case 1:
+        case 2:
+        case 4:
+            $groups = Group::get();
+            break;
+
         case 3:
-            $groups = Auth::user()->worker->groups->pluck('id');
-            $loads  = Load::whereIn('group_id', $groups)->where('day_of_week', $day_of_week)->get();
+            $groups = Auth::user()->worker->groups;
             break;
 
         default:
-            $loads  = Load::where('day_of_week', $day_of_week)->get();
+            $groups = [];
+            break;
     }
 
-    return $loads;
+    return $groups;
 }
-
-function load($group, $day_of_week, $field = null)
+function command_master($master)
 {
-    $load = $group->loads->where('day_of_week', $day_of_week);
+    // Surname N.M.
 
-    if (is_null($field))
-    {
-        return $load->count();
-    }
+    $worker      = Worker::where('id', $master->id)->first();
+    $last_name   = ucfirst($worker->last_name);
+    $first_name  = substr($worker->first_name, 0, 2) . '.';
+    $middle_name = isset($worker->middle_name) ? substr($worker->middle_name, 0, 2) . '.' : null;
 
-    else
-    {
-        return $load->first()->$field;
-    }
+    return $last_name . ' ' . $first_name . $middle_name;
 }
-
-function getMissesByMember($member, $month, $year)
+function getFIO($type, $person_id)
 {
+    // Surname FName MName
+
+    switch ($type)
+    {
+        case 'member':
+            $person = Member::where('id', $person_id)->first();
+            break;
+
+        case 'worker':
+            $person = Worker::where('id', $person_id)->first();
+            break;
+
+        default:
+            $person = User::where('id', $person_id)->first();
+            break;
+    }
+
+    $last_name   = ucfirst($person->last_name) . ' ';
+    $first_name  = ucfirst($person->first_name) . ' ';
+    $middle_name = isset($person->middle_name) ? ucfirst($person->middle_name) : null;
+
+    return $last_name . $first_name . $middle_name;
+}
+function getVisitsByType($member, $month, $year, $type)
+{
+    // types
+    // 0 = miss
+    // 1 = check
+    // 2 = reason
+
     return DB::table('visits')
         ->join('timetables', 'visits.timetable_id', 'timetables.id')
-        ->selectRaw('COUNT(visits.member_id) as count_misses')
-        ->where([
-            ['visits.status', 0],
-            ['visits.member_id', $member],
-            [DB::raw('MONTH(timetables.from)'), $month],
-            [DB::raw('YEAR(timetables.from)'), $year],
-        ])
-        ->groupBy('visits.member_id')
+        ->selectRaw('COUNT(visits.id) as count')
+        ->whereIn('status', $type)
+        ->where('visits.member_id', $member->id)
+        ->where(DB::raw('MONTH(timetables.from)'), $month)
+        ->where(DB::raw('YEAR(timetables.from)'), $year)
         ->first()
-        ->count_misses;
+        ->count;
+}
+function getPass($member, $month, $year)
+{
+    return Pass::where('member_id', $member->id)
+        ->where('month', $month)
+        ->where('year', $year)
+        ->first();
 }
 
+// navbar
 function getUsernameByRole()
 {
     switch (Auth::user()->role_id) {
@@ -211,27 +121,136 @@ function getUsernameByRole()
     return $username;
 }
 
-function getGroupsByRole()
+// users
+function sections()
 {
-    switch (Auth::user()->role_id) {
-        case 1:
-        case 2:
-        case 4:
-            $groups = Group::get();
+    return DB::table('permissions')->select('name')->groupBy('name')->get();
+}
+
+// achievements
+function diplom($achievement, $member)
+{
+    return Diplom::where(['achievement_id' => $achievement->id, 'member_id' => $member->id])->first();
+}
+function getAchievementsByYears($sort = 'DESC', $worker = null)
+{
+    return DB::table('events')
+        ->join('achievements', 'events.id', '=', 'achievements.event_id')
+        ->select(DB::raw('YEAR(events.from) as year'), DB::raw('COUNT(events.id) as total'))
+        ->where('events.worker_id', $worker)
+        ->groupBy('year')
+        ->orderBy('year', $sort)
+        ->get();
+}
+function getAchievementsByMonths($year = '2020', $worker = null)
+{
+    $query = DB::table('events')
+        ->join('achievements', 'events.id', '=', 'achievements.event_id')
+        ->select(DB::raw('MONTH(events.from) as month'), DB::raw('COUNT(events.id) as total'))
+        ->where(DB::raw('YEAR(events.from)'), $year)
+        ->where('events.worker_id', $worker)
+        ->groupBy('month')
+        ->get();
+
+    for ($month = 1; $month <= 12; $month++)
+    {
+        if ($query->where('month', $month)->first()->total) {
+            $result .= $month . ',' . $query->where('month', $month)->first()->total . ',';
+        } else {
+            $result .= $month . ',' . 0 . ',';
+        }
+    }
+
+    return $result;
+}
+
+// members
+function getTotalExtraPlacesByTitle($title)
+{
+    $groups = Title::where('id', $title)->first()->groups->pluck('id');
+
+    return Member::where('form_study', 1)->whereIn('group_id', $groups)->count();
+}
+
+// workers
+function oneGroupByTeacher($categories, $position)
+{
+    switch ($position) {
+        case 'head':
+            $query = DB::table('groups')
+                ->join('titles', 'titles.id', '=', 'groups.title_id')
+                ->select('titles.name')
+                ->whereIn('groups.id', $categories)
+                ->groupBy('titles.name')
+                ->get()
+                ->count();
+            $result = $query > 1 ? 'error' : 'success';
             break;
 
-        case 3:
-            $groups = Auth::user()->worker->groups;
-            break;
-
-        default:
-            $groups = [];
+        case 'manager':
+            $result = 'error';
             break;
     }
 
-    return $groups;
+    return $result;
 }
 
+// visits
+function getTopicByMethod($method)
+{
+    return Method::where('id', $method)->first();
+}
+function getMethodsByParams($group, $month)
+{
+    $month = is_null($month) ? Carbon::now()->month : $month;
+
+    return Method::where('group_id', $group->id)->where('month_id', $month)->get();
+}
+function getYearsFromTimetables()
+{
+    return DB::table('timetables')
+        ->selectRaw('YEAR(timetables.from) as year')
+        ->groupBy('year')
+        ->get();
+}
+
+// events
+function getOrgcomitets()
+{
+    return Orgkomitet::get();
+}
+
+// loads
+function load($group, $day_of_week, $field = null)
+{
+    $load = $group->loads->where('day_of_week', $day_of_week);
+
+    if (is_null($field))
+    {
+        return $load->count();
+    }
+
+    else
+    {
+        return $load->first()->$field;
+    }
+}
+function getLoadsByDayOfWeek($day_of_week)
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+            $groups = Auth::user()->worker->groups->pluck('id');
+            $loads  = Load::whereIn('group_id', $groups)->where('day_of_week', $day_of_week)->get();
+            break;
+
+        default:
+            $loads  = Load::where('day_of_week', $day_of_week)->get();
+    }
+
+    return $loads;
+}
+
+// timetable
 function getSubteachers()
 {
     switch (Auth::user()->role_id) {
@@ -247,7 +266,6 @@ function getSubteachers()
 
     return $subteachers;
 }
-
 function getTeachersBySpec()
 {
     switch (Auth::user()->role_id) {
@@ -274,12 +292,23 @@ function getTeachersBySpec()
 
     return $teachers;
 }
-
-function getActivePass($member)
+function getLoadsByRole()
 {
-    return $member->passes->where('is_active', 1)->first();
+    switch (Auth::user()->role_id) {
+        case 3:
+            $groups = Auth::user()->worker->groups->pluck('id');
+            $loads  = Load::whereIn('group_id', $groups)->get();
+            break;
+
+        default:
+            $loads  = [];
+            break;
+    }
+
+    return $loads;
 }
 
+// passes
 function getPassesByRole()
 {
     switch (Auth::user()->role_id) {
@@ -302,29 +331,6 @@ function getPassesByRole()
 
     return $passes;
 }
-
-function getAppsByRole()
-{
-    switch (Auth::user()->role_id) {
-        case 1:
-        case 2:
-        case 4:
-            $apps = Application::get();
-            break;
-
-        case 3:
-            $groups = Auth::user()->worker->groups->pluck('id');
-            $apps   = Application::whereIn('group_id', $groups)->orderBy('status')->get();
-            break;
-
-        case 5:
-            $apps = Application::where('member_id', Auth::user()->member->id)->get();
-            break;
-    }
-
-    return $apps;
-}
-
 function getPaidMembersByGroup()
 {
     switch (Auth::user()->role_id) {
@@ -348,6 +354,30 @@ function getPaidMembersByGroup()
     return $members;
 }
 
+// applications and support
+function getAppsByRole()
+{
+    switch (Auth::user()->role_id) {
+        case 1:
+        case 2:
+        case 4:
+            $apps = Application::get();
+            break;
+
+        case 3:
+            $groups = Auth::user()->worker->groups->pluck('id');
+            $apps   = Application::whereIn('group_id', $groups)->orderBy('status')->get();
+            break;
+
+        case 5:
+            $apps = Application::where('member_id', Auth::user()->member->id)->get();
+            break;
+    }
+
+    return $apps;
+}
+
+// methods
 function getMethodsByGroup()
 {
     switch (Auth::user()->role_id) {
@@ -369,78 +399,5 @@ function getMethodsByGroup()
     return $methods;
 }
 
-function getLoadsByRole()
-{
-    switch (Auth::user()->role_id) {
-        case 3:
-            $groups = Auth::user()->worker->groups->pluck('id');
-            $loads  = Load::whereIn('group_id', $groups)->get();
-            break;
 
-        default:
-            $loads  = [];
-            break;
-    }
 
-    return $loads;
-}
-
-function command_master($master)
-{
-    $worker      = Worker::where('id', $master->id)->first();
-    $last_name   = ucfirst($worker->last_name);
-    $first_name  = substr($worker->first_name, 0, 2) . '.';
-    $middle_name = isset($worker->middle_name) ? substr($worker->middle_name, 0, 2) . '.' : null;
-
-    return $last_name . ' ' . $first_name . $middle_name;
-}
-
-function getFIO($type, $id)
-{
-    switch ($type)
-    {
-        case 'member':
-            $result = Member::where('id', $id)->first();
-            break;
-
-        case 'worker':
-            $result = Worker::where('id', $id)->first();
-            break;
-
-        default:
-            $result = User::where('id', $id)->first();
-            break;
-    }
-
-    $last_name   = ucfirst($result->last_name) . ' ';
-    $first_name  = ucfirst($result->first_name) . ' ';
-    $middle_name = isset($result->middle_name) ? ucfirst($result->middle_name) : null;
-
-    return $last_name . $first_name . $middle_name;
-}
-
-function getVisitsByType($member, $month, $year, $type)
-{
-    // types
-    // 0 = miss
-    // 1 = check
-    // 2 = reason
-
-    return DB::table('visits')
-        ->join('timetables', 'visits.timetable_id', 'timetables.id')
-        ->selectRaw('COUNT(visits.id) as count')
-        ->whereIn('status', $type)
-        ->where('visits.member_id', $member->id)
-        ->where(DB::raw('MONTH(timetables.from)'), 06)
-        ->where(DB::raw('YEAR(timetables.from)'), $year)
-        ->first()
-        ->count;
-}
-
-function getPass($member, $month, $year)
-{
-    return Pass::where('member_id', $member->id)
-        ->where('month', $month)
-        ->where('year', $year)
-        ->first();
-}
