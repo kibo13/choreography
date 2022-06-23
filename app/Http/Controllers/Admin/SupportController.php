@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SupportRequest;
 use App\Models\Application;
-use App\Models\Pass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +15,6 @@ class SupportController extends Controller
         $apps   = @getAppsByRole();
         $tops   = config('constants.topics');
         $states = config('constants.states');
-
 
         return view('admin.pages.support.index', [
             'applications' => $apps,
@@ -58,7 +55,7 @@ class SupportController extends Controller
             }
         }
 
-        if (!$request->has('pass_id') && $request['topic'] == 0)
+        if (is_null($request['pass_id']) && $request['topic'] == 0)
         {
             $request->session()->flash('warning', __('_dialog.pass_need'));
             return redirect()->back();

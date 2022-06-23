@@ -41,7 +41,7 @@ class ApplicationController extends Controller
 
     public function update(Request $request, Application $application)
     {
-        if ($request['status'] == 1)
+        if ($request['status'] == 1 && $application->topic == 0)
         {
             $cost         = $application->pass->cost;
             $pricePass    = 30;
@@ -54,7 +54,7 @@ class ApplicationController extends Controller
             $word     = new TemplateProcessor('reports/order.docx');
 
             $word->setValues([
-                'group'      => $application->group->title->name . $application->group->category->name,
+                'group'      => $application->group->title->name . ' ' . $application->group->category->name,
                 'id'         => $application->num,
                 'created_at' => getDMY($application->updated_at),
                 'member'     => getFIO('member', $application->member->id),

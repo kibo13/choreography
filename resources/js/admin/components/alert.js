@@ -1,2 +1,2 @@
-$('.alert-success').delay(2000).fadeOut('fast')
-$('.alert-limit').delay(3000).fadeOut('fast')
+$('.alert-success').delay(5000).fadeOut('fast')
+$('.alert-limit').delay(7000).fadeOut('fast')

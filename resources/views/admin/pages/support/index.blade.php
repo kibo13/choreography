@@ -72,7 +72,7 @@
                                data-target="#bk-delete-modal"
                                data-tip="{{ __('_action.delete') }}"></a>
                             @endif
-                            @if($application->status == 1)
+                            @if($application->status == 1 && $application->member->form_study == 1)
                             <a class="bk-btn-action bk-btn-action--bill btn btn-primary"
                                href="{{ asset('orders/' . $application->voucher) }}"
                                title="Расходный кассовый ордер"></a>

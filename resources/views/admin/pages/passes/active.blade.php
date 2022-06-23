@@ -26,7 +26,8 @@
             <th rowspan="2" class="align-top bk-min-w-250 w-25">{{ __('_field.period_action') }}</th>
             <th rowspan="2" class="align-top bk-min-w-100 w-25">{{ __('_field.cost') }}</th>
             <th colspan="4" class="text-center bk-min-w-150 w-25">{{ __('_field.lessons') }}</th>
-            <th rowspan="2" class="align-top bk-min-w-150 w-25">{{ __('_field.payment') }}</th>
+            <th rowspan="2" class="align-top bk-min-w-150 w-25">{{ __('_field.status') }}</th>
+            <th rowspan="2" class="align-top bk-min-w-150 w-25">{{ __('_field.pay_date') }}</th>
             <th rowspan="2" class="align-top">{{ __('_action.this') }}</th>
         </tr>
         <tr class="text-center">
@@ -82,32 +83,11 @@
             <td class="text-center">
                 {{ $pass->lessons }}
             </td>
+            <td class="{{ $pass->status ? 'text-success' : 'text-danger' }}">
+                {{ $pass->status ? 'оплачено' : 'не оплачено' }}
+            </td>
             <td>
-                <ul class="bk-btn-info">
-                    <li>
-                        <strong>статус </strong>
-                        <span class="{{ $pass->status ? 'text-success' : 'text-danger' }}">
-                            {{ $pass->status ? 'оплачено' : 'не оплачено' }}
-                        </span>
-                    </li>
-                    <li>
-                        <strong>дата </strong>
-                        <span>{{ $pass->pay_date ? @getDMY($pass->pay_date) : '-' }}</span>
-                    </li>
-                    <li>
-                        <strong>квитанция </strong>
-                        <span>
-                            @if($pass->pay_file)
-                            <a class="text-primary" href="{{ asset('assets/' . $pass->pay_file) }}" target="_blank">
-                            скачать
-                            </a>
-                            @else
-                            -
-                            @endif
-                        </span>
-                    </li>
-                    {{ @fa('fa fa-eye bk-btn-info--fa') }}
-                </ul>
+                {{ $pass->pay_date ? @getDMY($pass->pay_date) : '-' }}
             </td>
             <td>
                 <div class="bk-btn-actions">

@@ -61,6 +61,19 @@
                     </div>
                 </div>
 
+                <!-- group -->
+                @if($user->role_id == 5)
+                <div class="bk-form__field">
+                    <label class="bk-form__label">
+                        {{ __('_field.group') }}
+                    </label>
+                    <div class="bk-form__text">
+                        {{ $user->member->group->title->name }}
+                        {{ @tip($user->member->group->category->name) }}
+                    </div>
+                </div>
+                @endif
+
                 <!-- birthday -->
                 <div class="bk-form__field">
                     <label class="bk-form__label">
