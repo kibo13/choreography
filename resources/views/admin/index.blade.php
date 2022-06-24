@@ -8,6 +8,7 @@
     <script src="{{ asset('js/vendors/popper.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/bootstrap.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/jquery.dataTables.min.js') }}" defer></script>
+    <script src="{{ asset('js/vendors/chart.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/moment.min.js') }}" defer></script>
     <script src="{{ asset('js/vendors/fullcalendar.min.js') }}" defer></script>
 

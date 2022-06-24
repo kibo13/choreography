@@ -1,5 +1,3 @@
-import Chart from 'chart.js/auto'
-
 const achievements_show  = document.getElementById('achievements-show')
 const achievements_index = document.getElementById('achievements-index')
 

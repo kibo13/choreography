@@ -19,6 +19,7 @@ mix.copy('node_modules/datatables.net/js/jquery.dataTables.min.js', 'public/js/v
 mix.copy('node_modules/moment/min/moment.min.js', 'public/js/vendors/moment.min.js')
 mix.copy('node_modules/fullcalendar/main.min.js', 'public/js/vendors/fullcalendar.min.js')
 mix.copy('node_modules/fullcalendar/main.min.css', 'public/css/fullcalendar.min.css')
+mix.copy('resources/js/chart.min.js', 'public/js/vendors/chart.min.js')
 
 if (!mix.inProduction()) {
     mix.browserSync('dance.test')
