@@ -28,6 +28,23 @@
         [Добавить участника]
     </button>
     <div class="p-0 dropdown-menu">
+        @if($group->age_till > 18)
+        <button class="py-1 px-2 dropdown-item"
+                data-group-id="{{ $group->id }}"
+                data-group-name="{{ $group->title->name }}"
+                data-group-category="{{ $group->category->name }}"
+                data-age-from="{{ $group->age_from }}"
+                data-age-till="{{ $group->age_till }}"
+                data-basic-places-limit="{{ $group->basic_seats }}"
+                data-basic-places-exist="{{ $group->members->where('form_study', 0)->count() }}"
+                data-extra-places-limit="{{ $group->extra_seats }}"
+                data-extra-places-exist="{{ $group->members->where('form_study', 1)->count() }}"
+                data-total-extra-places-exist="{{ @getTotalExtraPlacesByTitle($group->title->id) }}"
+                data-modal="legal"
+                data-legal="{{ $modals[1]['code'] }}">
+            {{ $modals[1]['name'] }}
+        </button>
+        @else
         @foreach($modals as $modal)
         <button class="py-1 px-2 dropdown-item"
                 data-group-id="{{ $group->id }}"
@@ -45,6 +62,7 @@
             {{ $modal['name'] }}
         </button>
         @endforeach
+        @endif
     </div>
     @endif
     {{ $group->title->name }}
