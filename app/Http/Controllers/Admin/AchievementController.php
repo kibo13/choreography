@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Achievement;
 use App\Models\Event;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\Element\Table;
@@ -21,24 +22,36 @@ class AchievementController extends Controller
     {
         switch (Auth::user()->role_id)
         {
+            case 1:
+            case 2:
+            case 4:
+                $worker = Worker::pluck('id');
+                $events = Event::get();
+                $years  = @getAchievementsByYears('ASC', $worker)->pluck('total', 'year')->keys();
+                $total  = @getAchievementsByYears('ASC', $worker)->pluck('total', 'year')->values();
+                break;
+
             case 3:
-                $events = Event::where('worker_id', $this->worker()->id)->get();
-                $worker = $this->worker()->id;
+                $worker = Auth::user()->worker->id;
+                $events = Event::where('worker_id', $worker)->get();
+                $years  = @getAchievementsByYears('ASC', [$worker])->pluck('total', 'year')->keys();
+                $total  = @getAchievementsByYears('ASC', [$worker])->pluck('total', 'year')->values();
                 break;
 
             default:
-                $events = Event::get();
+                $events = [];
                 $worker = null;
+                $years  = [];
+                $total  = [];
                 break;
         }
 
-        $years = @getAchievementsByYears('ASC', $this->worker()->id)->pluck('total', 'year')->keys();
-        $total = @getAchievementsByYears('ASC', $this->worker()->id)->pluck('total', 'year')->values();
-
-        return view(
-            'admin.pages.achievements.index',
-            compact('events', 'worker', 'years', 'total')
-        );
+        return view('admin.pages.achievements.index', [
+            'events' => $events,
+            'worker' => $worker,
+            'years'  => $years,
+            'total'  => $total
+        ]);
     }
 
     public function create(Event $event)

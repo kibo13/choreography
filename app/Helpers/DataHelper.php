@@ -132,12 +132,12 @@ function diplom($achievement, $member)
 {
     return Diplom::where(['achievement_id' => $achievement->id, 'member_id' => $member->id])->first();
 }
-function getAchievementsByYears($sort = 'DESC', $worker = null)
+function getAchievementsByYears($sort = 'DESC', $worker = [])
 {
     return DB::table('events')
         ->join('achievements', 'events.id', '=', 'achievements.event_id')
         ->select(DB::raw('YEAR(events.from) as year'), DB::raw('COUNT(events.id) as total'))
-        ->where('events.worker_id', $worker)
+        ->whereIn('events.worker_id', $worker)
         ->groupBy('year')
         ->orderBy('year', $sort)
         ->get();
