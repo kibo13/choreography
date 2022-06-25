@@ -312,10 +312,13 @@ if (members_index) {
                     return false
                 }
 
-                if (+fullAge < 14) {
-                    $('#member_doc_id option[value=1]').addClass('d-none')
-                    $('#member_doc_id option[value=2]').addClass('d-none')
-                }
+                if (child_age_till < 16) { $('#member_doc_id option[value=1]').addClass('d-none') }
+
+                if (+fullAge < 14) { $('#member_doc_id option[value=2]').addClass('d-none') }
+                else { $('#member_doc_id option[value=2]').removeClass('d-none') }
+
+                if (+fullAge < 16) { $('#member_doc_id option[value=1]').addClass('d-none') }
+                else { $('#member_doc_id option[value=1]').removeClass('d-none') }
             }
         }
         // validation for panel-4
