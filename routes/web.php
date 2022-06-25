@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\MethodController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\VisitController;
 use App\Http\Controllers\Admin\RepController;
+use App\Http\Controllers\Admin\StatController;
 
 // auth
 Auth::routes([
@@ -301,6 +302,12 @@ Route::group([
     Route::group(['middleware' => 'permission:award_read'], function () {
         Route::get('awards', [AwardController::class, 'index'])
             ->name('awards.index');
+    });
+
+    // stats
+    Route::group(['middleware' => 'permission:stat_read'], function () {
+        Route::get('stats', [StatController::class, 'index'])
+            ->name('stats.index');
     });
 
     // reports

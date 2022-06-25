@@ -53,6 +53,7 @@ if (users_form) {
                 $('.rep_full').prop('checked', true)
                 $('.member_read').prop('checked', true)
                 $('.member_full').prop('checked', true)
+                $('.stat_read').prop('checked', true)
                 break
 
             case 'manager':
@@ -71,6 +72,7 @@ if (users_form) {
                 $('.timetable_read').prop('checked', true)
                 $('.rep_read').prop('checked', true)
                 $('.member_read').prop('checked', true)
+                $('.stat_read').prop('checked', true)
                 break
 
             case 'client':

@@ -30,6 +30,7 @@ return [
     'sections'              => 'Разделы',
     'settings'              => 'Настройки',
     'specialties'           => 'Специализации',
+    'stats'                 => 'Статистика',
     'support'               => 'Поддержка',
     'timetable'             => 'Расписание',
     'titles'                => 'Названия групп',

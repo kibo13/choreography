@@ -129,6 +129,18 @@
             </a>
         </li>
         @endif
+        @if(@is_access('stat_read'))
+        <li class="sidebar-list__item {{ @is_active('admin.stat*', 'sidebar-list__item--active') }}">
+            <a class="sidebar-list__link"
+               href="{{ route('admin.stats.index') }}"
+               title="{{ __('_section.stats') }}">
+                {{ @fa('fa-bar-chart sidebar-list__icon') }}
+                <span class="sidebar-list__text">
+                {{ __('_section.stats') }}
+            </span>
+            </a>
+        </li>
+        @endif
         @if(@is_access('report_read'))
         <li class="sidebar-list__item {{ @is_active('admin.report*', 'sidebar-list__item--active') }}">
             <a class="sidebar-list__link"
