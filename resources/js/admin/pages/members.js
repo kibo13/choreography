@@ -40,20 +40,20 @@ if (members_index) {
         // special condition for PRESTO and ADIVAS groups
         if (group_id == 1 || group_id == 2 || group_id == 3 || group_id == 4 || group_id == 5 || group_id == 6)
         {
-            if (BPExist < BPLimit) { study = 0 }
-            else if (BPExist >= BPLimit && EPExist < EPLimit && TEPExist < 6) { study = 1 }
+            if (+BPExist < +BPLimit) { study = 0 }
+            else if (+BPExist >= +BPLimit && +EPExist < +EPLimit && +TEPExist < 6) { study = 1 }
             else { return alert('В выбранной группе нет свободных мест') }
         }
 
         // special condition for other groups
         else
         {
-            if (BPExist < BPLimit) { study = 0 }
-            else if (BPExist >= BPLimit && EPExist < EPLimit) { study = 1 }
+            if (+BPExist < +BPLimit) { study = 0 }
+            else if (+BPExist >= +BPLimit && +EPExist < +EPLimit) { study = 1 }
             else { return alert('В выбранной группе нет свободных мест') }
         }
 
-        if (type_modal == 'adult' && age_till < 18) return alert(`В эту категорию группы можно регистрировать участника \nтолько через родителя / законного представителя`)
+        if (type_modal == 'adult' && +age_till < 18) return alert(`В эту категорию группы можно регистрировать участника \nтолько через родителя / законного представителя`)
 
         switch (type_modal) {
             case 'child':
@@ -129,12 +129,12 @@ if (members_index) {
             if (adult_birthday) {
                 let fullAge = calc.fullAge(adult_birthday)
 
-                if (fullAge < 18) {
+                if (+fullAge < 18) {
                     alert('Участник является несовершеннолетним! \nРегистрация возможна только через родителя / законного представителя')
                     return false
                 }
 
-                if (fullAge > adult_age_till) {
+                if (+fullAge > +adult_age_till) {
                     alert('Участник не подходит по возрастной категории')
                     return false
                 }
@@ -312,7 +312,7 @@ if (members_index) {
                     return false
                 }
 
-                if (fullAge < 14) {
+                if (+fullAge < 14) {
                     $('#member_doc_id option[value=1]').addClass('d-none')
                     $('#member_doc_id option[value=2]').addClass('d-none')
                 }
