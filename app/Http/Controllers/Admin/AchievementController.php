@@ -99,9 +99,16 @@ class AchievementController extends Controller
 
     public function report($year)
     {
-        $word = new TemplateProcessor('reports/achievements.docx');
+        $filename = 'Участие клубных формирований ГБУ ГДК в ' . $year . '.docx';
+        $word     = new TemplateProcessor('reports/achievements.docx');
 
-        $word->setValue('year', $year);
+        $word->setValues([
+            'title'       => config('constants.reports')[0]['name'],
+            'position'    => @getPosition(),
+            'year'        => @getNowYear() . ' г.',
+            'select_year' => $year,
+            'worker'      => @getAuthorOfReport(Auth::user()->worker)
+        ]);
 
         $table    = new Table(['borderColor' => '000000', 'borderSize' => 6]);
         $fontText = ['bold' => true];
@@ -161,10 +168,8 @@ class AchievementController extends Controller
         }
 
         $word->setComplexBlock('table', $table);
+        $word->saveAs($filename);
 
-        $filename = 'Участие клубных формирований ГБУ ГДК в ' . $year;
-        $word->saveAs($filename . '.docx');
-
-        return response()->download($filename . '.docx')->deleteFileAfterSend(true);
+        return response()->download($filename)->deleteFileAfterSend(true);
     }
 }

@@ -48,6 +48,31 @@ function command_master($master)
 
     return $last_name . ' ' . $first_name . $middle_name;
 }
+function getShortFIO($type, $person_id)
+{
+    // Surname N.M.
+
+    switch ($type)
+    {
+        case 'member':
+            $person = Member::where('id', $person_id)->first();
+            break;
+
+        case 'worker':
+            $person = Worker::where('id', $person_id)->first();
+            break;
+
+        default:
+            $person = User::where('id', $person_id)->first();
+            break;
+    }
+
+    $last_name   = ucfirst($person->last_name);
+    $first_name  = substr($person->first_name, 0, 2) . '.';
+    $middle_name = isset($person->middle_name) ? substr($person->middle_name, 0, 2) . '.' : null;
+
+    return $last_name . ' ' . $first_name . $middle_name;
+}
 function getFIO($type, $person_id)
 {
     // Surname FName MName
@@ -399,5 +424,63 @@ function getMethodsByGroup()
     return $methods;
 }
 
+// reports
+function getPosition()
+{
+    switch (Auth::user()->role_id)
+    {
+        case 3:
+            $position = 'Руководитель';
+            break;
 
+        default:
+            $position = 'Заведующий';
+            break;
+    }
+
+    return $position;
+}
+function getAuthorOfReport($worker)
+{
+    switch (Auth::user()->role_id)
+    {
+        case 3:
+            $person = Worker::where('id', $worker->id)->first();
+            break;
+
+        default:
+            $person = Worker::where('id', 4)->first();
+            break;
+    }
+
+    $last_name   = ucfirst($person->last_name);
+    $first_name  = substr($person->first_name, 0, 2) . '.';
+    $middle_name = isset($person->middle_name) ? substr($person->middle_name, 0, 2) . '.' : null;
+
+    return $last_name . ' ' . $first_name . $middle_name;
+}
+function getTitles()
+{
+    return Title::get();
+}
+function getWorkersID()
+{
+    switch (Auth::user()->role_id) {
+        case 3:
+            $workers = [Auth::user()->worker->id];
+            break;
+
+        default:
+            $workers = Worker::pluck('id');
+            break;
+    }
+
+    return $workers;
+}
+
+// stats
+function getGroupNameByID($id)
+{
+    return Group::where('id', $id)->first();
+}
 

@@ -12,6 +12,11 @@ function getToday()
     return date('d.m.Y', strtotime(getCurrentDay()));
 }
 
+function getNowYear()
+{
+    return Carbon::now()->year;
+}
+
 function getDateTime($param)
 {
     return str_replace(' ', 'T', $param);
@@ -35,6 +40,20 @@ function getHI($time)
 function diffDays($date)
 {
     return Carbon::now()->diffInDays($date);
+}
+
+function diffMonths($from, $till)
+{
+    $formatFrom = strtotime($from);
+    $formatTill = strtotime($till);
+
+    $yearFrom = date('Y', $formatFrom);
+    $yearTill = date('Y', $formatTill);
+
+    $monthFrom = date('m', $formatFrom);
+    $monthTill = date('m', $formatTill);
+
+    return $diff = (($yearTill - $yearFrom) * 12) + ($monthTill - $monthFrom) + 1;
 }
 
 function plusMinutes($time, $minutes)

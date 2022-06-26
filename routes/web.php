@@ -330,5 +330,17 @@ Route::group([
             ->name('reports.collectives');
         Route::get('reports/teachers', [ReportController::class, 'teachers'])
             ->name('reports.teachers');
+        Route::get('reports/cashback', [ReportController::class, 'cashback'])
+            ->name('reports.cashback');
+        Route::get('reports/remains', [ReportController::class, 'remains'])
+            ->name('reports.remains');
+        Route::get('reports/misses', [ReportController::class, 'misses'])
+            ->name('reports.misses');
+        Route::get('reports/workloads', [ReportController::class, 'workloads'])
+            ->name('reports.workloads');
+        Route::get('reports/rooms', [ReportController::class, 'rooms'])
+            ->name('reports.rooms');
+        Route::get('reports/schedule', [ReportController::class, 'schedule'])
+            ->name('reports.schedule');
     });
 });
