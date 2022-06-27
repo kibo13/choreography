@@ -62,6 +62,17 @@ class ReportController extends Controller
             ->whereBetween('passes.pay_date', [$request['from'], $request['till']])
             ->get();
 
+        $money = DB::table('passes')
+            ->join('members', 'passes.member_id', 'members.id')
+            ->join('discounts', 'members.discount_id', 'discounts.id')
+            ->selectRaw('SUM(passes.cost) as money')
+            ->whereIn('members.group_id', $this->groups())
+            ->whereNotNull('members.discount_id')
+            ->where('members.discount_id', '!=', 5)
+            ->whereBetween('passes.pay_date', [$request['from'], $request['till']])
+            ->first()
+            ->money;
+
         // set filename
         $filename = config('constants.reports')[0]['name'] . '.docx';
 
@@ -69,20 +80,20 @@ class ReportController extends Controller
         $word = new TemplateProcessor('reports/privileges.docx');
 
         $word->setValues([
-            'title'    => config('constants.reports')[0]['name'],
-            'position' => @getPosition(),
-            'year'     => @getNowYear() . ' г.',
-            'worker'   => @getAuthorOfReport(Auth::user()->worker),
-            'from'     => @getDMY($request['from']) . ' г.',
-            'till'     => @getDMY($request['till']) . ' г.',
-            'total'    => $members->count()
+            'title'        => config('constants.reports')[0]['name'],
+            'position'     => @getPosition(),
+            'year'         => @getNowYear() . ' г.',
+            'worker'       => @getAuthorOfReport(Auth::user()->worker),
+            'from'         => @getDMY($request['from']) . ' г.',
+            'till'         => @getDMY($request['till']) . ' г.',
+            'count_passes' => $members->count(),
+            'count_money'  => $money . ' ₽'
         ]);
 
         // styles for tables
         $cellRowSpan     = ['vMerge' => 'restart'];
         $cellRowContinue = ['vMerge' => 'continue'];
         $cellHCentered   = ['align' => 'center'];
-        $borderDark      = ['borderColor' => '000000', 'borderSize' => 6];
 
         // create table
         $table    = new Table(['borderColor' => '000000', 'borderSize' => 6]);
@@ -97,9 +108,7 @@ class ReportController extends Controller
         $table->addCell(null, $cellRowSpan)->addText('Номер абонемента', $fontText);
         $table->addCell(null, ['gridSpan' => 2])->addText('Период действия', $fontText);
         $table->addCell(null, $cellRowSpan)->addText('Стоимость абонемента', $fontText);
-        $table->addCell(null, $cellRowSpan)->addText('Стоимость абонемента <w:br/>со скидкой', $fontText);
-        $table->addCell(null, $cellRowSpan)->addText('Кол-во', $fontText);
-        $table->addCell(null, $cellRowSpan)->addText('Оплачено', $fontText);
+        $table->addCell(null, $cellRowSpan)->addText('Сумма оплаченная <w:br/>за абонемент со скидкой', $fontText);
 
         $table->addRow();
         $table->addCell(null, $cellRowContinue);
@@ -127,8 +136,6 @@ class ReportController extends Controller
             $table->addCell()->addText(@getDMY($member->pass_till));
             $table->addCell()->addText($member->price . ' ₽');
             $table->addCell()->addText($member->cost . ' ₽');
-            $table->addCell()->addText(1);
-            $table->addCell()->addText($member->status == 1 ? 'оплачен' : 'не оплачен');
         }
 
         $word->setComplexBlock('table', $table);
@@ -348,19 +355,18 @@ class ReportController extends Controller
 
     public function ages(Request $request)
     {
-
         if ($request['title_id'])
         {
             $team    = Title::where('id', $request['title_id'])->first();
             $groups  = $team->groups->pluck('id');
             $teacher = @getFIO('worker', $team->groups[0]->workers->first()->id);
-            $members = Member::whereIn('group_id', $groups)->orderBy('age')->get();
+            $members = Member::whereIn('group_id', $groups)->orderBy('group_id')->orderBy('age')->get();
         }
 
         else
         {
             $teacher = @getFIO('worker', Auth::user()->worker->id);
-            $members = Member::whereIn('group_id', $this->groups())->orderBy('age')->get();
+            $members = Member::whereIn('group_id', $this->groups())->orderBy('group_id')->orderBy('age')->get();
         }
 
         // set filename
@@ -388,15 +394,15 @@ class ReportController extends Controller
         $table->addRow();
         $table->addCell()->addText('№', $fontText);
         $table->addCell(7000)->addText('ФИО участника', $fontText);
-        $table->addCell()->addText('Возраст', $fontText);
         $table->addCell()->addText('Категория', $fontText);
+        $table->addCell()->addText('Возраст', $fontText);
 
         foreach ($members as $index => $member) {
             $table->addRow();
             $table->addCell()->addText(++$index);
             $table->addCell()->addText(@getFIO('member', $member->id));
-            $table->addCell()->addText($member->age);
             $table->addCell()->addText($member->group->category->name);
+            $table->addCell()->addText($member->age);
         }
 
         $word->setComplexBlock('table', $table);
@@ -716,7 +722,7 @@ class ReportController extends Controller
         $table->addCell()->addText('№ <w:br/>абонемента', $fontText);
         $table->addCell()->addText('Дата начала действия', $fontText);
         $table->addCell()->addText('Дата окончания действия', $fontText);
-        $table->addCell()->addText('Стоимость абонемента', $fontText);
+        $table->addCell()->addText('Стоимость оплаченная за абонемент', $fontText);
         $table->addCell()->addText('Кол-во занятий', $fontText);
         $table->addCell()->addText('Кол-во посещений', $fontText);
         $table->addCell()->addText('Дата оплаты', $fontText);
@@ -856,6 +862,15 @@ class ReportController extends Controller
             ->orderBy('categories.name')
             ->get();
 
+        $count_misses = DB::table('visits')
+            ->join('timetables', 'visits.timetable_id', 'timetables.id')
+            ->selectRaw('COUNT(visits.id) as misses')
+            ->whereIn('timetables.group_id', $this->groups())
+            ->whereIn('visits.status', [0, 2])
+            ->whereBetween('timetables.from', [$request['from'], $request['till']])
+            ->first()
+            ->misses;
+
         // set filename
         $filename = config('constants.reports')[13]['name'];
 
@@ -870,6 +885,7 @@ class ReportController extends Controller
             'worker'       => @getAuthorOfReport(Auth::user()->worker),
             'from'         => @getDMY($request['from']) . ' г.',
             'till'         => @getDMY($request['till']) . ' г.',
+            'count_misses' => $count_misses,
         ]);
 
         // create table
