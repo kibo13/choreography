@@ -786,17 +786,20 @@ class ReportController extends Controller
 
         foreach ($apps as $index => $app)
         {
-            $member         = Member::where('id', $app->member_id)->first();
-            $count_miss     = @getVisitsByType($member, $app->pass->month, $app->pass->year, [2]);
-            $pricePerLesson = $app->pass->cost / $app->pass->lessons;
-            $cashback       = $count_miss * $pricePerLesson - 30;
+            $cost           = $app->pass->cost;
+            $pricePass      = 30;
+            $lessonsLimit   = $app->pass->lessons;
+            $lessonsExist   = @getVisitsByType($app->member, $app->pass->month, $app->pass->year, [0, 1]);
+            $lessonsOver    = $lessonsLimit - $lessonsExist;
+            $priceLesson    = $cost / $lessonsLimit;
+            $cashback       = $lessonsOver * $priceLesson - $pricePass * $lessonsOver;
 
             $table->addRow();
             $table->addCell()->addText(++$index);
             $table->addCell()->addText(@getFIO('member', $app->member_id));
             $table->addCell()->addText(@getDMY($app->updated_at));
             $table->addCell()->addText($app->desc);
-            $table->addCell()->addText($count_miss);
+            $table->addCell()->addText($lessonsOver);
             $table->addCell()->addText($cashback . ' ₽');
         }
 

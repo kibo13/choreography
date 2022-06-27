@@ -47,8 +47,9 @@ class ApplicationController extends Controller
             $pricePass    = 30;
             $lessonsLimit = $application->pass->lessons;
             $lessonsExist = @getVisitsByType($application->member, $application->pass->month, $application->pass->year, [0, 1]);
+            $lessonsOver  = $lessonsLimit - $lessonsExist;
             $priceLesson  = $cost / $lessonsLimit;
-            $cashback     = ($lessonsLimit - $lessonsExist) * $priceLesson - $pricePass;
+            $cashback     = $lessonsOver * $priceLesson - $pricePass * $lessonsOver;
 
             $filename = 'cash-voucher-' . $application->num . '.docx';
             $word     = new TemplateProcessor('reports/order.docx');
