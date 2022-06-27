@@ -808,6 +808,11 @@ class ReportController extends Controller
 
     public function remains(Request $request)
     {
+        $passes = Pass::whereIn('group_id', $this->groups())
+            ->where('status', 1)
+            ->whereBetween('pay_date', [$request['from'], $request['till']])
+            ->get();
+
         // set filename
         $filename = config('constants.reports')[10]['name'];
 
@@ -829,12 +834,27 @@ class ReportController extends Controller
         $fontText = ['bold' => true];
 
         $table->addRow();
-        $table->addCell()->addText('№ <w:br/>п/п', $fontText);
         $table->addCell()->addText('ФИО участника', $fontText);
         $table->addCell()->addText('Название группы', $fontText);
         $table->addCell()->addText('Категория', $fontText);
         $table->addCell()->addText('№ <w:br/>абонемента', $fontText);
         $table->addCell()->addText('Кол-во оставшихся занятий', $fontText);
+
+        foreach ($passes as $pass)
+        {
+            $member = Member::where('id', $pass->member_id)->first();
+            $diff   = $pass->lessons - @getVisitsByType($member, $pass->month, $pass->year, [0, 1, 2]);
+
+            if ($diff > 0)
+            {
+                $table->addRow();
+                $table->addCell()->addText(@getFIO('member', $pass->member_id));
+                $table->addCell()->addText($pass->group->title->name);
+                $table->addCell()->addText($pass->group->category->name);
+                $table->addCell()->addText($pass->id);
+                $table->addCell()->addText($diff);
+            }
+        }
 
         $word->setComplexBlock('table', $table);
         $word->saveAs($filename . '.docx');
