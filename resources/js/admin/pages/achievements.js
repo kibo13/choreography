@@ -21,7 +21,7 @@ if (achievements_index) {
     const monthnames = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек',]
     const context    = document.getElementById('achievements-chart')
     const chartReset = document.querySelector('[data-chart=years]')
-    const initTitle  = 'Статистика достижений ГБУ ГДК'
+    const initTitle  = 'Статистика  по участию в мероприятиях ГБУ ГДК'
     const initValues = chartReset.dataset.total.replace(/[\[\]']+/g, '').split(',')
     const initLabels = chartReset.dataset.years.replace(/[\[\]']+/g, '').split(',')
     const chart      = new Chart(context, {

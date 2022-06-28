@@ -1,6 +1,14 @@
 {
-    "/js/auth.js": "/js/auth.js?id=a4c71f692fdd5d72a731ed035ad7e619",
-    "/js/admin.js": "/js/admin.js?id=9930813e59248d14bda58efd845492fe",
-    "/css/admin.css": "/css/admin.css?id=6fce0690c4bb098aec0bf23f06908faa",
-    "/css/auth.css": "/css/auth.css?id=a6559cd2117685b8e6121fcf7f2d9a5e"
+    "/js/auth.js": "/js/auth.js?id=f933dd7b0b6d71ce34561a78efaf1c4e",
+    "/js/admin.js": "/js/admin.js?id=ce5503bb8884fd4b78d5e7db7ef05424",
+    "/css/admin.css": "/css/admin.css?id=b1bd3d3697bb4d012a9e718e6e4dbbcb",
+    "/css/auth.css": "/css/auth.css?id=b09afef0231d235090c71d71e287cac6",
+    "/js/vendors/jquery.min.js": "/js/vendors/jquery.min.js?id=8fb8fee4fcc3cc86ff6c724154c49c42",
+    "/js/vendors/bootstrap.min.js": "/js/vendors/bootstrap.min.js?id=99e3544139e4735274587a831002ebae",
+    "/js/vendors/popper.min.js": "/js/vendors/popper.min.js?id=1022eaf388cc780bcfeb6456157adb7d",
+    "/js/vendors/jquery.dataTables.min.js": "/js/vendors/jquery.dataTables.min.js?id=b93321d89c3387342ae996966aeed365",
+    "/js/vendors/moment.min.js": "/js/vendors/moment.min.js?id=86a47979cd4df3b266798987a12cd519",
+    "/js/vendors/fullcalendar.min.js": "/js/vendors/fullcalendar.min.js?id=da7e88923236a32b29fb590930c44f05",
+    "/css/fullcalendar.min.css": "/css/fullcalendar.min.css?id=ae5cf8df244badf6dca1734e9fb7f8e4",
+    "/js/vendors/chart.min.js": "/js/vendors/chart.min.js?id=f0a25c1de286fa74b3b4b186f4f3027b"
 }
