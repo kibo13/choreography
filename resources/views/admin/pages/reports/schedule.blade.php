@@ -6,6 +6,25 @@
 
     <div class="bk-form__wrapper">
 
+        <!-- group -->
+        @if(Auth::user()->role_id < 3 || Auth::user()->role_id == 4)
+        <div class="bk-form__field">
+            <label class="bk-form__label" for="">
+                {{ __('_field.group') }} {{ @mandatory() }}
+            </label>
+            <select class="bk-form__select bk-max-w-300" name="title_id" required>
+                <option value="" disabled selected>
+                    {{ __('_select.group') }}
+                </option>
+                @foreach(@getTitles() as $title)
+                <option value="{{ $title->id }}">
+                    {{ $title->name }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+
         <!-- period -->
         <div class="bk-form__field">
             <label class="bk-form__label">
